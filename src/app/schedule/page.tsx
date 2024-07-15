@@ -174,11 +174,14 @@ const isEventPast = (event: Event): boolean => {
 
 const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
     <div className={`mb-2 p-2 rounded text-sm ${schedule.status === 'past' ? 'bg-gray-700 text-gray-400' : 'bg-gray-800 text-white'}`}>
-        <p className="font-semibold">{schedule.name}</p>
-        <p className="text-xs">
-            {formatDate(schedule.start_at)} - {formatDate(schedule.end_at)}
-        </p>
-        {/* <p className="text-xs mt-1 capitalize">{schedule.status}</p> */}
+        <div className="flex justify-between items-start">
+            <div className="font-semibold">{schedule.name}</div>
+            <div className="text-left">
+                <div className="text-xs">{formatDate(schedule.start_at)}</div>
+                <div className="text-xs">~ {formatDate(schedule.end_at)}</div>
+            </div>
+        </div>
+        {/* <div className="text-xs mt-1 capitalize">{schedule.status}</div> */}
     </div>
 );
 
@@ -231,7 +234,7 @@ const EventInfo: React.FC<{ event: Event }> = ({ event }) => {
                     <CategoryBadge category={event.category} />
                 </div>
             </div>
-            <div className="p-4">
+            <div className="p-3">
                 <h3 className="font-bold text-lg mb-2">{event.name}</h3>
                 <div className="mb-2">
                     {event.schedules.map(schedule => (
