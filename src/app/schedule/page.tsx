@@ -2,101 +2,146 @@
 
 import React, { useState } from 'react';
 
-// 型定義
+type Status = 'active' | 'upcoming' | 'past';
+
+interface Schedule {
+    id: number;
+    name: string;
+    start_at: string; // ISO 8601 形式の日時文字列
+    end_at: string;   // ISO 8601 形式の日時文字列
+    status: Status;
+}
+
+interface Event {
+    id: number;
+    name: string;
+    category: string;
+    description?: string;
+    link?: string;
+    schedules: Schedule[];
+}
+
 interface Talent {
     id: number;
     name: string;
+    events: Event[];
 }
 
-interface Product {
-    name: string;
-    reservationPeriod: string;
-    releaseDate: string;
-}
+// データ例
+const sampleData: Talent[] = [
+    {
+        id: 1,
+        name: "タレントA",
+        events: [
+            {
+                id: 101,
+                name: "新曲発売",
+                category: "商品",
+                description: "待望の新曲がついに発売！",
+                link: "https://example.com/new-song",
+                schedules: [
+                    {
+                        id: 1001,
+                        name: "予約期間",
+                        start_at: "2024-07-01T00:00:00Z",
+                        end_at: "2024-07-31T23:59:59Z",
+                        status: "upcoming"
+                    },
+                    {
+                        id: 1002,
+                        name: "発売日",
+                        start_at: "2024-08-01T00:00:00Z",
+                        end_at: "2024-08-01T23:59:59Z",
+                        status: "upcoming"
+                    }
+                ]
+            },
+            {
+                id: 102,
+                name: "全国ツアー2024",
+                category: "ライブ",
+                description: "全国5都市を巡るライブツアー",
+                schedules: [
+                    {
+                        id: 1003,
+                        name: "東京公演",
+                        start_at: "2024-09-15T18:00:00Z",
+                        end_at: "2024-09-15T21:00:00Z",
+                        status: "upcoming"
+                    },
+                    {
+                        id: 1004,
+                        name: "大阪公演",
+                        start_at: "2024-09-22T18:00:00Z",
+                        end_at: "2024-09-22T21:00:00Z",
+                        status: "upcoming"
+                    }
+                ]
+            }
+        ]
+    },
+    // 他のタレントのデータも同様に追加...
+];
+const formatDate = (dateString: string): string => {
+    return new Date(dateString).toLocaleString('ja-JP', {
+        year: 'numeric',
+        month: '2-digit',
+        day: '2-digit',
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+};
 
-interface Live {
-    name: string;
-    date: string;
-    ticketSale: string;
-}
+const isEventPast = (event: Event): boolean => {
+    return event.schedules.every(schedule => schedule.status === 'past');
+};
 
-interface TalentInfo {
-    products: Product[];
-    lives: Live[];
-}
-
-// データ取得関数
-async function getTalents(): Promise<Talent[]> {
-    // 実際のアプリケーションではここでデータベースやAPIからデータを取得します
-    return [
-        { id: 1, name: 'タレントA' },
-        { id: 2, name: 'タレントB' },
-        { id: 3, name: 'タレントC' },
-    ];
-}
-
-async function getTalentInfo(id: number): Promise<TalentInfo | null> {
-    // 実際のアプリケーションではここでデータベースやAPIからデータを取得します
-    const talentInfo: Record<number, TalentInfo> = {
-        1: {
-            products: [
-                { name: '写真集', reservationPeriod: '2024/8/1 - 2024/8/31', releaseDate: '2024/9/15' },
-                { name: 'CD', reservationPeriod: '2024/7/15 - 2024/8/15', releaseDate: '2024/9/1' },
-            ],
-            lives: [
-                { name: '東京ライブ', date: '2024/10/1', ticketSale: '2024/8/1 10:00 -' },
-                { name: '大阪ライブ', date: '2024/10/15', ticketSale: '2024/8/15 10:00 -' },
-            ],
-        },
-        // 他のタレントの情報も同様に追加
-    };
-
-    return talentInfo[id] || null;
-}
-
-// コンポーネント
-const ProductInfo: React.FC<{ product: Product }> = ({ product }) => (
-    <div className="mb-4 p-4 border border-gray-700 rounded bg-gray-800">
-        <h3 className="font-bold text-white">{product.name}</h3>
-        <p className="text-gray-300">予約期間: {product.reservationPeriod}</p>
-        <p className="text-gray-300">発売日: {product.releaseDate}</p>
+const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
+    <div className={`mb-2 p-2 rounded ${schedule.status === 'past' ? 'bg-gray-700 text-gray-400' : 'bg-gray-800 text-white'}`}>
+        <p className="font-semibold">{schedule.name}</p>
+        <p className="text-sm">
+            {formatDate(schedule.start_at)} - {formatDate(schedule.end_at)}
+        </p>
+        <p className="text-xs mt-1 capitalize">{schedule.status}</p>
     </div>
 );
 
-const LiveInfo: React.FC<{ live: Live }> = ({ live }) => (
-    <div className="mb-4 p-4 border border-gray-700 rounded bg-gray-800">
-        <h3 className="font-bold text-white">{live.name}</h3>
-        <p className="text-gray-300">日時: {live.date}</p>
-        <p className="text-gray-300">チケット販売: {live.ticketSale}</p>
-    </div>
-);
+const EventInfo: React.FC<{ event: Event }> = ({ event }) => {
+    const isPast = isEventPast(event);
+    return (
+        <div className={`mb-4 p-4 border border-gray-700 rounded ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
+            <h3 className="font-bold text-lg">{event.name}</h3>
+            <p className="text-sm mb-2">カテゴリ: {event.category}</p>
+            {event.description && <p className="text-sm mb-2">{event.description}</p>}
+            {event.link && (
+                <a href={event.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm mb-2 block">
+                    関連リンク
+                </a>
+            )}
+            <div className="mt-3">
+                {event.schedules.map(schedule => (
+                    <ScheduleInfo key={schedule.id} schedule={schedule} />
+                ))}
+            </div>
+        </div>
+    );
+};
 
-const TalentInfoSection: React.FC<{ talentInfo: TalentInfo | null }> = ({ talentInfo }) => {
-    if (!talentInfo) return <div className="text-gray-300">タレント情報が見つかりません</div>;
+const TalentInfoSection: React.FC<{ talent: Talent | null }> = ({ talent }) => {
+    if (!talent) return <div className="text-gray-300">タレント情報が見つかりません</div>;
 
     return (
         <div>
-            <h2 className="text-xl font-semibold mb-2 text-white">商品情報</h2>
-            {talentInfo.products.map((product, index) => (
-                <ProductInfo key={index} product={product} />
-            ))}
-            <h2 className="text-xl font-semibold mb-2 mt-4 text-white">ライブ情報</h2>
-            {talentInfo.lives.map((live, index) => (
-                <LiveInfo key={index} live={live} />
+            <h2 className="text-2xl font-semibold mb-4 text-white">{talent.name}のイベント情報</h2>
+            {talent.events.map(event => (
+                <EventInfo key={event.id} event={event} />
             ))}
         </div>
     );
 };
 
 const TalentSelector: React.FC<{ talents: Talent[] }> = ({ talents }) => {
-    const [selectedTalent, setSelectedTalent] = useState<number | null>(null);
-    const [talentInfo, setTalentInfo] = useState<TalentInfo | null>(null);
-
-    const handleTalentSelect = async (id: number) => {
-        setSelectedTalent(id);
-        const info = await getTalentInfo(id);
-        setTalentInfo(info);
-    };
+    const [selectedTalent, setSelectedTalent] = useState<Talent | null>(null);
 
     return (
         <div>
@@ -104,29 +149,27 @@ const TalentSelector: React.FC<{ talents: Talent[] }> = ({ talents }) => {
                 {talents.map((talent) => (
                     <button
                         key={talent.id}
-                        className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent === talent.id
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                        className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                             }`}
-                        onClick={() => handleTalentSelect(talent.id)}
+                        onClick={() => setSelectedTalent(talent)}
                     >
                         {talent.name}
                     </button>
                 ))}
             </div>
-            {selectedTalent && <TalentInfoSection talentInfo={talentInfo} />}
+            {selectedTalent && <TalentInfoSection talent={selectedTalent} />}
         </div>
     );
 };
 
-export default async function Home() {
-    const talents = await getTalents();
-
+export default function Home() {
     return (
         <main className="min-h-screen bg-gray-900 text-white p-4">
             <div className="container mx-auto">
                 <h1 className="text-3xl font-bold mb-6">タレント情報ダッシュボード</h1>
-                <TalentSelector talents={talents} />
+                <TalentSelector talents={sampleData} />
             </div>
         </main>
     );
