@@ -80,8 +80,132 @@ const sampleData: Talent[] = [
             }
         ]
     },
-    // 他のタレントのデータも同様に追加...
+    {
+        id: 2,
+        name: "タレントB",
+        events: [
+            {
+                id: 201,
+                name: "写真集発売",
+                category: "商品",
+                description: "初のソロ写真集",
+                link: "https://example.com/photo-book",
+                schedules: [
+                    {
+                        id: 2001,
+                        name: "予約開始",
+                        start_at: "2024-06-15T00:00:00Z",
+                        end_at: "2024-07-14T23:59:59Z",
+                        status: "active"
+                    },
+                    {
+                        id: 2002,
+                        name: "発売日",
+                        start_at: "2024-07-15T00:00:00Z",
+                        end_at: "2024-07-15T23:59:59Z",
+                        status: "upcoming"
+                    }
+                ]
+            },
+            {
+                id: 202,
+                name: "ファンミーティング",
+                category: "イベント",
+                description: "ファンの皆様と交流する特別なイベント",
+                schedules: [
+                    {
+                        id: 2003,
+                        name: "チケット販売",
+                        start_at: "2024-05-01T10:00:00Z",
+                        end_at: "2024-05-31T23:59:59Z",
+                        status: "active"
+                    },
+                    {
+                        id: 2004,
+                        name: "イベント開催",
+                        start_at: "2024-06-30T13:00:00Z",
+                        end_at: "2024-06-30T17:00:00Z",
+                        status: "upcoming"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 3,
+        name: "タレントC",
+        events: [
+            {
+                id: 301,
+                name: "ドラマ出演",
+                category: "メディア",
+                description: "人気ドラマシリーズの新シーズンに主演",
+                link: "https://example.com/drama-series",
+                schedules: [
+                    {
+                        id: 3001,
+                        name: "撮影期間",
+                        start_at: "2024-04-01T00:00:00Z",
+                        end_at: "2024-06-30T23:59:59Z",
+                        status: "active"
+                    },
+                    {
+                        id: 3002,
+                        name: "放送開始",
+                        start_at: "2024-07-05T21:00:00Z",
+                        end_at: "2024-09-20T22:00:00Z",
+                        status: "upcoming"
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        id: 4,
+        name: "タレントD",
+        events: [
+            {
+                id: 401,
+                name: "コラボレーションシングル",
+                category: "商品",
+                description: "人気アーティストとのコラボ楽曲",
+                link: "https://example.com/collab-single",
+                schedules: [
+                    {
+                        id: 4001,
+                        name: "デジタル配信",
+                        start_at: "2024-08-01T00:00:00Z",
+                        end_at: "2024-08-01T23:59:59Z",
+                        status: "upcoming"
+                    },
+                    {
+                        id: 4002,
+                        name: "CD発売",
+                        start_at: "2024-08-15T00:00:00Z",
+                        end_at: "2024-08-15T23:59:59Z",
+                        status: "upcoming"
+                    }
+                ]
+            },
+            {
+                id: 402,
+                name: "サマーフェスティバル出演",
+                category: "ライブ",
+                description: "大型野外フェスに出演決定",
+                schedules: [
+                    {
+                        id: 4003,
+                        name: "出演日",
+                        start_at: "2024-08-20T14:00:00Z",
+                        end_at: "2024-08-20T15:30:00Z",
+                        status: "upcoming"
+                    }
+                ]
+            }
+        ]
+    }
 ];
+
 const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleString('ja-JP', {
         year: 'numeric',
@@ -150,8 +274,8 @@ const TalentSelector: React.FC<{ talents: Talent[] }> = ({ talents }) => {
                     <button
                         key={talent.id}
                         className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                             }`}
                         onClick={() => setSelectedTalent(talent)}
                     >
