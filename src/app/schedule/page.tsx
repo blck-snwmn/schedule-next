@@ -27,184 +27,135 @@ interface Talent {
     events: Event[];
 }
 
+const talentA: Talent = {
+    id: 1,
+    name: "タレントA",
+    events: [
+        {
+            id: 101,
+            name: "新曲「星空のメロディ」発売",
+            category: "音楽",
+            description: "待望のニューシングルがついに発売！",
+            link: "https://example.com/new-song-starry-melody",
+            schedules: [
+                { id: 1001, name: "予約開始", start_at: "2024-06-01T00:00:00Z", end_at: "2024-06-30T23:59:59Z", status: "upcoming" },
+                { id: 1002, name: "発売日", start_at: "2024-07-01T00:00:00Z", end_at: "2024-07-01T23:59:59Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 102,
+            name: "全国ツアー2024「STARLIGHT」",
+            category: "ライブ",
+            description: "全国10都市を巡るライブツアー",
+            schedules: [
+                { id: 1003, name: "東京公演", start_at: "2024-09-15T18:00:00Z", end_at: "2024-09-15T21:00:00Z", status: "upcoming" },
+                { id: 1004, name: "大阪公演", start_at: "2024-09-22T18:00:00Z", end_at: "2024-09-22T21:00:00Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 103,
+            name: "ファースト写真集「BLOOM」発売",
+            category: "出版",
+            description: "デビュー5周年を記念した初の写真集",
+            link: "https://example.com/photobook-bloom",
+            schedules: [
+                { id: 1005, name: "予約受付", start_at: "2024-07-15T00:00:00Z", end_at: "2024-08-14T23:59:59Z", status: "upcoming" },
+                { id: 1006, name: "発売日", start_at: "2024-08-15T00:00:00Z", end_at: "2024-08-15T23:59:59Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 104,
+            name: "トーク番組「スターナイト」出演",
+            category: "メディア",
+            description: "人気トーク番組にゲスト出演",
+            schedules: [
+                { id: 1007, name: "放送日", start_at: "2024-08-05T21:00:00Z", end_at: "2024-08-05T22:00:00Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 105,
+            name: "サマーフェスティバル2024出演",
+            category: "ライブ",
+            description: "国内最大級の音楽フェスに出演決定",
+            schedules: [
+                { id: 1008, name: "出演日", start_at: "2024-08-12T15:00:00Z", end_at: "2024-08-12T16:30:00Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 106,
+            name: "ファンクラブイベント「A's PARTY」",
+            category: "ファンイベント",
+            description: "ファンクラブ会員限定の特別イベント",
+            schedules: [
+                { id: 1009, name: "申込期間", start_at: "2024-09-01T00:00:00Z", end_at: "2024-09-15T23:59:59Z", status: "upcoming" },
+                { id: 1010, name: "イベント日", start_at: "2024-10-10T13:00:00Z", end_at: "2024-10-10T17:00:00Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 107,
+            name: "雑誌「GLOW」表紙モデル",
+            category: "メディア",
+            description: "人気ファッション誌の表紙を飾ります",
+            schedules: [
+                { id: 1011, name: "発売日", start_at: "2024-09-25T00:00:00Z", end_at: "2024-09-25T23:59:59Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 108,
+            name: "コラボレーションカフェOPEN",
+            category: "コラボレーション",
+            description: "期間限定のテーマカフェがオープン",
+            link: "https://example.com/collab-cafe",
+            schedules: [
+                { id: 1012, name: "開催期間", start_at: "2024-11-01T00:00:00Z", end_at: "2024-12-31T23:59:59Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 109,
+            name: "クリスマスシングル「White Love」発売",
+            category: "音楽",
+            description: "心温まるクリスマスソング",
+            link: "https://example.com/christmas-single",
+            schedules: [
+                { id: 1013, name: "予約開始", start_at: "2024-11-15T00:00:00Z", end_at: "2024-12-14T23:59:59Z", status: "upcoming" },
+                { id: 1014, name: "発売日", start_at: "2024-12-15T00:00:00Z", end_at: "2024-12-15T23:59:59Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 110,
+            name: "年末特番「MUSIC GALA」出演",
+            category: "メディア",
+            description: "年末恒例の音楽特別番組に出演",
+            schedules: [
+                { id: 1015, name: "放送日", start_at: "2024-12-31T20:00:00Z", end_at: "2025-01-01T00:00:00Z", status: "upcoming" }
+            ]
+        },
+        {
+            id: 111,
+            name: "チャリティーコンサート「HOPE」",
+            category: "ライブ",
+            description: "災害復興支援のためのチャリティーコンサート",
+            schedules: [
+                { id: 1016, name: "開催日", start_at: "2025-02-11T18:00:00Z", end_at: "2025-02-11T21:00:00Z", status: "upcoming" }
+            ]
+        }
+    ]
+};
+
 // データ例
 const sampleData: Talent[] = [
-    {
-        id: 1,
-        name: "タレントA",
-        events: [
-            {
-                id: 101,
-                name: "新曲発売",
-                category: "商品",
-                description: "待望の新曲がついに発売！",
-                link: "https://example.com/new-song",
-                schedules: [
-                    {
-                        id: 1001,
-                        name: "予約期間",
-                        start_at: "2024-07-01T00:00:00Z",
-                        end_at: "2024-07-31T23:59:59Z",
-                        status: "upcoming"
-                    },
-                    {
-                        id: 1002,
-                        name: "発売日",
-                        start_at: "2024-08-01T00:00:00Z",
-                        end_at: "2024-08-01T23:59:59Z",
-                        status: "upcoming"
-                    }
-                ]
-            },
-            {
-                id: 102,
-                name: "全国ツアー2024",
-                category: "ライブ",
-                description: "全国5都市を巡るライブツアー",
-                schedules: [
-                    {
-                        id: 1003,
-                        name: "東京公演",
-                        start_at: "2024-09-15T18:00:00Z",
-                        end_at: "2024-09-15T21:00:00Z",
-                        status: "upcoming"
-                    },
-                    {
-                        id: 1004,
-                        name: "大阪公演",
-                        start_at: "2024-09-22T18:00:00Z",
-                        end_at: "2024-09-22T21:00:00Z",
-                        status: "upcoming"
-                    }
-                ]
-            }
-        ]
-    },
+    talentA,
     {
         id: 2,
         name: "タレントB",
-        events: [
-            {
-                id: 201,
-                name: "写真集発売",
-                category: "商品",
-                description: "初のソロ写真集",
-                link: "https://example.com/photo-book",
-                schedules: [
-                    {
-                        id: 2001,
-                        name: "予約開始",
-                        start_at: "2024-06-15T00:00:00Z",
-                        end_at: "2024-07-14T23:59:59Z",
-                        status: "active"
-                    },
-                    {
-                        id: 2002,
-                        name: "発売日",
-                        start_at: "2024-07-15T00:00:00Z",
-                        end_at: "2024-07-15T23:59:59Z",
-                        status: "upcoming"
-                    }
-                ]
-            },
-            {
-                id: 202,
-                name: "ファンミーティング",
-                category: "イベント",
-                description: "ファンの皆様と交流する特別なイベント",
-                schedules: [
-                    {
-                        id: 2003,
-                        name: "チケット販売",
-                        start_at: "2024-05-01T10:00:00Z",
-                        end_at: "2024-05-31T23:59:59Z",
-                        status: "active"
-                    },
-                    {
-                        id: 2004,
-                        name: "イベント開催",
-                        start_at: "2024-06-30T13:00:00Z",
-                        end_at: "2024-06-30T17:00:00Z",
-                        status: "upcoming"
-                    }
-                ]
-            }
-        ]
+        events: []
     },
     {
         id: 3,
         name: "タレントC",
-        events: [
-            {
-                id: 301,
-                name: "ドラマ出演",
-                category: "メディア",
-                description: "人気ドラマシリーズの新シーズンに主演",
-                link: "https://example.com/drama-series",
-                schedules: [
-                    {
-                        id: 3001,
-                        name: "撮影期間",
-                        start_at: "2024-04-01T00:00:00Z",
-                        end_at: "2024-06-30T23:59:59Z",
-                        status: "active"
-                    },
-                    {
-                        id: 3002,
-                        name: "放送開始",
-                        start_at: "2024-07-05T21:00:00Z",
-                        end_at: "2024-09-20T22:00:00Z",
-                        status: "upcoming"
-                    }
-                ]
-            }
-        ]
+        events: []
     },
-    {
-        id: 4,
-        name: "タレントD",
-        events: [
-            {
-                id: 401,
-                name: "コラボレーションシングル",
-                category: "商品",
-                description: "人気アーティストとのコラボ楽曲",
-                link: "https://example.com/collab-single",
-                schedules: [
-                    {
-                        id: 4001,
-                        name: "デジタル配信",
-                        start_at: "2024-08-01T00:00:00Z",
-                        end_at: "2024-08-01T23:59:59Z",
-                        status: "upcoming"
-                    },
-                    {
-                        id: 4002,
-                        name: "CD発売",
-                        start_at: "2024-08-15T00:00:00Z",
-                        end_at: "2024-08-15T23:59:59Z",
-                        status: "upcoming"
-                    }
-                ]
-            },
-            {
-                id: 402,
-                name: "サマーフェスティバル出演",
-                category: "ライブ",
-                description: "大型野外フェスに出演決定",
-                schedules: [
-                    {
-                        id: 4003,
-                        name: "出演日",
-                        start_at: "2024-08-20T14:00:00Z",
-                        end_at: "2024-08-20T15:30:00Z",
-                        status: "upcoming"
-                    }
-                ]
-            }
-        ]
-    }
-];
+]
 
 const formatDate = (dateString: string): string => {
     return new Date(dateString).toLocaleString('ja-JP', {
