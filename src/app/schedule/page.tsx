@@ -221,9 +221,9 @@ const isEventPast = (event: Event): boolean => {
 };
 
 const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
-    <div className={`mb-2 p-2 rounded ${schedule.status === 'past' ? 'bg-gray-700 text-gray-400' : 'bg-gray-800 text-white'}`}>
+    <div className={`mb-2 p-2 rounded text-sm ${schedule.status === 'past' ? 'bg-gray-700 text-gray-400' : 'bg-gray-800 text-white'}`}>
         <p className="font-semibold">{schedule.name}</p>
-        <p className="text-sm">
+        <p className="text-xs">
             {formatDate(schedule.start_at)} - {formatDate(schedule.end_at)}
         </p>
         <p className="text-xs mt-1 capitalize">{schedule.status}</p>
@@ -234,18 +234,22 @@ const EventInfo: React.FC<{ event: Event }> = ({ event }) => {
     const isPast = isEventPast(event);
     return (
         <div className={`mb-4 p-4 border border-gray-700 rounded ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
-            <h3 className="font-bold text-lg">{event.name}</h3>
-            <p className="text-sm mb-2">カテゴリ: {event.category}</p>
-            {event.description && <p className="text-sm mb-2">{event.description}</p>}
-            {event.link && (
-                <a href={event.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm mb-2 block">
-                    関連リンク
-                </a>
-            )}
-            <div className="mt-3">
-                {event.schedules.map(schedule => (
-                    <ScheduleInfo key={schedule.id} schedule={schedule} />
-                ))}
+            <div className="flex flex-wrap">
+                <div className="w-full md:w-1/2 pr-4">
+                    <h3 className="font-bold text-lg">{event.name}</h3>
+                    <p className="text-sm mb-2">カテゴリ: {event.category}</p>
+                    {event.description && <p className="text-sm mb-2">{event.description}</p>}
+                    {event.link && (
+                        <a href={event.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm mb-2 block">
+                            関連リンク
+                        </a>
+                    )}
+                </div>
+                <div className="w-full md:w-1/2 mt-3 md:mt-0">
+                    {event.schedules.map(schedule => (
+                        <ScheduleInfo key={schedule.id} schedule={schedule} />
+                    ))}
+                </div>
             </div>
         </div>
     );
@@ -269,13 +273,13 @@ const TalentSelector: React.FC<{ talents: Talent[] }> = ({ talents }) => {
 
     return (
         <div>
-            <div className="flex mb-4 space-x-2">
+            <div className="flex flex-wrap mb-4 gap-2">
                 {talents.map((talent) => (
                     <button
                         key={talent.id}
                         className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
-                            ? 'bg-blue-600 text-white'
-                            : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                                ? 'bg-blue-600 text-white'
+                                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                             }`}
                         onClick={() => setSelectedTalent(talent)}
                     >
