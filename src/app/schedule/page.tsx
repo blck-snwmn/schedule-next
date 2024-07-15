@@ -18,6 +18,7 @@ interface Event {
     category: string;
     description?: string;
     link?: string;
+    thumbnail?: string; // サムネイル画像のURL
     schedules: Schedule[];
 }
 
@@ -177,7 +178,7 @@ const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
         <p className="text-xs">
             {formatDate(schedule.start_at)} - {formatDate(schedule.end_at)}
         </p>
-        <p className="text-xs mt-1 capitalize">{schedule.status}</p>
+        {/* <p className="text-xs mt-1 capitalize">{schedule.status}</p> */}
     </div>
 );
 
@@ -217,28 +218,32 @@ const CategoryBadge: React.FC<{ category: string }> = ({ category }) => {
 const EventInfo: React.FC<{ event: Event }> = ({ event }) => {
     const isPast = isEventPast(event);
     return (
-        <div className={`mb-4 p-4 pl-6 border border-gray-700 rounded relative overflow-hidden ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
-            <CategoryStripe category={event.category} />
-            <div className="flex flex-wrap">
-                <div className="w-full md:w-1/2 pr-4">
-                    <div className="mb-1">
-                        <CategoryBadge category={event.category} />
+        <div className={`mb-4 border border-gray-700 rounded overflow-hidden ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
+            <div className="h-48 relative bg-gray-700">
+                {event.thumbnail ? (
+                    <img src={event.thumbnail} alt={event.name} className="w-full h-full object-cover" />
+                ) : (
+                    <div className="w-full h-full flex items-center justify-center text-gray-500">
+                        No Image
                     </div>
-                    <div className="flex items-center mb-2">
-                        <h3 className="font-bold text-lg ml-2">{event.name}</h3>
-                    </div>
-                    {event.description && <p className="text-sm mb-2">{event.description}</p>}
-                    {event.link && (
-                        <a href={event.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm mb-2 block">
-                            関連リンク
-                        </a>
-                    )}
+                )}
+                <div className="absolute top-0 left-0 m-2">
+                    <CategoryBadge category={event.category} />
                 </div>
-                <div className="w-full md:w-1/2 mt-3 md:mt-0">
+            </div>
+            <div className="p-4">
+                <h3 className="font-bold text-lg mb-2">{event.name}</h3>
+                <div className="mb-2">
                     {event.schedules.map(schedule => (
                         <ScheduleInfo key={schedule.id} schedule={schedule} />
                     ))}
                 </div>
+                {/* {event.description && <p className="text-sm mb-2">{event.description}</p>}
+                {event.link && (
+                    <a href={event.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm block">
+                        関連リンク
+                    </a>
+                )} */}
             </div>
         </div>
     );
@@ -250,9 +255,11 @@ const TalentInfoSection: React.FC<{ talent: Talent | null }> = ({ talent }) => {
     return (
         <div>
             <h2 className="text-2xl font-semibold mb-4 text-white">{talent.name}のイベント情報</h2>
-            {talent.events.map(event => (
-                <EventInfo key={event.id} event={event} />
-            ))}
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                {talent.events.map(event => (
+                    <EventInfo key={event.id} event={event} />
+                ))}
+            </div>
         </div>
     );
 };
