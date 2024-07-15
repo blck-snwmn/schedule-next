@@ -56,31 +56,31 @@ async function getTalentInfo(id: number): Promise<TalentInfo | null> {
 
 // コンポーネント
 const ProductInfo: React.FC<{ product: Product }> = ({ product }) => (
-    <div className="mb-4 p-4 border rounded">
-        <h3 className="font-bold">{product.name}</h3>
-        <p>予約期間: {product.reservationPeriod}</p>
-        <p>発売日: {product.releaseDate}</p>
+    <div className="mb-4 p-4 border border-gray-700 rounded bg-gray-800">
+        <h3 className="font-bold text-white">{product.name}</h3>
+        <p className="text-gray-300">予約期間: {product.reservationPeriod}</p>
+        <p className="text-gray-300">発売日: {product.releaseDate}</p>
     </div>
 );
 
 const LiveInfo: React.FC<{ live: Live }> = ({ live }) => (
-    <div className="mb-4 p-4 border rounded">
-        <h3 className="font-bold">{live.name}</h3>
-        <p>日時: {live.date}</p>
-        <p>チケット販売: {live.ticketSale}</p>
+    <div className="mb-4 p-4 border border-gray-700 rounded bg-gray-800">
+        <h3 className="font-bold text-white">{live.name}</h3>
+        <p className="text-gray-300">日時: {live.date}</p>
+        <p className="text-gray-300">チケット販売: {live.ticketSale}</p>
     </div>
 );
 
 const TalentInfoSection: React.FC<{ talentInfo: TalentInfo | null }> = ({ talentInfo }) => {
-    if (!talentInfo) return <div>タレント情報が見つかりません</div>;
+    if (!talentInfo) return <div className="text-gray-300">タレント情報が見つかりません</div>;
 
     return (
         <div>
-            <h2 className="text-xl font-semibold mb-2">商品情報</h2>
+            <h2 className="text-xl font-semibold mb-2 text-white">商品情報</h2>
             {talentInfo.products.map((product, index) => (
                 <ProductInfo key={index} product={product} />
             ))}
-            <h2 className="text-xl font-semibold mb-2 mt-4">ライブ情報</h2>
+            <h2 className="text-xl font-semibold mb-2 mt-4 text-white">ライブ情報</h2>
             {talentInfo.lives.map((live, index) => (
                 <LiveInfo key={index} live={live} />
             ))}
@@ -100,11 +100,13 @@ const TalentSelector: React.FC<{ talents: Talent[] }> = ({ talents }) => {
 
     return (
         <div>
-            <div className="flex mb-4">
+            <div className="flex mb-4 space-x-2">
                 {talents.map((talent) => (
                     <button
                         key={talent.id}
-                        className={`mr-2 px-4 py-2 rounded ${selectedTalent === talent.id ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                        className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent === talent.id
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                             }`}
                         onClick={() => handleTalentSelect(talent.id)}
                     >
@@ -121,9 +123,11 @@ export default async function Home() {
     const talents = await getTalents();
 
     return (
-        <main className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-4">タレント情報ダッシュボード</h1>
-            <TalentSelector talents={talents} />
+        <main className="min-h-screen bg-gray-900 text-white p-4">
+            <div className="container mx-auto">
+                <h1 className="text-3xl font-bold mb-6">タレント情報ダッシュボード</h1>
+                <TalentSelector talents={talents} />
+            </div>
         </main>
     );
 }
