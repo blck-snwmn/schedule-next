@@ -183,14 +183,18 @@ const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
 
 const getCategoryColor = (category: string): string => {
     switch (category.toLowerCase()) {
-        case '商品':
+        case '音楽':
             return 'blue';
         case 'ライブ':
             return 'green';
         case 'メディア':
             return 'purple';
-        case 'イベント':
+        case '出版':
             return 'yellow';
+        case 'ファンイベント':
+            return 'pink';
+        case 'コラボレーション':
+            return 'indigo';
         default:
             return 'gray';
     }
