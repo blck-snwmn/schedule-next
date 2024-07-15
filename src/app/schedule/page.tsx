@@ -230,14 +230,48 @@ const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
     </div>
 );
 
+const getCategoryColor = (category: string): string => {
+    switch (category.toLowerCase()) {
+        case '商品':
+            return 'blue';
+        case 'ライブ':
+            return 'green';
+        case 'メディア':
+            return 'purple';
+        case 'イベント':
+            return 'yellow';
+        default:
+            return 'gray';
+    }
+};
+
+const CategoryStripe: React.FC<{ category: string }> = ({ category }) => {
+    const colorClass = `bg-${getCategoryColor(category)}-500`;
+    return <div className={`w-2 h-full absolute left-0 top-0 ${colorClass}`} />;
+};
+
+const CategoryBadge: React.FC<{ category: string }> = ({ category }) => {
+    const colorClass = `bg-${getCategoryColor(category)}-500`;
+    return (
+        <span className={`${colorClass} text-white text-xs font-semibold px-2.5 py-0.5 rounded-full`}>
+            {category}
+        </span>
+    );
+};
+
 const EventInfo: React.FC<{ event: Event }> = ({ event }) => {
     const isPast = isEventPast(event);
     return (
-        <div className={`mb-4 p-4 border border-gray-700 rounded ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
+        <div className={`mb-4 p-4 pl-6 border border-gray-700 rounded relative overflow-hidden ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
+            <CategoryStripe category={event.category} />
             <div className="flex flex-wrap">
                 <div className="w-full md:w-1/2 pr-4">
-                    <h3 className="font-bold text-lg">{event.name}</h3>
-                    <p className="text-sm mb-2">カテゴリ: {event.category}</p>
+                    <div className="mb-1">
+                        <CategoryBadge category={event.category} />
+                    </div>
+                    <div className="flex items-center mb-2">
+                        <h3 className="font-bold text-lg ml-2">{event.name}</h3>
+                    </div>
                     {event.description && <p className="text-sm mb-2">{event.description}</p>}
                     {event.link && (
                         <a href={event.link} target="_blank" rel="noopener noreferrer" className="text-blue-400 hover:text-blue-300 text-sm mb-2 block">
@@ -278,8 +312,8 @@ const TalentSelector: React.FC<{ talents: Talent[] }> = ({ talents }) => {
                     <button
                         key={talent.id}
                         className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
-                                ? 'bg-blue-600 text-white'
-                                : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
+                            ? 'bg-blue-600 text-white'
+                            : 'bg-gray-700 text-gray-200 hover:bg-gray-600'
                             }`}
                         onClick={() => setSelectedTalent(talent)}
                     >
