@@ -1,5 +1,6 @@
 "use client"
 
+import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 type Status = 'active' | 'upcoming' | 'past';
@@ -225,26 +226,28 @@ const EventInfo: React.FC<{ event: Event }> = ({ event }) => {
     const isPast = isEventPast(event);
     return (
         <div className={`mb-4 border border-gray-700 rounded overflow-hidden ${isPast ? 'bg-gray-800 text-gray-400' : 'bg-gray-800 text-white'}`}>
-            <div className="h-48 relative bg-gray-700">
-                {event.thumbnail ? (
-                    <img src={event.thumbnail} alt={event.name} className="w-full h-full object-cover" />
-                ) : (
-                    <div className="w-full h-full flex items-center justify-center text-gray-500">
-                        No Image
+            <Link key={event.id} href={`/schedule/${event.id}`}>
+                <div className="h-48 relative bg-gray-700">
+                    {event.thumbnail ? (
+                        <img src={event.thumbnail} alt={event.name} className="w-full h-full object-cover" />
+                    ) : (
+                        <div className="w-full h-full flex items-center justify-center text-gray-500">
+                            No Image
+                        </div>
+                    )}
+                    <div className="absolute top-0 left-0 m-2">
+                        <CategoryBadge category={event.category} />
                     </div>
-                )}
-                <div className="absolute top-0 left-0 m-2">
-                    <CategoryBadge category={event.category} />
                 </div>
-            </div>
-            <div className="p-3">
-                <h3 className="font-bold text-lg mb-2">{event.name}</h3>
-                <div className="mb-2">
-                    {event.schedules.map(schedule => (
-                        <ScheduleInfo key={schedule.id} schedule={schedule} />
-                    ))}
+                <div className="p-3">
+                    <h3 className="font-bold text-lg mb-2">{event.name}</h3>
+                    <div className="mb-2">
+                        {event.schedules.map(schedule => (
+                            <ScheduleInfo key={schedule.id} schedule={schedule} />
+                        ))}
+                    </div>
                 </div>
-            </div>
+            </Link>
         </div>
     );
 };
