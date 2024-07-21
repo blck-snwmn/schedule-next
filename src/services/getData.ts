@@ -128,6 +128,11 @@ export function getEvents() {
     return talentAEvent
 }
 
+export function getEventById(id: string) {
+    const eventId = parseInt(id, 10);
+    return talentAEvent.find(event => event.id === eventId);
+}
+
 export async function getTaletns() {
     return talents;
 }
