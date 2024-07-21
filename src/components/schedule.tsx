@@ -110,6 +110,7 @@ const TalentSelector: React.FC<{
 	return (
 		<div className="flex flex-wrap mb-4 gap-2">
 			<button
+				type="button"
 				className={`px-4 py-2 rounded transition-colors duration-200 ${
 					!selectedTalent
 						? "bg-blue-600 text-white"
@@ -121,6 +122,7 @@ const TalentSelector: React.FC<{
 			</button>
 			{talents.map((talent) => (
 				<button
+					type="button"
 					key={talent.id}
 					className={`px-4 py-2 rounded transition-colors duration-200 ${
 						selectedTalent?.id === talent.id
@@ -166,7 +168,7 @@ export const Events: React.FC<{
 		} else {
 			setFilteredEvents(scheduleEvent);
 		}
-	}, [selectedTalent]);
+	}, [selectedTalent, scheduleEvent]);
 
 	return (
 		<main className="min-h-screen bg-gray-900 text-white p-4">
