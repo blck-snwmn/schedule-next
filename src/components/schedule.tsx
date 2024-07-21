@@ -2,7 +2,6 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { Badge } from "./ui/badge";
 import { CategoryBadge } from "./category-badge";
 
 const formatDate = (dateString: string): string => {
@@ -79,8 +78,8 @@ const TalentSelector: React.FC<{
 			<button
 				type="button"
 				className={`px-4 py-2 rounded transition-colors duration-200 ${!selectedTalent
-					? "bg-blue-600 text-white"
-					: "bg-gray-700 text-gray-200 hover:bg-gray-600"
+						? "bg-blue-600 text-white"
+						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
 					}`}
 				onClick={() => onSelect(null)}
 			>
@@ -91,8 +90,8 @@ const TalentSelector: React.FC<{
 					type="button"
 					key={talent.id}
 					className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
-						? "bg-blue-600 text-white"
-						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
+							? "bg-blue-600 text-white"
+							: "bg-gray-700 text-gray-200 hover:bg-gray-600"
 						}`}
 					onClick={() => onSelect(talent)}
 				>
