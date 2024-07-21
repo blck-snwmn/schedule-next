@@ -8,14 +8,14 @@ const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
 	title: {
-		default: "タレント情報ダッシュボード",
-		template: "%s | タレント情報ダッシュボード",
+		default: "[EXAMPLE]タレント情報ダッシュボード",
+		template: "%s | [EXAMPLE]タレント情報ダッシュボード",
 	},
 	description:
 		"タレントのスケジュール、イベント、および関連情報を一元管理するダッシュボード",
 	keywords: ["タレント", "スケジュール", "イベント", "エンターテインメント"],
 	openGraph: {
-		title: "タレント情報ダッシュボード",
+		title: "[EXAMPLE]タレント情報ダッシュボード",
 		description: "タレントのスケジュール、イベント、および関連情報を一元管理",
 		// url: 'https://example.com',
 		siteName: "タレント情報ダッシュボード",
@@ -30,8 +30,8 @@ export const metadata: Metadata = {
 		type: "website",
 	},
 	twitter: {
+		title: "[EXAMPLE]タレント情報ダッシュボード",
 		card: "summary_large_image",
-		title: "タレント情報ダッシュボード",
 		description: "タレントのスケジュール、イベント、および関連情報を一元管理",
 		// images: ['https://example.com/twitter-image.jpg'],
 	},
