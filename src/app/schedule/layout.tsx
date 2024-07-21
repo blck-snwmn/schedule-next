@@ -1,11 +1,11 @@
 export default function Layout(props: {
-    children: React.ReactNode;
-    modal: React.ReactNode;
+	children: React.ReactNode;
+	modal: React.ReactNode;
 }) {
-    return (
-        <div>
-            {props.children}
-            {props.modal}
-        </div>
-    )
+	return (
+		<div>
+			{props.children}
+			{props.modal}
+		</div>
+	);
 }
