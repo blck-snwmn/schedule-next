@@ -1,9 +1,10 @@
 import { Badge } from "@/components/ui/badge";
+import { CategoryBadge } from "./category-badge";
 export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 	return (
 		<div className="text-foreground">
 			<div className="mb-4">
-				<Badge>{event.category}</Badge>
+				<CategoryBadge category={event.category} />
 			</div>
 			{event.thumbnail && (
 				<img

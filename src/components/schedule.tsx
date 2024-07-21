@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { Badge } from "./ui/badge";
+import { CategoryBadge } from "./category-badge";
 
 const formatDate = (dateString: string): string => {
 	return new Date(dateString).toLocaleString("ja-JP", {
@@ -30,41 +32,6 @@ const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
 		</div>
 	</div>
 );
-
-const getCategoryColor = (category: string): string => {
-	switch (category.toLowerCase()) {
-		case "音楽":
-			return "blue";
-		case "ライブ":
-			return "green";
-		case "メディア":
-			return "purple";
-		case "出版":
-			return "yellow";
-		case "ファンイベント":
-			return "pink";
-		case "コラボレーション":
-			return "indigo";
-		default:
-			return "gray";
-	}
-};
-
-const CategoryStripe: React.FC<{ category: string }> = ({ category }) => {
-	const colorClass = `bg-${getCategoryColor(category)}-500`;
-	return <div className={`w-2 h-full absolute left-0 top-0 ${colorClass}`} />;
-};
-
-const CategoryBadge: React.FC<{ category: string }> = ({ category }) => {
-	const colorClass = `bg-${getCategoryColor(category)}-500`;
-	return (
-		<span
-			className={`${colorClass} text-white text-xs font-semibold px-2.5 py-0.5 rounded-full`}
-		>
-			{category}
-		</span>
-	);
-};
 
 const EventInfo: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 	const isPast = isEventPast(event);
@@ -111,11 +78,10 @@ const TalentSelector: React.FC<{
 		<div className="flex flex-wrap mb-4 gap-2">
 			<button
 				type="button"
-				className={`px-4 py-2 rounded transition-colors duration-200 ${
-					!selectedTalent
-						? "bg-blue-600 text-white"
-						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
-				}`}
+				className={`px-4 py-2 rounded transition-colors duration-200 ${!selectedTalent
+					? "bg-blue-600 text-white"
+					: "bg-gray-700 text-gray-200 hover:bg-gray-600"
+					}`}
 				onClick={() => onSelect(null)}
 			>
 				All
@@ -124,11 +90,10 @@ const TalentSelector: React.FC<{
 				<button
 					type="button"
 					key={talent.id}
-					className={`px-4 py-2 rounded transition-colors duration-200 ${
-						selectedTalent?.id === talent.id
-							? "bg-blue-600 text-white"
-							: "bg-gray-700 text-gray-200 hover:bg-gray-600"
-					}`}
+					className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
+						? "bg-blue-600 text-white"
+						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
+						}`}
 					onClick={() => onSelect(talent)}
 				>
 					{talent.name}
