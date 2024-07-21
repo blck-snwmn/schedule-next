@@ -100,7 +100,7 @@ const TalentSelector: React.FC<{ talents: Talent[], selectedTalent: Talent | nul
                     }`}
                 onClick={() => onSelect(null)}
             >
-                All Talents
+                All
             </button>
             {talents.map((talent) => (
                 <button
