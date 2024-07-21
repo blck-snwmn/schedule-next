@@ -4,6 +4,6 @@ type Props = {
 }
 export default function Detail({ params }: Props) {
     return (
-        <div>app/schedule/@detail/{params.eventId}/page.tsx</div>
+        <div>app/schedule/@modal/{params.eventId}/page.tsx</div>
     )
 }

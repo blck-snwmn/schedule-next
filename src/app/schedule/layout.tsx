@@ -1,14 +1,13 @@
-export default function Layout({
-    children,
-    detail,
-}: Readonly<{
+export default function Layout(props: {
     children: React.ReactNode;
-    detail: React.ReactNode;
-}>) {
+    // detail: React.ReactNode;
+    modal: React.ReactNode;
+}) {
     return (
         <div>
-            {children}
-            {detail}
+            {props.children}
+            {/* {props.detail} */}
+            {props.modal}
         </div>
     )
 }
