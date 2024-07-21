@@ -6,7 +6,7 @@ export default function Layout({
     detail: React.ReactNode;
 }>) {
     return (
-        <div className="flex">
+        <div>
             {children}
             {detail}
         </div>
