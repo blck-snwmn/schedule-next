@@ -4,6 +4,7 @@ import type React from 'react';
 import { useState } from 'react';
 import { startOfMonth, endOfMonth, eachDayOfInterval, format, isSameMonth, isToday } from 'date-fns';
 import { ja } from 'date-fns/locale';
+import Link from 'next/link';
 
 interface CalendarProps {
     year: number;
@@ -12,7 +13,7 @@ interface CalendarProps {
 }
 
 const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
-    const [currentDate, setCurrentDate] = useState(new Date(year, month - 1, 1));
+    const currentDate = new Date(year, month - 1, 1);
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
     const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
@@ -24,6 +25,8 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
             )
         );
     };
+    const prevMonth = new Date(year, month - 2);
+    const nextMonth = new Date(year, month);
 
     return (
         <div className="bg-white rounded-lg shadow overflow-hidden text-black mb-5">
@@ -32,15 +35,12 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
                     {format(currentDate, 'yyyy年 M月', { locale: ja })}
                 </h2>
                 <div>
-                    <button type='button' onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1))}>
+                    <Link href={`/schedule?year=${prevMonth.getFullYear()}&month=${prevMonth.getMonth() + 1}`} className="mr-2">
                         前月
-                    </button>
-                    <button type='button' onClick={() => setCurrentDate(new Date())} className="mx-2">
-                        今日
-                    </button>
-                    <button type='button' onClick={() => setCurrentDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1))}>
+                    </Link>
+                    <Link href={`/schedule?year=${nextMonth.getFullYear()}&month=${nextMonth.getMonth() + 1}`}>
                         翌月
-                    </button>
+                    </Link>
                 </div>
             </div>
             <div className="grid grid-cols-7 gap-px bg-gray-200">
