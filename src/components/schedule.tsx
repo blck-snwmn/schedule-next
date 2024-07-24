@@ -116,7 +116,9 @@ const EventList: React.FC<{ events: ScheduleEvent[] }> = ({ events }) => {
 export const Events: React.FC<{
 	scheduleEvent: ScheduleEvent[];
 	talents: Talent[];
-}> = ({ scheduleEvent, talents }) => {
+	year: number
+	month: number
+}> = ({ scheduleEvent, talents, year, month }) => {
 	const [selectedTalent, setSelectedTalent] = useState<Talent | null>(null);
 	const [filteredEvents, setFilteredEvents] =
 		useState<ScheduleEvent[]>(scheduleEvent);
@@ -139,7 +141,7 @@ export const Events: React.FC<{
 		<main className="min-h-screen bg-gray-900 text-white p-4">
 			<div className="container mx-auto">
 				<h1 className="text-3xl font-bold mb-6">タレント情報ダッシュボード</h1>
-				<Calendar events={filteredEvents} />
+				<Calendar events={filteredEvents} year={year} month={month} />
 				<TalentSelector
 					talents={talents}
 					selectedTalent={selectedTalent}

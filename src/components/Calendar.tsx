@@ -6,11 +6,13 @@ import { startOfMonth, endOfMonth, eachDayOfInterval, format, isSameMonth, isTod
 import { ja } from 'date-fns/locale';
 
 interface CalendarProps {
+    year: number;
+    month: number;
     events: ScheduleEvent[];
 }
 
-const Calendar: React.FC<CalendarProps> = ({ events }) => {
-    const [currentDate, setCurrentDate] = useState(new Date());
+const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
+    const [currentDate, setCurrentDate] = useState(new Date(year, month - 1, 1));
     const monthStart = startOfMonth(currentDate);
     const monthEnd = endOfMonth(currentDate);
     const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
