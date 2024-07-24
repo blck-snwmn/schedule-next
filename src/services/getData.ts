@@ -230,8 +230,17 @@ const talents = talentAEvent
 		return acc;
 	}, [] as Talent[]);
 
-export function getEvents() {
-	return talentAEvent;
+export function getEvents(year: number, month: number) {
+	const allEvents = talentAEvent;
+
+	const filteredEvents = allEvents.filter(event => {
+		return event.schedules.some(schedule => {
+			const scheduleDate = new Date(schedule.start_at);
+			return scheduleDate.getFullYear() === year && scheduleDate.getMonth() + 1 === month;
+		});
+	});
+
+	return filteredEvents;
 }
 
 export function getEventById(id: string) {
