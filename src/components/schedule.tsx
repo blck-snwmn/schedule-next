@@ -120,22 +120,11 @@ export const Events: React.FC<{
 	month: number
 }> = ({ scheduleEvent, talents, year, month }) => {
 	const [selectedTalent, setSelectedTalent] = useState<Talent | null>(null);
-	const [filteredEvents, setFilteredEvents] =
-		useState<ScheduleEvent[]>(scheduleEvent);
-
-	useEffect(() => {
-		if (selectedTalent) {
-			setFilteredEvents(
-				scheduleEvent.filter((event) =>
-					event.relatedTalents.some(
-						(talent) => talent.id === selectedTalent.id,
-					),
-				),
-			);
-		} else {
-			setFilteredEvents(scheduleEvent);
-		}
-	}, [selectedTalent, scheduleEvent]);
+	const filteredEvents = selectedTalent
+		? scheduleEvent.filter(event =>
+			event.relatedTalents.some(talent => talent.id === selectedTalent.id)
+		)
+		: scheduleEvent;
 
 	return (
 		<main className="min-h-screen bg-gray-900 text-white p-4">
