@@ -14,8 +14,10 @@ export default async function SchedulePage({ searchParams }: Props) {
 	const yearStr = searchParams.year || now.getFullYear().toString();
 	const monthStr = searchParams.month || (now.getMonth() + 1).toString();
 
+	const paddedMonth = monthStr.padStart(2, '0');
+
 	// FIXME: result is UTC
-	const result = parseISO(`${yearStr}-${monthStr}-01T00:00:00Z`);
+	const result = parseISO(`${yearStr}-${paddedMonth}-01T00:00:00Z`);
 	console.info(yearStr, monthStr, result);
 	if (!isValid(result)) {
 		notFound();
