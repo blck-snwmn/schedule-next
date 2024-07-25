@@ -28,6 +28,8 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
     const prevMonth = new Date(year, month - 2);
     const nextMonth = new Date(year, month);
 
+    const formatMonth = (date: Date) => (date.getMonth() + 1).toString().padStart(2, '0');
+
     return (
         <div className="bg-white rounded-lg shadow overflow-hidden text-black mb-5">
             <div className="flex items-center justify-between px-6 py-4 border-b">
@@ -35,10 +37,10 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
                     {format(currentDate, 'yyyy年 M月', { locale: ja })}
                 </h2>
                 <div>
-                    <Link href={`/schedule?year=${prevMonth.getFullYear()}&month=${prevMonth.getMonth() + 1}`} className="mr-2">
+                    <Link href={`/schedule?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`} className="mr-2">
                         前月
                     </Link>
-                    <Link href={`/schedule?year=${nextMonth.getFullYear()}&month=${nextMonth.getMonth() + 1}`}>
+                    <Link href={`/schedule?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}>
                         翌月
                     </Link>
                 </div>
