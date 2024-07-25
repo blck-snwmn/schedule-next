@@ -25,7 +25,9 @@ export default async function SchedulePage({ searchParams }: Props) {
 	const year = result.getFullYear();
 	const month = result.getMonth() + 1;
 
-	const scheduleEvent = await getEvents(year, month);
-	const talents = await getTaletns();
+	const [scheduleEvent, talents] = await Promise.all([
+		getEvents(year, month),
+		getTaletns()
+	]);
 	return <Events scheduleEvent={scheduleEvent} talents={talents} year={year} month={month} />;
 }
