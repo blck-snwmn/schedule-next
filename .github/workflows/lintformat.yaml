@@ -14,5 +14,3 @@ jobs:
       - name: lint
         run: |
           pnpm biome check .
-  
-
