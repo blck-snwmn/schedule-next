@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { CategoryBadge } from "./category-badge";
 import Calendar from "./Calendar";
+import { endOfMonth, isAfter, isBefore, isSameMonth, parseISO, startOfMonth } from "date-fns";
 
 const formatDate = (dateString: string): string => {
 	return new Date(dateString).toLocaleString("ja-JP", {
@@ -15,29 +16,39 @@ const formatDate = (dateString: string): string => {
 	});
 };
 
-const isEventPast = (event: ScheduleEvent): boolean => {
-	return event.schedules.every((schedule) => schedule.status === "past");
+const isScheduleInMonth = (schedule: Schedule, year: number, month: number) => {
+	const scheduleStart = parseISO(schedule.start_at);
+	const scheduleEnd = parseISO(schedule.end_at);
+	const monthStart = startOfMonth(new Date(year, month - 1));
+	const monthEnd = endOfMonth(new Date(year, month - 1));
+
+	// スケジュールの開始日が月末以前 AND スケジュールの終了日が月初以降
+	return (isBefore(scheduleStart, monthEnd) || isSameMonth(scheduleStart, monthStart)) &&
+		(isAfter(scheduleEnd, monthStart) || isSameMonth(scheduleEnd, monthStart));
 };
 
-const ScheduleInfo: React.FC<{ schedule: Schedule }> = ({ schedule }) => (
-	<div
-		className={`mb-2 p-2 rounded text-sm ${schedule.status === "past" ? "bg-gray-700 text-gray-400" : "bg-gray-800 text-white"}`}
-	>
-		<div className="flex justify-between items-start">
-			<div className="font-semibold">{schedule.name}</div>
-			<div className="text-left">
-				<div className="text-xs">{formatDate(schedule.start_at)}</div>
-				<div className="text-xs">~ {formatDate(schedule.end_at)}</div>
-			</div>
-		</div>
-	</div>
-);
-
-const EventInfo: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
-	const isPast = isEventPast(event);
+const ScheduleInfo: React.FC<{ schedule: Schedule; year: number; month: number }> = ({ schedule, year, month }) => {
+	const isInMonth = isScheduleInMonth(schedule, year, month);
 	return (
 		<div
-			className={`mb-4 border border-gray-700 rounded overflow-hidden ${isPast ? "bg-gray-800 text-gray-400" : "bg-gray-800 text-white"}`}
+			className={`mb-2 p-2 rounded text-sm ${isInMonth ? 'bg-gray-800 text-white' : 'bg-gray-600 text-gray-400' // グレーアウト
+				}`}
+		>
+			<div className="flex justify-between items-start">
+				<div className="font-semibold">{schedule.name}</div>
+				<div className="text-left">
+					<div className="text-xs">{formatDate(schedule.start_at)}</div>
+					<div className="text-xs">~ {formatDate(schedule.end_at)}</div>
+				</div>
+			</div>
+		</div>
+	);
+}
+
+const EventInfo: React.FC<{ event: ScheduleEvent; year: number; month: number }> = ({ event, year, month }) => {
+	return (
+		<div
+			className={"mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"}
 		>
 			<Link key={event.id} href={`/schedule/${event.id}`}>
 				<div className="h-48 relative bg-gray-700">
@@ -60,7 +71,7 @@ const EventInfo: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 					<h3 className="font-bold text-lg mb-2">{event.name}</h3>
 					<div className="mb-2">
 						{event.schedules.map((schedule) => (
-							<ScheduleInfo key={schedule.id} schedule={schedule} />
+							<ScheduleInfo key={schedule.id} schedule={schedule} year={year} month={month} />
 						))}
 					</div>
 				</div>
@@ -103,11 +114,11 @@ const TalentSelector: React.FC<{
 	);
 };
 
-const EventList: React.FC<{ events: ScheduleEvent[] }> = ({ events }) => {
+const EventList: React.FC<{ events: ScheduleEvent[]; year: number; month: number }> = ({ events, year, month }) => {
 	return (
 		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 			{events.map((event) => (
-				<EventInfo key={event.id} event={event} />
+				<EventInfo key={event.id} event={event} year={year} month={month} />
 			))}
 		</div>
 	);
@@ -136,7 +147,7 @@ export const Events: React.FC<{
 					selectedTalent={selectedTalent}
 					onSelect={setSelectedTalent}
 				/>
-				<EventList events={filteredEvents} />
+				<EventList events={filteredEvents} year={year} month={month} />
 			</div>
 		</main>
 	);
