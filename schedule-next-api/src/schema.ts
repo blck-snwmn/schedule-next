@@ -15,15 +15,15 @@ export const events = sqliteTable('events', {
 
 export const schedules = sqliteTable('schedules', {
     id: text('id').primaryKey(),
-    eventId: integer('event_id').notNull().references(() => events.id),
+    eventId: text('event_id').notNull().references(() => events.id),
     name: text('name').notNull(),
     startAt: integer('start_at', { mode: "timestamp_ms" }).notNull(),
     endAt: integer('end_at', { mode: "timestamp_ms" }).notNull(),
 });
 
 export const eventTalents = sqliteTable('event_talents', {
-    eventId: integer('event_id').notNull().references(() => events.id),
-    talentId: integer('talent_id').notNull().references(() => talents.id),
+    eventId: text('event_id').notNull().references(() => events.id),
+    talentId: text('talent_id').notNull().references(() => talents.id),
 }, (table) => ({
     unq: primaryKey({ columns: [table.eventId, table.talentId] }),
 }))
