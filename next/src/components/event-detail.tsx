@@ -22,8 +22,8 @@ export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 					<div key={schedule.id} className="mb-2 p-2 bg-muted rounded">
 						<p className="font-semibold">{schedule.name}</p>
 						<p className="text-sm text-muted-foreground">
-							{new Date(schedule.start_at).toLocaleString()} -{" "}
-							{new Date(schedule.end_at).toLocaleString()}
+							{new Date(schedule.startAt).toLocaleString()} -{" "}
+							{new Date(schedule.endAt).toLocaleString()}
 						</p>
 					</div>
 				))}
@@ -31,7 +31,7 @@ export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 			<div>
 				<h3 className="text-lg font-semibold mb-2">関連タレント</h3>
 				<div className="flex flex-wrap gap-2">
-					{event.relatedTalents.map((talent) => (
+					{event.talents.map((talent) => (
 						<Badge key={talent.id} variant="secondary">
 							{talent.name}
 						</Badge>

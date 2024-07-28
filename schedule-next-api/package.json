@@ -8,8 +8,7 @@
     "start": "wrangler dev",
     "test": "vitest",
     "cf-typegen": "wrangler types",
-    "generate": "drizzle-kit generate",
-    "migrate": "drizzle-kit migrate"
+    "generate": "drizzle-kit generate"
   },
   "devDependencies": {
     "@cloudflare/vitest-pool-workers": "^0.4.5",

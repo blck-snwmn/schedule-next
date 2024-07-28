@@ -21,7 +21,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
     const hasEvent = (date: Date) => {
         return events.some(event =>
             event.schedules.some(schedule =>
-                new Date(schedule.start_at) <= date && new Date(schedule.end_at) >= date
+                new Date(schedule.startAt) <= date && new Date(schedule.endAt) >= date
             )
         );
     };

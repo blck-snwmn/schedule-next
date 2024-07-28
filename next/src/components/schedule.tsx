@@ -6,8 +6,8 @@ import { CategoryBadge } from "./category-badge";
 import Calendar from "./Calendar";
 import { endOfMonth, isAfter, isBefore, isSameMonth, parseISO, startOfMonth } from "date-fns";
 
-const formatDate = (dateString: string): string => {
-	return new Date(dateString).toLocaleString("ja-JP", {
+const formatDate = (date: Date): string => {
+	return date.toLocaleString("ja-JP", {
 		year: "numeric",
 		month: "2-digit",
 		day: "2-digit",
@@ -17,8 +17,8 @@ const formatDate = (dateString: string): string => {
 };
 
 const isScheduleInMonth = (schedule: Schedule, year: number, month: number) => {
-	const scheduleStart = parseISO(schedule.start_at);
-	const scheduleEnd = parseISO(schedule.end_at);
+	const scheduleStart = schedule.startAt;
+	const scheduleEnd = schedule.endAt;
 	const monthStart = startOfMonth(new Date(year, month - 1));
 	const monthEnd = endOfMonth(new Date(year, month - 1));
 
@@ -37,8 +37,8 @@ const ScheduleInfo: React.FC<{ schedule: Schedule; year: number; month: number }
 			<div className="flex justify-between items-start">
 				<div className="font-semibold">{schedule.name}</div>
 				<div className="text-left">
-					<div className="text-xs">{formatDate(schedule.start_at)}</div>
-					<div className="text-xs">~ {formatDate(schedule.end_at)}</div>
+					<div className="text-xs">{formatDate(schedule.startAt)}</div>
+					<div className="text-xs">~ {formatDate(schedule.endAt)}</div>
 				</div>
 			</div>
 		</div>
@@ -133,7 +133,7 @@ export const Events: React.FC<{
 	const [selectedTalent, setSelectedTalent] = useState<Talent | null>(null);
 	const filteredEvents = selectedTalent
 		? scheduleEvent.filter(event =>
-			event.relatedTalents.some(talent => talent.id === selectedTalent.id)
+			event.talents.some(talent => talent.id === selectedTalent.id)
 		)
 		: scheduleEvent;
 

@@ -1,25 +1,25 @@
 type Status = "active" | "upcoming" | "past";
 
 interface Schedule {
-	id: number;
+	id: string;
 	name: string;
-	start_at: string; // ISO 8601 形式の日時文字列
-	end_at: string; // ISO 8601 形式の日時文字列
+	startAt: Date; // ISO 8601 形式の日時文字列
+	endAt: Date; // ISO 8601 形式の日時文字列
 	status: Status;
 }
 
 interface ScheduleEvent {
-	id: number;
+	id: string;
 	name: string;
 	category: string;
 	description?: string;
 	thumbnail?: string; // サムネイル画像のURL
 	schedules: Schedule[];
-	relatedTalents: Talent[];
+	talents: Talent[];
 }
 
 interface Talent {
-	id: number;
+	id: string;
 	name: string;
 }
 

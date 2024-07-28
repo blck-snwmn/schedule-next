@@ -17,8 +17,8 @@ export const schedules = sqliteTable('schedules', {
     id: text('id').primaryKey(),
     eventId: text('event_id').notNull().references(() => events.id),
     name: text('name').notNull(),
-    startAt: integer('start_at', { mode: "timestamp_ms" }).notNull(),
-    endAt: integer('end_at', { mode: "timestamp_ms" }).notNull(),
+    startAt: integer('start_at', { mode: "timestamp" }).notNull(),
+    endAt: integer('end_at', { mode: "timestamp" }).notNull(),
 });
 
 export const eventTalents = sqliteTable('event_talents', {
