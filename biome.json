@@ -1,0 +1,38 @@
+{
+	"$schema": "https://biomejs.dev/schemas/1.3.3/schema.json",
+	"organizeImports": {
+		"enabled": true,
+		"ignore": [
+			"node_modules/*",
+			"*/build/*",
+			"*/.wrangler/*",
+			"*/.next/*",
+			"*/.vercel/*",
+			"*/drizzle/*"
+		]
+	},
+	"formatter": {
+		"ignore": [
+			"node_modules/*",
+			"*/build/*",
+			"*/.wrangler/*",
+			"*/.next/*",
+			"*/.vercel/*",
+			"*/drizzle/*"
+		]
+	},
+	"linter": {
+		"ignore": [
+			"node_modules/*",
+			"*/build/*",
+			"*/.wrangler/*",
+			"*/.next/*",
+			"*/.vercel/*",
+			"*/drizzle/*"
+		],
+		"enabled": true,
+		"rules": {
+			"recommended": true
+		}
+	}
+}

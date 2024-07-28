@@ -9,12 +9,12 @@ type Props = {
 
 export default async function SchedulePage({ searchParams }: Props) {
 	// `month` and `year` are obtained from URL parameters
-	// If not set as a URL parameter, the current year and month are used. 
+	// If not set as a URL parameter, the current year and month are used.
 	const now = new Date();
 	const yearStr = searchParams.year || now.getFullYear().toString();
 	const monthStr = searchParams.month || (now.getMonth() + 1).toString();
 
-	const paddedMonth = monthStr.padStart(2, '0');
+	const paddedMonth = monthStr.padStart(2, "0");
 
 	// FIXME: result is UTC
 	const result = parseISO(`${yearStr}-${paddedMonth}-01T00:00:00Z`);
@@ -27,7 +27,14 @@ export default async function SchedulePage({ searchParams }: Props) {
 
 	const [scheduleEvent, talents] = await Promise.all([
 		getEvents(year, month),
-		getTaletns()
+		getTaletns(),
 	]);
-	return <Events scheduleEvent={scheduleEvent} talents={talents} year={year} month={month} />;
+	return (
+		<Events
+			scheduleEvent={scheduleEvent}
+			talents={talents}
+			year={year}
+			month={month}
+		/>
+	);
 }

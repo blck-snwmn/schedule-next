@@ -1,10 +1,17 @@
 "use client";
 
+import {
+	endOfMonth,
+	isAfter,
+	isBefore,
+	isSameMonth,
+	parseISO,
+	startOfMonth,
+} from "date-fns";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { CategoryBadge } from "./category-badge";
 import Calendar from "./Calendar";
-import { endOfMonth, isAfter, isBefore, isSameMonth, parseISO, startOfMonth } from "date-fns";
+import { CategoryBadge } from "./category-badge";
 
 const formatDate = (date: Date): string => {
 	return date.toLocaleString("ja-JP", {
@@ -23,16 +30,24 @@ const isScheduleInMonth = (schedule: Schedule, year: number, month: number) => {
 	const monthEnd = endOfMonth(new Date(year, month - 1));
 
 	// スケジュールの開始日が月末以前 AND スケジュールの終了日が月初以降
-	return (isBefore(scheduleStart, monthEnd) || isSameMonth(scheduleStart, monthStart)) &&
-		(isAfter(scheduleEnd, monthStart) || isSameMonth(scheduleEnd, monthStart));
+	return (
+		(isBefore(scheduleStart, monthEnd) ||
+			isSameMonth(scheduleStart, monthStart)) &&
+		(isAfter(scheduleEnd, monthStart) || isSameMonth(scheduleEnd, monthStart))
+	);
 };
 
-const ScheduleInfo: React.FC<{ schedule: Schedule; year: number; month: number }> = ({ schedule, year, month }) => {
+const ScheduleInfo: React.FC<{
+	schedule: Schedule;
+	year: number;
+	month: number;
+}> = ({ schedule, year, month }) => {
 	const isInMonth = isScheduleInMonth(schedule, year, month);
 	return (
 		<div
-			className={`mb-2 p-2 rounded text-sm ${isInMonth ? 'bg-gray-800 text-white' : 'bg-gray-600 text-gray-400' // グレーアウト
-				}`}
+			className={`mb-2 p-2 rounded text-sm ${
+				isInMonth ? "bg-gray-800 text-white" : "bg-gray-600 text-gray-400" // グレーアウト
+			}`}
 		>
 			<div className="flex justify-between items-start">
 				<div className="font-semibold">{schedule.name}</div>
@@ -43,12 +58,18 @@ const ScheduleInfo: React.FC<{ schedule: Schedule; year: number; month: number }
 			</div>
 		</div>
 	);
-}
+};
 
-const EventInfo: React.FC<{ event: ScheduleEvent; year: number; month: number }> = ({ event, year, month }) => {
+const EventInfo: React.FC<{
+	event: ScheduleEvent;
+	year: number;
+	month: number;
+}> = ({ event, year, month }) => {
 	return (
 		<div
-			className={"mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"}
+			className={
+				"mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"
+			}
 		>
 			<Link key={event.id} href={`/schedule/${event.id}`}>
 				<div className="h-48 relative bg-gray-700">
@@ -71,7 +92,12 @@ const EventInfo: React.FC<{ event: ScheduleEvent; year: number; month: number }>
 					<h3 className="font-bold text-lg mb-2">{event.name}</h3>
 					<div className="mb-2">
 						{event.schedules.map((schedule) => (
-							<ScheduleInfo key={schedule.id} schedule={schedule} year={year} month={month} />
+							<ScheduleInfo
+								key={schedule.id}
+								schedule={schedule}
+								year={year}
+								month={month}
+							/>
 						))}
 					</div>
 				</div>
@@ -89,10 +115,11 @@ const TalentSelector: React.FC<{
 		<div className="flex flex-wrap mb-4 gap-2">
 			<button
 				type="button"
-				className={`px-4 py-2 rounded transition-colors duration-200 ${!selectedTalent
-					? "bg-blue-600 text-white"
-					: "bg-gray-700 text-gray-200 hover:bg-gray-600"
-					}`}
+				className={`px-4 py-2 rounded transition-colors duration-200 ${
+					!selectedTalent
+						? "bg-blue-600 text-white"
+						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
+				}`}
 				onClick={() => onSelect(null)}
 			>
 				All
@@ -101,10 +128,11 @@ const TalentSelector: React.FC<{
 				<button
 					type="button"
 					key={talent.id}
-					className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
-						? "bg-blue-600 text-white"
-						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
-						}`}
+					className={`px-4 py-2 rounded transition-colors duration-200 ${
+						selectedTalent?.id === talent.id
+							? "bg-blue-600 text-white"
+							: "bg-gray-700 text-gray-200 hover:bg-gray-600"
+					}`}
 					onClick={() => onSelect(talent)}
 				>
 					{talent.name}
@@ -114,7 +142,11 @@ const TalentSelector: React.FC<{
 	);
 };
 
-const EventList: React.FC<{ events: ScheduleEvent[]; year: number; month: number }> = ({ events, year, month }) => {
+const EventList: React.FC<{
+	events: ScheduleEvent[];
+	year: number;
+	month: number;
+}> = ({ events, year, month }) => {
 	return (
 		<div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
 			{events.map((event) => (
@@ -127,14 +159,14 @@ const EventList: React.FC<{ events: ScheduleEvent[]; year: number; month: number
 export const Events: React.FC<{
 	scheduleEvent: ScheduleEvent[];
 	talents: Talent[];
-	year: number
-	month: number
+	year: number;
+	month: number;
 }> = ({ scheduleEvent, talents, year, month }) => {
 	const [selectedTalent, setSelectedTalent] = useState<Talent | null>(null);
 	const filteredEvents = selectedTalent
-		? scheduleEvent.filter(event =>
-			event.talents.some(talent => talent.id === selectedTalent.id)
-		)
+		? scheduleEvent.filter((event) =>
+				event.talents.some((talent) => talent.id === selectedTalent.id),
+			)
 		: scheduleEvent;
 
 	return (
