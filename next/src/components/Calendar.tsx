@@ -2,10 +2,14 @@
 
 import {
 	eachDayOfInterval,
+	endOfDay,
 	endOfMonth,
 	format,
+	isSameDay,
 	isSameMonth,
 	isToday,
+	isWithinInterval,
+	startOfDay,
 	startOfMonth,
 } from "date-fns";
 import { ja } from "date-fns/locale";
@@ -26,12 +30,16 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
 	const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
 	const hasEvent = (date: Date) => {
+		const dayStart = startOfDay(date);
+		const dayEnd = endOfDay(date);
 		return events.some((event) =>
-			event.schedules.some(
-				(schedule) =>
-					new Date(schedule.startAt) <= date &&
-					new Date(schedule.endAt) >= date,
-			),
+			event.schedules.some((schedule) =>
+				isSameDay(schedule.startAt, date) || // 開始日が対象日と同じ
+				isSameDay(schedule.endAt, date) || // 終了日が対象日と同じ
+				isWithinInterval(dayStart, { start: schedule.startAt, end: schedule.endAt }) ||
+				isWithinInterval(dayEnd, { start: schedule.startAt, end: schedule.endAt }) ||
+				(schedule.startAt <= dayStart && schedule.endAt >= dayEnd)
+			)
 		);
 	};
 	const prevMonth = new Date(year, month - 2);
@@ -69,13 +77,12 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
 				{daysInMonth.map((day) => (
 					<div
 						key={day.toString()}
-						className={`p-2 bg-white ${
-							!isSameMonth(day, currentDate)
-								? "text-gray-400"
-								: isToday(day)
-									? "bg-blue-100"
-									: ""
-						}`}
+						className={`p-2 bg-white ${!isSameMonth(day, currentDate)
+							? "text-gray-400"
+							: isToday(day)
+								? "bg-blue-100"
+								: ""
+							}`}
 					>
 						<span className="text-sm">{format(day, "d")}</span>
 						<div className="w-2 h-2 mt-1">
