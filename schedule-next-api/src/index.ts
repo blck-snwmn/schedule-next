@@ -85,6 +85,7 @@ app.post('/api/talents', async (c) => {
 
 // イベント登録エンドポイント
 app.post('/api/events', async (c) => {
+	// D1 does not support `transaction`.
 	const db = drizzle(c.env.DB);
 	const eventData = await c.req.json();
 
