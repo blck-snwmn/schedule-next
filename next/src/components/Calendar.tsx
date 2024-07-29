@@ -1,5 +1,6 @@
 "use client";
 
+import { hasEvent } from "@/utils/eventUtils";
 import {
 	eachDayOfInterval,
 	endOfDay,
@@ -29,19 +30,6 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
 	const monthEnd = endOfMonth(currentDate);
 	const daysInMonth = eachDayOfInterval({ start: monthStart, end: monthEnd });
 
-	const hasEvent = (date: Date) => {
-		const dayStart = startOfDay(date);
-		const dayEnd = endOfDay(date);
-		return events.some((event) =>
-			event.schedules.some((schedule) =>
-				isSameDay(schedule.startAt, date) || // 開始日が対象日と同じ
-				isSameDay(schedule.endAt, date) || // 終了日が対象日と同じ
-				isWithinInterval(dayStart, { start: schedule.startAt, end: schedule.endAt }) ||
-				isWithinInterval(dayEnd, { start: schedule.startAt, end: schedule.endAt }) ||
-				(schedule.startAt <= dayStart && schedule.endAt >= dayEnd)
-			)
-		);
-	};
 	const prevMonth = new Date(year, month - 2);
 	const nextMonth = new Date(year, month);
 
@@ -86,7 +74,7 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
 					>
 						<span className="text-sm">{format(day, "d")}</span>
 						<div className="w-2 h-2 mt-1">
-							{hasEvent(day) && (
+							{hasEvent(day, events) && (
 								<div className="w-full h-full bg-blue-500 rounded-full" />
 							)}
 						</div>
