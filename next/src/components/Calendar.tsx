@@ -65,12 +65,13 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
 				{daysInMonth.map((day) => (
 					<div
 						key={day.toString()}
-						className={`p-2 bg-white ${!isSameMonth(day, currentDate)
-							? "text-gray-400"
-							: isToday(day)
-								? "bg-blue-100"
-								: ""
-							}`}
+						className={`p-2 bg-white ${
+							!isSameMonth(day, currentDate)
+								? "text-gray-400"
+								: isToday(day)
+									? "bg-blue-100"
+									: ""
+						}`}
 					>
 						<span className="text-sm">{format(day, "d")}</span>
 						<div className="w-2 h-2 mt-1">
