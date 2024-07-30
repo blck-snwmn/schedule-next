@@ -8,6 +8,7 @@ import type {
 	NewSchedule,
 	NewTalent,
 	QueryResult,
+	Schedule,
 } from "./types";
 
 const app = new Hono<{ Bindings: Env }>();
@@ -90,23 +91,36 @@ app.get("/api/events/:id", async (c) => {
 	const db = drizzle(c.env.DB);
 	const { id } = c.req.param();
 
-	const event = await db
-		.select()
+	const result = await db
+		.select({
+			id: events.id,
+			name: events.name,
+			description: events.description,
+			category: events.category,
+			thumbnail: events.thumbnail,
+			schedules: schedules,
+			talents: talents,
+		})
 		.from(events)
 		.where(eq(events.id, id))
 		.leftJoin(schedules, eq(events.id, schedules.eventId))
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
-		.leftJoin(talents, eq(eventTalents.talentId, talents.id));
+		.leftJoin(talents, eq(eventTalents.talentId, talents.id)) as QueryResult[];
 
-	if (!event.length) {
+	if (!result.length) {
 		return c.json({ error: "Event not found" }, 404);
 	}
 
-	// イベント情報を整形
+	// // イベント情報を整形
 	const formattedEvent = {
-		...event[0].events,
-		schedules: event.map((e) => e.schedules).filter(Boolean),
-		talents: event.map((e) => e.talents).filter(Boolean),
+		...result[0],
+		schedules: result.map((e) => e.schedules).reduce((acc: Schedule[], curr) => {
+			if (!acc.find((s) => s.id === curr.id)) {
+				acc.push(curr);
+			}
+			return acc;
+		}, []),
+		talents: result.map((e) => e.talents).filter(Boolean),
 	};
 
 	return c.json(formattedEvent);
