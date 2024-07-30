@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import { formatDate } from "@/utils/formatDate";
 import { CategoryBadge } from "./CategoryBadge";
 export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 	return (
@@ -22,8 +23,7 @@ export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 					<div key={schedule.id} className="mb-2 p-2 bg-muted rounded">
 						<p className="font-semibold">{schedule.name}</p>
 						<p className="text-sm text-muted-foreground">
-							{new Date(schedule.startAt).toLocaleString()} -{" "}
-							{new Date(schedule.endAt).toLocaleString()}
+							{formatDate(schedule.startAt)} - {formatDate(schedule.endAt)}
 						</p>
 					</div>
 				))}
