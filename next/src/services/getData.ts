@@ -24,7 +24,7 @@ export async function getEventById(id: string) {
 		}
 		throw new Error("Failed to fetch event");
 	}
-	const json = await response.json();
+	const json = await response.json() as ScheduleEvent;
 	return json;
 }
 
