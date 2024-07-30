@@ -1,6 +1,6 @@
 import { Events } from "@/components/schedule";
 import { getEvents, getTaletns } from "@/services/getData";
-import { isValid, parse, parseISO } from "date-fns";
+import { isValid, parseISO } from "date-fns";
 import { notFound } from "next/navigation";
 
 type Props = {

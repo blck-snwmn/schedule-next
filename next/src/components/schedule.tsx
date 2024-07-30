@@ -5,11 +5,10 @@ import {
 	isAfter,
 	isBefore,
 	isSameMonth,
-	parseISO,
 	startOfMonth,
 } from "date-fns";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Calendar from "./Calendar";
 import { CategoryBadge } from "./category-badge";
 
