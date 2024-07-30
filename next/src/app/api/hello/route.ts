@@ -1,4 +1,4 @@
-import { getRequestContext } from "@cloudflare/next-on-pages";
+// import { getRequestContext } from "@cloudflare/next-on-pages";
 import type { NextRequest } from "next/server";
 
 export const runtime = "edge";
