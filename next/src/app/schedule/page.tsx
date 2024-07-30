@@ -1,4 +1,4 @@
-import { Events } from "@/components/schedule";
+import { Events } from "@/components/Schedule";
 import { getEvents, getTaletns } from "@/services/getData";
 import { isValid, parseISO } from "date-fns";
 import { notFound } from "next/navigation";

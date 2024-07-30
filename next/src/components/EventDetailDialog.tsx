@@ -6,7 +6,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { useRouter } from "next/navigation";
-import { EventDetail } from "./event-detail";
+import { EventDetail } from "./EventDetail";
 
 type Props = {
 	event: ScheduleEvent;

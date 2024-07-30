@@ -1,4 +1,4 @@
-import { EventDetail } from "@/components/event-detail";
+import { EventDetail } from "@/components/EventDetail";
 import { getEventById } from "@/services/getData";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";

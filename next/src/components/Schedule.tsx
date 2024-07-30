@@ -10,7 +10,7 @@ import {
 import Link from "next/link";
 import { useState } from "react";
 import Calendar from "./Calendar";
-import { CategoryBadge } from "./category-badge";
+import { CategoryBadge } from "./CategoryBadge";
 
 const formatDate = (date: Date): string => {
 	return date.toLocaleString("ja-JP", {
@@ -44,9 +44,8 @@ const ScheduleInfo: React.FC<{
 	const isInMonth = isScheduleInMonth(schedule, year, month);
 	return (
 		<div
-			className={`mb-2 p-2 rounded text-sm ${
-				isInMonth ? "bg-gray-800 text-white" : "bg-gray-600 text-gray-400" // グレーアウト
-			}`}
+			className={`mb-2 p-2 rounded text-sm ${isInMonth ? "bg-gray-800 text-white" : "bg-gray-600 text-gray-400" // グレーアウト
+				}`}
 		>
 			<div className="flex justify-between items-start">
 				<div className="font-semibold">{schedule.name}</div>
@@ -114,11 +113,10 @@ const TalentSelector: React.FC<{
 		<div className="flex flex-wrap mb-4 gap-2">
 			<button
 				type="button"
-				className={`px-4 py-2 rounded transition-colors duration-200 ${
-					!selectedTalent
+				className={`px-4 py-2 rounded transition-colors duration-200 ${!selectedTalent
 						? "bg-blue-600 text-white"
 						: "bg-gray-700 text-gray-200 hover:bg-gray-600"
-				}`}
+					}`}
 				onClick={() => onSelect(null)}
 			>
 				All
@@ -127,11 +125,10 @@ const TalentSelector: React.FC<{
 				<button
 					type="button"
 					key={talent.id}
-					className={`px-4 py-2 rounded transition-colors duration-200 ${
-						selectedTalent?.id === talent.id
+					className={`px-4 py-2 rounded transition-colors duration-200 ${selectedTalent?.id === talent.id
 							? "bg-blue-600 text-white"
 							: "bg-gray-700 text-gray-200 hover:bg-gray-600"
-					}`}
+						}`}
 					onClick={() => onSelect(talent)}
 				>
 					{talent.name}
@@ -164,8 +161,8 @@ export const Events: React.FC<{
 	const [selectedTalent, setSelectedTalent] = useState<Talent | null>(null);
 	const filteredEvents = selectedTalent
 		? scheduleEvent.filter((event) =>
-				event.talents.some((talent) => talent.id === selectedTalent.id),
-			)
+			event.talents.some((talent) => talent.id === selectedTalent.id),
+		)
 		: scheduleEvent;
 
 	return (
