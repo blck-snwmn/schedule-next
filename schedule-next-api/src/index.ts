@@ -1,4 +1,4 @@
-import { and, eq, gte, inArray, lte, min, sql } from "drizzle-orm";
+import { and, eq, gte, inArray, lte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { events, eventTalents, schedules, talents } from "./schema";
@@ -44,12 +44,12 @@ app.get("/api/events", async (c) => {
 		.where(
 			and(
 				lte(schedules.startAt, endOfMonth),
-				gte(schedules.endAt, startOfMonth)
-			)
+				gte(schedules.endAt, startOfMonth),
+			),
 		)
 		.groupBy(events.id);
 
-	const eventIds = eventIdsWithinRange.map(e => e.id);
+	const eventIds = eventIdsWithinRange.map((e) => e.id);
 
 	const result = (await db
 		.select({
@@ -66,8 +66,7 @@ app.get("/api/events", async (c) => {
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
 		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
 		.where(inArray(events.id, eventIds))
-		.orderBy(schedules.startAt, schedules.endAt)
-	) as QueryResult[];
+		.orderBy(schedules.startAt, schedules.endAt)) as QueryResult[];
 
 	console.log(result.length);
 	// 結果を整形
@@ -102,7 +101,7 @@ app.get("/api/events/:id", async (c) => {
 	const db = drizzle(c.env.DB);
 	const { id } = c.req.param();
 
-	const result = await db
+	const result = (await db
 		.select({
 			id: events.id,
 			name: events.name,
@@ -116,7 +115,7 @@ app.get("/api/events/:id", async (c) => {
 		.where(eq(events.id, id))
 		.leftJoin(schedules, eq(events.id, schedules.eventId))
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
-		.leftJoin(talents, eq(eventTalents.talentId, talents.id)) as QueryResult[];
+		.leftJoin(talents, eq(eventTalents.talentId, talents.id))) as QueryResult[];
 
 	if (!result.length) {
 		return c.json({ error: "Event not found" }, 404);
@@ -125,12 +124,14 @@ app.get("/api/events/:id", async (c) => {
 	// // イベント情報を整形
 	const formattedEvent = {
 		...result[0],
-		schedules: result.map((e) => e.schedules).reduce((acc: Schedule[], curr) => {
-			if (!acc.find((s) => s.id === curr.id)) {
-				acc.push(curr);
-			}
-			return acc;
-		}, []),
+		schedules: result
+			.map((e) => e.schedules)
+			.reduce((acc: Schedule[], curr) => {
+				if (!acc.find((s) => s.id === curr.id)) {
+					acc.push(curr);
+				}
+				return acc;
+			}, []),
 		talents: result.map((e) => e.talents).filter(Boolean),
 	};
 
