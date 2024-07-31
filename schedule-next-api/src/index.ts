@@ -1,4 +1,4 @@
-import { and, eq, gte, inArray, lte } from "drizzle-orm";
+import { and, eq, gte, inArray, lte, min, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { events, eventTalents, schedules, talents } from "./schema";
@@ -65,7 +65,9 @@ app.get("/api/events", async (c) => {
 		.leftJoin(schedules, eq(events.id, schedules.eventId))
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
 		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
-		.where(inArray(events.id, eventIds))) as QueryResult[];
+		.where(inArray(events.id, eventIds))
+		.orderBy(schedules.startAt, schedules.endAt)
+	) as QueryResult[];
 
 	console.log(result.length);
 	// 結果を整形
