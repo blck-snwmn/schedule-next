@@ -1,4 +1,4 @@
-import { and, eq, gte, lte } from "drizzle-orm";
+import { and, eq, gte, inArray, lte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { events, eventTalents, schedules, talents } from "./schema";
@@ -37,6 +37,20 @@ app.get("/api/events", async (c) => {
 		59,
 	);
 
+	const eventIdsWithinRange = await db
+		.select({ id: events.id })
+		.from(events)
+		.innerJoin(schedules, eq(events.id, schedules.eventId))
+		.where(
+			and(
+				lte(schedules.startAt, endOfMonth),
+				gte(schedules.endAt, startOfMonth)
+			)
+		)
+		.groupBy(events.id);
+
+	const eventIds = eventIdsWithinRange.map(e => e.id);
+
 	const result = (await db
 		.select({
 			id: events.id,
@@ -51,12 +65,7 @@ app.get("/api/events", async (c) => {
 		.leftJoin(schedules, eq(events.id, schedules.eventId))
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
 		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
-		.where(
-			and(
-				lte(schedules.startAt, endOfMonth),
-				gte(schedules.endAt, startOfMonth),
-			),
-		)) as QueryResult[];
+		.where(inArray(events.id, eventIds))) as QueryResult[];
 
 	console.log(result.length);
 	// 結果を整形
