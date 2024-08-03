@@ -1,5 +1,6 @@
 "use client";
 
+import { updateTalent } from "@/app/actions/talent";
 import {
 	type ColumnDef,
 	type ColumnFiltersState,
@@ -10,10 +11,20 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, Pencil } from "lucide-react";
 import { useState } from "react";
 import { Button } from "./ui/button";
+import {
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from "./ui/dialog";
 import { Input } from "./ui/input";
+import { Label } from "./ui/label";
 import {
 	Table,
 	TableBody,
@@ -50,6 +61,44 @@ export const talentColumns: ColumnDef<Talent>[] = [
 						<ArrowUpDown className="ml-2 h-4 w-4" />
 					</Button>
 				</div>
+			);
+		},
+	},
+	{
+		accessorKey: "dialog",
+		header: "",
+		cell: ({ row }) => {
+			return (
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button variant="outline">
+							<Pencil />
+						</Button>
+					</DialogTrigger>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Edit Talent</DialogTitle>
+						</DialogHeader>
+						<form action={updateTalent} method="POST">
+							<Label htmlFor="id">Name</Label>
+							<Input
+								id="name"
+								name="name"
+								type="text"
+								defaultValue={row.original.name}
+							/>
+							<Input type="hidden" name="id" value={row.original.id} />
+							<DialogFooter>
+								<DialogClose asChild>
+									<Button variant="outline">Cancel</Button>
+								</DialogClose>
+								<Button variant="default" type="submit">
+									Save
+								</Button>
+							</DialogFooter>
+						</form>
+					</DialogContent>
+				</Dialog>
 			);
 		},
 	},
