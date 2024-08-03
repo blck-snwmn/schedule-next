@@ -37,3 +37,25 @@ export async function getTaletns() {
 	const json = (await response.json()) as Talent[];
 	return json;
 }
+
+export async function updateTalent(id: string, name: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/talents/${id}`, {
+		method: "PATCH",
+		body: JSON.stringify({ name: name }),
+	});
+	if (!response.ok) {
+		throw new Error("Failed to update talents");
+	}
+}
+
+export async function deleteTalent(id: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/talents/${id}`, {
+		method: "DELETE",
+	});
+	if (!response.ok) {
+		console.error("Failed to delete talent");
+		throw new Error("Failed to delete talent");
+	}
+}
