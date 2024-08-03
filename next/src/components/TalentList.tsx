@@ -1,6 +1,6 @@
 "use client";
 
-import { updateTalent } from "@/app/actions/talent";
+import { updateTalent } from "@/actions/talent";
 import {
 	type ColumnDef,
 	type ColumnFiltersState,
@@ -79,7 +79,7 @@ export const talentColumns: ColumnDef<Talent>[] = [
 						<DialogHeader>
 							<DialogTitle>Edit Talent</DialogTitle>
 						</DialogHeader>
-						<form action={updateTalent} method="POST">
+						<form action={updateTalent}>
 							<Label htmlFor="id">Name</Label>
 							<Input
 								id="name"
@@ -88,13 +88,16 @@ export const talentColumns: ColumnDef<Talent>[] = [
 								defaultValue={row.original.name}
 							/>
 							<Input type="hidden" name="id" value={row.original.id} />
-							<DialogFooter>
+							<DialogFooter className="mt-5">
 								<DialogClose asChild>
 									<Button variant="outline">Cancel</Button>
 								</DialogClose>
-								<Button variant="default" type="submit">
-									Save
-								</Button>
+								<DialogClose asChild>
+									{/* 現在成功失敗に関係なくダイアログを閉じるので注意 */}
+									<Button variant="default" type="submit">
+										Save
+									</Button>
+								</DialogClose>
 							</DialogFooter>
 						</form>
 					</DialogContent>
@@ -152,9 +155,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
 										</TableHead>
 									);
 								})}

@@ -197,4 +197,22 @@ app.post("/api/events", async (c) => {
 	return c.json({ id: newEvent.id }, 201);
 });
 
+app.patch("/api/talents/:talentID", async (c) => {
+	const db = drizzle(c.env.DB);
+	const { talentID } = c.req.param();
+	const talentData = await c.req.json();
+
+	const updatedIds = await db.update(talents)
+		.set({
+			name: talentData.name,
+		})
+		.where(eq(talents.id, talentID))
+		.returning({ updatedId: talents.id });
+	if (updatedIds.length === 0) {
+		return c.json({ error: "Talent not found" }, 404);
+	}
+
+	return c.json({ talentID, ...talentData });
+})
+
 export default app;
