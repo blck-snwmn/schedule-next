@@ -1,8 +1,8 @@
 "use client";
 
-import { updateTalent } from "@/actions/talent";
+import { deleteTalentAction, updateTalentAction } from "@/actions/talent";
 import type { ColumnDef } from "@tanstack/react-table";
-import { ArrowUpDown, Pencil } from "lucide-react";
+import { ArrowUpDown, Pencil, Trash2 } from "lucide-react";
 import { DataTable } from "./DataTable";
 import { Button } from "./ui/button";
 import {
@@ -49,20 +49,20 @@ export const talentColumns: ColumnDef<Talent>[] = [
 	},
 	{
 		accessorKey: "dialog",
-		header: "",
+		header: "Edit",
 		cell: ({ row }) => {
 			return (
 				<Dialog>
 					<DialogTrigger asChild>
 						<Button variant="outline">
-							<Pencil />
+							<Pencil size={12} />
 						</Button>
 					</DialogTrigger>
 					<DialogContent>
 						<DialogHeader>
 							<DialogTitle>Edit Talent</DialogTitle>
 						</DialogHeader>
-						<form action={updateTalent}>
+						<form action={updateTalentAction}>
 							<Label htmlFor="id">Name</Label>
 							<Input
 								id="name"
@@ -83,6 +83,41 @@ export const talentColumns: ColumnDef<Talent>[] = [
 								</DialogClose>
 							</DialogFooter>
 						</form>
+					</DialogContent>
+				</Dialog>
+			);
+		},
+	},
+	{
+		accessorKey: "dialog",
+		header: "Delete",
+		cell: ({ row }) => {
+			return (
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button variant="outline">
+							<Trash2 size={12} />
+						</Button>
+					</DialogTrigger>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Delete Talent?</DialogTitle>
+						</DialogHeader>
+						<div>ID: {row.original.id}</div>
+						<div>Name: {row.original.name}</div>
+						<DialogFooter className="mt-5">
+							<DialogClose asChild>
+								<Button variant="outline">Cancel</Button>
+							</DialogClose>
+							<Button
+								variant="default"
+								onClick={async () => {
+									await deleteTalentAction(row.original.id);
+								}}
+							>
+								OK
+							</Button>
+						</DialogFooter>
 					</DialogContent>
 				</Dialog>
 			);

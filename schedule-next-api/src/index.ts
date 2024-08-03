@@ -215,4 +215,18 @@ app.patch("/api/talents/:talentID", async (c) => {
 	return c.json({ talentID, ...talentData });
 })
 
+app.delete("/api/talents/:talentID", async (c) => {
+	const db = drizzle(c.env.DB);
+	const { talentID } = c.req.param();
+
+	const deletedIds = await db.delete(talents)
+		.where(eq(talents.id, talentID))
+		.returning({ deletedId: talents.id });
+	if (deletedIds.length === 0) {
+		return c.json({ error: "Talent not found" }, 404);
+	}
+
+	return c.json({ talentID });
+});
+
 export default app;
