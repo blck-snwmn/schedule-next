@@ -49,7 +49,13 @@ export const talentColumns: ColumnDef<Talent>[] = [
 	},
 	{
 		accessorKey: "dialog",
-		header: "Edit",
+		header: () => {
+			return (
+				<div className="w-10">
+					Edit
+				</div>
+			)
+		},
 		cell: ({ row }) => {
 			return (
 				<Dialog>
@@ -63,7 +69,7 @@ export const talentColumns: ColumnDef<Talent>[] = [
 							<DialogTitle>Edit Talent</DialogTitle>
 						</DialogHeader>
 						<form action={updateTalentAction}>
-							<Label htmlFor="id">Name</Label>
+							<Label htmlFor="name">Name</Label>
 							<Input
 								id="name"
 								name="name"
@@ -90,7 +96,13 @@ export const talentColumns: ColumnDef<Talent>[] = [
 	},
 	{
 		accessorKey: "dialog",
-		header: "Delete",
+		header: () => {
+			return (
+				<div className="w-12">
+					Delete
+				</div>
+			)
+		},
 		cell: ({ row }) => {
 			return (
 				<Dialog>

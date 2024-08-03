@@ -1,8 +1,18 @@
 "use server";
 
-import { deleteTalent, updateTalent } from "@/services/getData";
+import { createTalent, deleteTalent, updateTalent } from "@/services/getData";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+
+export async function createTalentAction(formData: FormData) {
+	try {
+		await createTalent(formData.get("name") as string);
+		revalidatePath("/admin/talents");
+	} catch (error) {
+		return { message: "Failed to create talent" };
+	}
+	redirect("/admin/talents");
+}
 
 export async function updateTalentAction(formData: FormData) {
 	console.log(`id=${formData.get("id")}`);

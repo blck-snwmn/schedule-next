@@ -21,6 +21,11 @@ import {
 	TableHeader,
 	TableRow,
 } from "./ui/table";
+import { SquarePlus } from "lucide-react";
+import { Button } from "./ui/button";
+import { Dialog, DialogClose, DialogContent, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "./ui/dialog";
+import { Label } from "./ui/label";
+import { createTalentAction } from "@/actions/talent";
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -58,6 +63,38 @@ export function DataTable<TData, TValue>({
 						table.getColumn("name")?.setFilterValue(e.target.value)
 					}
 				/>
+				<Dialog>
+					<DialogTrigger asChild>
+						<Button variant="outline" className="mx-5">
+							<SquarePlus size={18} />
+						</Button>
+					</DialogTrigger>
+					<DialogContent>
+						<DialogHeader>
+							<DialogTitle>Create Talent</DialogTitle>
+						</DialogHeader>
+						<form action={createTalentAction}>
+							<Label htmlFor="name">Name</Label>
+							<Input
+								id="name"
+								name="name"
+								type="text"
+							/>
+							<DialogFooter className="mt-5">
+								<DialogClose asChild>
+									<Button variant="outline">Cancel</Button>
+								</DialogClose>
+								<DialogClose asChild>
+									{/* 現在成功失敗に関係なくダイアログを閉じるので注意 */}
+									<Button variant="default" type="submit">
+										Save
+									</Button>
+								</DialogClose>
+							</DialogFooter>
+						</form>
+					</DialogContent>
+				</Dialog>
+
 			</div>
 			<div className="rounded-md border">
 				<Table>
@@ -70,9 +107,9 @@ export function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
 										</TableHead>
 									);
 								})}
