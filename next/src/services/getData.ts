@@ -10,7 +10,6 @@ export async function getEvents(year: number, month: number) {
 		throw new Error("Failed to fetch events");
 	}
 	const json = (await response.json()) as ScheduleEvent[];
-	console.log(json);
 	return json;
 }
 
