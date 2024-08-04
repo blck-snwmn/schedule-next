@@ -1,8 +1,22 @@
 "use client";
 
-import { createTalentAction, deleteTalentAction, updateTalentAction } from "@/actions/talent";
-import { flexRender, getCoreRowModel, getFilteredRowModel, getSortedRowModel, useReactTable, type ColumnDef, type ColumnFiltersState, type SortingState } from "@tanstack/react-table";
+import {
+	createTalentAction,
+	deleteTalentAction,
+	updateTalentAction,
+} from "@/actions/talent";
+import {
+	type ColumnDef,
+	type ColumnFiltersState,
+	type SortingState,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getSortedRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
 import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
+import { useState } from "react";
 import { Button } from "./ui/button";
 import {
 	Dialog,
@@ -15,8 +29,14 @@ import {
 } from "./ui/dialog";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
-import { useState } from "react";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
+import {
+	Table,
+	TableBody,
+	TableCell,
+	TableHead,
+	TableHeader,
+	TableRow,
+} from "./ui/table";
 
 interface TalentListProps {
 	talents: Talent[];
@@ -51,11 +71,7 @@ export const talentColumns: ColumnDef<Talent>[] = [
 	{
 		accessorKey: "dialog",
 		header: () => {
-			return (
-				<div className="w-10">
-					Edit
-				</div>
-			)
+			return <div className="w-10">Edit</div>;
 		},
 		cell: ({ row }) => {
 			return (
@@ -98,11 +114,7 @@ export const talentColumns: ColumnDef<Talent>[] = [
 	{
 		accessorKey: "dialog",
 		header: () => {
-			return (
-				<div className="w-12">
-					Delete
-				</div>
-			)
+			return <div className="w-12">Delete</div>;
 		},
 		cell: ({ row }) => {
 			return (
@@ -137,7 +149,6 @@ export const talentColumns: ColumnDef<Talent>[] = [
 		},
 	},
 ];
-
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -187,11 +198,7 @@ function DataTable<TData, TValue>({
 						</DialogHeader>
 						<form action={createTalentAction}>
 							<Label htmlFor="name">Name</Label>
-							<Input
-								id="name"
-								name="name"
-								type="text"
-							/>
+							<Input id="name" name="name" type="text" />
 							<DialogFooter className="mt-5">
 								<DialogClose asChild>
 									<Button variant="outline">Cancel</Button>
@@ -206,7 +213,6 @@ function DataTable<TData, TValue>({
 						</form>
 					</DialogContent>
 				</Dialog>
-
 			</div>
 			<div className="rounded-md border">
 				<Table>
@@ -219,9 +225,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
