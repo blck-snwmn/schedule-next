@@ -138,26 +138,6 @@ app.get("/api/events/:id", async (c) => {
 	return c.json(formattedEvent);
 });
 
-app.get("/api/talents", async (c) => {
-	const db = drizzle(c.env.DB);
-	const result = await db.select().from(talents);
-	return c.json(result);
-});
-
-app.post("/api/talents", async (c) => {
-	const db = drizzle(c.env.DB);
-	const talentData = await c.req.json();
-
-	const newTalent: NewTalent = {
-		id: crypto.randomUUID(),
-		name: talentData.name,
-	};
-
-	await db.insert(talents).values(newTalent);
-
-	return c.json({ id: newTalent.id, name: newTalent.name }, 201);
-});
-
 // イベント登録エンドポイント
 app.post("/api/events", async (c) => {
 	// D1 does not support `transaction`.
@@ -196,6 +176,27 @@ app.post("/api/events", async (c) => {
 
 	return c.json({ id: newEvent.id }, 201);
 });
+
+app.get("/api/talents", async (c) => {
+	const db = drizzle(c.env.DB);
+	const result = await db.select().from(talents);
+	return c.json(result);
+});
+
+app.post("/api/talents", async (c) => {
+	const db = drizzle(c.env.DB);
+	const talentData = await c.req.json();
+
+	const newTalent: NewTalent = {
+		id: crypto.randomUUID(),
+		name: talentData.name,
+	};
+
+	await db.insert(talents).values(newTalent);
+
+	return c.json({ id: newTalent.id, name: newTalent.name }, 201);
+});
+
 
 app.patch("/api/talents/:talentID", async (c) => {
 	const db = drizzle(c.env.DB);
