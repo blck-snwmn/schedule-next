@@ -28,6 +28,39 @@ export async function getEventById(id: string) {
 	return json;
 }
 
+export async function createEvent(name: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/events`, {
+		method: "POST",
+		body: JSON.stringify({ name: name }),
+	});
+	if (!response.ok) {
+		throw new Error("Failed to create event");
+	}
+}
+
+export async function updateEvent(id: string, name: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/events/${id}`, {
+		method: "PATCH",
+		body: JSON.stringify({ name: name }),
+	});
+	if (!response.ok) {
+		throw new Error("Failed to update event");
+	}
+}
+
+export async function deleteEvent(id: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/events/${id}`, {
+		method: "DELETE",
+	});
+	if (!response.ok) {
+		console.error("Failed to delete event");
+		throw new Error("Failed to delete event");
+	}
+}
+
 export async function getTaletns() {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(`${endpoint}/api/talents`);

@@ -177,6 +177,39 @@ app.post("/api/events", async (c) => {
 	return c.json({ id: newEvent.id }, 201);
 });
 
+app.patch("/api/events/:id", async (c) => { });
+
+app.delete("/api/events/:id", async (c) => {
+	const db = drizzle(c.env.DB);
+	const { id } = c.req.param();
+
+	const deletedScheduleIds = await db.delete(schedules)
+		.where(eq(schedules.eventId, id))
+		.returning({ deletedId: schedules.id });
+
+	console.info(deletedScheduleIds);
+
+	const deletedEventTalentIds = await db.delete(eventTalents)
+		.where(eq(eventTalents.eventId, id))
+		.returning(
+			{
+				deletedId: eventTalents.eventId,
+				deletedTalentId: eventTalents.talentId
+			}
+		);
+
+	console.info(deletedEventTalentIds);
+
+	const deletedEventIds = await db.delete(events)
+		.where(eq(events.id, id))
+		.returning({ deletedId: events.id });
+	if (deletedEventIds.length === 0) {
+		return c.json({ error: "Event not found" }, 404);
+	}
+
+	return c.json({ id });
+});
+
 app.get("/api/talents", async (c) => {
 	const db = drizzle(c.env.DB);
 	const result = await db.select().from(talents);
