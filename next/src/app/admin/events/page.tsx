@@ -1,4 +1,4 @@
-import { EventList } from "@/components/EventList"
+import { EventList } from "@/components/AdminEventList"
 import { getEvents } from "@/services/getData"
 
 export default async function Event() {
