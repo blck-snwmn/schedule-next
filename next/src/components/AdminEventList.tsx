@@ -17,25 +17,35 @@ import { Label } from "./ui/label";
 import { useState } from "react";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "./ui/table";
 import { createEventAction, deleteEventAction, updateEventAction } from "@/actions/event";
+import { CategoryBadge } from "./CategoryBadge";
 
 interface EventListProps {
     events: ScheduleEvent[];
 }
 
 export const EventList = ({ events }: EventListProps) => {
-    return <DataTable columns={talentColumns} data={events} />;
+    return <DataTable columns={eventColumns} data={events} />;
 };
 
-export const talentColumns: ColumnDef<Talent>[] = [
+export const eventColumns: ColumnDef<ScheduleEvent>[] = [
     {
         accessorKey: "id",
         header: "ID",
     },
     {
+        accessorKey: "category",
+        header: "Category",
+        cell: ({ row }) => {
+            return (
+                <CategoryBadge category={row.original.category} />
+            )
+        },
+    },
+    {
         accessorKey: "name",
         header: ({ column }) => {
             return (
-                <div className="w-60">
+                <div className="w-30">
                     <Button
                         variant="ghost"
                         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
@@ -47,6 +57,15 @@ export const talentColumns: ColumnDef<Talent>[] = [
                 </div>
             );
         },
+    },
+    {
+        accessorKey: "description",
+        header: "Description",
+        cell: ({ row }) => {
+            return (
+                <div className="max-w-60 truncate">{row.original.description}</div>
+            )
+        }
     },
     {
         accessorKey: "dialog",
