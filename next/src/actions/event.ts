@@ -17,6 +17,7 @@ export async function createEventAction(formData: FormData) {
 export async function updateEventAction(formData: FormData) {
 	console.log(`id=${formData.get("id")}`);
 	console.log(`name=${formData.get("name")}`);
+	console.log(`talents=${formData.get("talents")}`);
 	try {
 		// await updateEvent(
 		//     formData.get("id") as string,
