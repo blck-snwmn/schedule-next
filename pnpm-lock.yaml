@@ -14,6 +14,12 @@ importers:
 
   next:
     dependencies:
+      '@conform-to/react':
+        specifier: ^1.1.5
+        version: 1.1.5(react@18.3.1)
+      '@conform-to/zod':
+        specifier: ^1.1.5
+        version: 1.1.5(zod@3.23.8)
       '@radix-ui/react-dialog':
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.3)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -56,6 +62,9 @@ importers:
       tailwindcss-animate:
         specifier: ^1.0.7
         version: 1.0.7(tailwindcss@3.4.7(ts-node@10.9.1(@types/node@20.14.12)(typescript@5.5.4)))
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@biomejs/biome':
         specifier: ^1.8.3
@@ -238,6 +247,19 @@ packages:
 
   '@cloudflare/workers-types@4.20240725.0':
     resolution: {integrity: sha512-L6T/Bg50zm9IIACQVQ0CdVcQL+2nLkRXdPz6BsXF3SlzgjyWR5ndVctAbfr/HLV7aKYxWnnEZsIORsTWb+FssA==}
+
+  '@conform-to/dom@1.1.5':
+    resolution: {integrity: sha512-tWI3YxWvDaZFSl4QN8Y0WbgBxsWEfcTrSMtKic3YTt/hGVJXjQ8qURBdsJXudzJ38zwAr5GhpLWmyI6BbG9+gA==}
+
+  '@conform-to/react@1.1.5':
+    resolution: {integrity: sha512-QyzJ8SIazHmez7qkMffypICDBwU+Ht5TPe+C4MTP2dro0N0Hu6LsfLq7mMWFJyAJ7IYxT1BMzfoFj28jheIIOw==}
+    peerDependencies:
+      react: '>=18'
+
+  '@conform-to/zod@1.1.5':
+    resolution: {integrity: sha512-ho/742wgfTWf2u5tKo4GT88xcKcvTOCDPOi4o1WEmePPmJNP5ezeMQSKSdKdS0rFinZl9ZTH8gV5FQUNPHAA7A==}
+    peerDependencies:
+      zod: ^3.21.0
 
   '@cspotcode/source-map-support@0.8.1':
     resolution: {integrity: sha512-IchNf6dN4tHoMFIn/7OE8LWZ19Y6q/67Bmf6vnGREv8RSbBVb9LPJxEcnwrcwX6ixSvaiGoomAUvu4YSxXrVgw==}
@@ -3464,6 +3486,18 @@ snapshots:
     optional: true
 
   '@cloudflare/workers-types@4.20240725.0': {}
+
+  '@conform-to/dom@1.1.5': {}
+
+  '@conform-to/react@1.1.5(react@18.3.1)':
+    dependencies:
+      '@conform-to/dom': 1.1.5
+      react: 18.3.1
+
+  '@conform-to/zod@1.1.5(zod@3.23.8)':
+    dependencies:
+      '@conform-to/dom': 1.1.5
+      zod: 3.23.8
 
   '@cspotcode/source-map-support@0.8.1':
     dependencies:
