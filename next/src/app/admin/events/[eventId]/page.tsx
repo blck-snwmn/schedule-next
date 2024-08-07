@@ -19,7 +19,9 @@ export default async function EditDetail({ params }: Props) {
 			<Link href="/admin/events">Back to Events</Link>
 			<form>
 				<EventEditDetail event={event} talents={talents} />
-				<Button type="submit">Save Event</Button>
+				<div className="mt-6">
+					<Button type="submit">Save Event</Button>
+				</div>
 			</form>
 		</>
 	);
