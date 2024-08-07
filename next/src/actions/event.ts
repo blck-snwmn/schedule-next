@@ -1,10 +1,10 @@
 "use server";
 
 import { deleteEvent } from "@/services/getData";
+import { eventFormSchema } from "@/services/schema";
+import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { parseWithZod } from "@conform-to/zod";
-import { eventFormSchema } from "@/services/schema";
 
 export async function createEventAction(formData: FormData) {
 	try {
@@ -16,7 +16,10 @@ export async function createEventAction(formData: FormData) {
 	redirect("/admin/events");
 }
 
-export async function updateEventAction(prevState: unknown, formData: FormData) {
+export async function updateEventAction(
+	prevState: unknown,
+	formData: FormData,
+) {
 	// const scheduleSchema = z.object({
 	// 	id: z.string().uuid(),
 	// 	name: z.string(),
@@ -33,16 +36,19 @@ export async function updateEventAction(prevState: unknown, formData: FormData) 
 	// 	schedules: z.array(scheduleSchema)
 	// });
 	// const zzzzz = Object.fromEntries(formData)
-	// console.log(zzzzz)
+	console.log("zzzzzz");
+	console.log(formData);
 
 	const submission = parseWithZod(formData, {
 		schema: eventFormSchema,
 	});
+	console.log("submission", submission.status);
 
 	if (submission.status !== "success") {
-		console.error(submission.error);
+		console.error("error", submission.error);
 		return submission.reply();
 	}
+	console.info("updateEventAction");
 	// console.log(result.data);
 	// console.log(`id=${formData.get("id")}`);
 	// console.log(`name=${formData.get("name")}`);

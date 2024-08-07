@@ -1,5 +1,4 @@
-import { updateEventAction } from "@/actions/event";
-import EditDetailDialog from "@/components/EventEditDetailDialog";
+import { EditDetailDialog } from "@/components/EventEditDetailDialog";
 import { getEventById, getTaletns } from "@/services/getData";
 import { notFound } from "next/navigation";
 
@@ -17,7 +16,7 @@ export default async function EditDetail({ params }: Props) {
 		<EditDetailDialog
 			event={event}
 			talents={talents}
-			action={updateEventAction}
+		// action={updateEventAction}
 		/>
 	);
 }
