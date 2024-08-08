@@ -6,12 +6,29 @@ import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-export async function createEventAction(formData: FormData) {
+export async function createEventAction(
+	prevState: unknown,
+	formData: FormData,
+) {
+	console.log("zzzzzz");
+	console.log(formData);
+
+	const submission = parseWithZod(formData, {
+		schema: eventFormSchema,
+	});
+	console.log("submission", submission.status);
+
+	if (submission.status !== "success") {
+		console.error("error", submission.error);
+		return submission.reply();
+	}
+	console.info("createEventAction");
+
 	try {
 		// await createEvent(formData.get("name") as string);
 		revalidatePath("/admin/events");
 	} catch (error) {
-		return { message: "Failed to create event" };
+		console.error(error);
 	}
 	redirect("/admin/events");
 }
@@ -20,22 +37,6 @@ export async function updateEventAction(
 	prevState: unknown,
 	formData: FormData,
 ) {
-	// const scheduleSchema = z.object({
-	// 	id: z.string().uuid(),
-	// 	name: z.string(),
-	// 	startAt: z.string().transform(str => new Date(str)),
-	// 	endAt: z.string().transform(str => new Date(str)),
-	// });
-
-	// const eventFormSchema = z.object({
-	// 	name: z.string(),
-	// 	category: z.string(),
-	// 	description: z.string().optional(),
-	// 	thumbnail: z.string().url().optional(),
-	// 	talentIds: z.array(z.string().uuid()),
-	// 	schedules: z.array(scheduleSchema)
-	// });
-	// const zzzzz = Object.fromEntries(formData)
 	console.log("zzzzzz");
 	console.log(formData);
 
@@ -49,14 +50,6 @@ export async function updateEventAction(
 		return submission.reply();
 	}
 	console.info("updateEventAction");
-	// console.log(result.data);
-	// console.log(`id=${formData.get("id")}`);
-	// console.log(`name=${formData.get("name")}`);
-	// console.log(`talents=${formData.get("talents")}`);
-	// console.log(`schedule=${formData.getAll("schedule")}`);
-	// for (const pair of formData.entries()) {
-	// 	console.log(pair[0] + ", " + pair[1]);
-	// }
 	try {
 		// await updateEvent(
 		//     formData.get("id") as string,
