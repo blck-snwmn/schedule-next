@@ -1,6 +1,5 @@
 "use client";
 
-import { updateEventAction } from "@/actions/event";
 import {
 	Dialog,
 	DialogClose,
@@ -10,7 +9,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { eventFormSchema } from "@/services/schema";
-import { getInputProps, getTextareaProps, useForm } from "@conform-to/react";
+import { getInputProps, getTextareaProps, type SubmissionResult, useForm } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { format } from "date-fns";
 import { Trash2 } from "lucide-react";
@@ -27,20 +26,25 @@ const ErrorMessage = ({ error }: { error?: string[] }) => {
 	return <div className="text-red-500">{error}</div>;
 };
 
-type Props<T> = {
-	event: ScheduleEvent;
+type Props = {
+	event: ScheduleEvent | null;
 	talents: Talent[];
-	// action: (form: FormData) => Promise<T>;
+	serverAction: (prevState: unknown, formData: FormData) => Promise<SubmissionResult<string[]>>
 };
 
 export function EditDetailDialog<T>({
 	event,
 	talents,
-	// action,
-}: Props<T>) {
+	serverAction,
+}: Props) {
 	const router = useRouter(); // required "use client"
-	const [lastResult, action] = useFormState(updateEventAction, undefined);
+	const [lastResult, action] = useFormState(serverAction, undefined);
 	console.log("lastResult", lastResult);
+
+	if (event) {
+		console.log("event", event);
+	}
+
 	const [form, fields] = useForm({
 		lastResult,
 		onValidate({ formData }) {
@@ -49,7 +53,7 @@ export function EditDetailDialog<T>({
 		constraint: getZodConstraint(eventFormSchema),
 		shouldValidate: "onBlur",
 		shouldRevalidate: "onInput",
-		defaultValue: {
+		defaultValue: event ? {
 			name: event.name,
 			category: event.category,
 			description: event.description,
@@ -61,6 +65,13 @@ export function EditDetailDialog<T>({
 				startAt: format(new Date(schedule.startAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
 				endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
 			})),
+		} : {
+			name: "",
+			category: "",
+			description: "",
+			thumbnail: "",
+			talentIds: [],
+			schedules: [],
 		},
 	});
 
@@ -70,7 +81,7 @@ export function EditDetailDialog<T>({
 		<Dialog open={true} onOpenChange={() => router.back()}>
 			<DialogContent>
 				<DialogHeader>
-					<DialogTitle>X:{event.name}</DialogTitle>
+					<DialogTitle>X:{event?.name ?? "New"}</DialogTitle>
 				</DialogHeader>
 				<form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
 					<div className="grid grid-cols-2 gap-4">
@@ -132,13 +143,9 @@ export function EditDetailDialog<T>({
 							<ErrorMessage error={fields.schedules.errors} />
 							{schedules.map((schedule, index) => {
 								const sfields = schedule.getFieldset();
-								// form.remove({
-								// 	name: form.
-								// })
 								return (
 									<div
 										key={schedule.key}
-									// className="grid grid-cols-5 gap-2 items-end mt-2"
 									>
 										<ErrorMessage error={sfields.id.errors} />
 										<Input {...getInputProps(sfields.id, { type: "text" })} />
@@ -199,15 +206,6 @@ export function EditDetailDialog<T>({
 										},
 									})
 								}
-							// {...form.insert.getButtonProps({
-							// 	name: fields.schedules.name,
-							// 	// defaultValue: {
-							// 	// 	// id: crypto.randomUUID(),
-							// 	// 	name: "SAMPLE",
-							// 	// 	startAt: new Date().toISOString(),
-							// 	// 	endAt: new Date().toISOString(),
-							// 	// },
-							// })}
 							>
 								Add Schedule
 							</Button>
