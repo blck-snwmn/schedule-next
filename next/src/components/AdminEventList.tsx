@@ -187,9 +187,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
@@ -288,8 +288,8 @@ function EventForm<T>({ event, onSubmit }: EventFormProps<T>) {
 						{event?.talents?.map((talent) => (
 							<Toggle
 								key={talent.id}
-							// pressed={selectedTalents.includes(talent.id)}
-							// onPressedChange={() => toggleTalent(talent.id)}
+								// pressed={selectedTalents.includes(talent.id)}
+								// onPressedChange={() => toggleTalent(talent.id)}
 							>
 								{talent.name}
 							</Toggle>

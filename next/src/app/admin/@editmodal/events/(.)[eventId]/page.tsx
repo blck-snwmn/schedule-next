@@ -18,11 +18,5 @@ export default async function EditDetail({ params }: Props) {
 	const ac = params.eventId === "new" ? createEventAction : updateEventAction;
 
 	const talents = await getTaletns();
-	return (
-		<EditDetailDialog
-			event={event}
-			talents={talents}
-			serverAction={ac}
-		/>
-	);
+	return <EditDetailDialog event={event} talents={talents} serverAction={ac} />;
 }

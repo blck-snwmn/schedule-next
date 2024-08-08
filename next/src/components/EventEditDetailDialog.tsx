@@ -9,7 +9,12 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { eventFormSchema } from "@/services/schema";
-import { getInputProps, getTextareaProps, type SubmissionResult, useForm } from "@conform-to/react";
+import {
+	type SubmissionResult,
+	getInputProps,
+	getTextareaProps,
+	useForm,
+} from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { format } from "date-fns";
 import { Trash2 } from "lucide-react";
@@ -29,14 +34,13 @@ const ErrorMessage = ({ error }: { error?: string[] }) => {
 type Props = {
 	event: ScheduleEvent | null;
 	talents: Talent[];
-	serverAction: (prevState: unknown, formData: FormData) => Promise<SubmissionResult<string[]>>
+	serverAction: (
+		prevState: unknown,
+		formData: FormData,
+	) => Promise<SubmissionResult<string[]>>;
 };
 
-export function EditDetailDialog<T>({
-	event,
-	talents,
-	serverAction,
-}: Props) {
+export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 	const router = useRouter(); // required "use client"
 	const [lastResult, action] = useFormState(serverAction, undefined);
 	console.log("lastResult", lastResult);
@@ -53,26 +57,31 @@ export function EditDetailDialog<T>({
 		constraint: getZodConstraint(eventFormSchema),
 		shouldValidate: "onBlur",
 		shouldRevalidate: "onInput",
-		defaultValue: event ? {
-			name: event.name,
-			category: event.category,
-			description: event.description,
-			thumbnail: event.thumbnail,
-			talentIds: event.talents.map((talent) => talent.id),
-			schedules: event.schedules.map((schedule) => ({
-				id: schedule.id,
-				name: schedule.name,
-				startAt: format(new Date(schedule.startAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
-				endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
-			})),
-		} : {
-			name: "",
-			category: "",
-			description: "",
-			thumbnail: "",
-			talentIds: [],
-			schedules: [],
-		},
+		defaultValue: event
+			? {
+					name: event.name,
+					category: event.category,
+					description: event.description,
+					thumbnail: event.thumbnail,
+					talentIds: event.talents.map((talent) => talent.id),
+					schedules: event.schedules.map((schedule) => ({
+						id: schedule.id,
+						name: schedule.name,
+						startAt: format(
+							new Date(schedule.startAt ?? ""),
+							"yyyy-MM-dd'T'HH:mm",
+						),
+						endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
+					})),
+				}
+			: {
+					name: "",
+					category: "",
+					description: "",
+					thumbnail: "",
+					talentIds: [],
+					schedules: [],
+				},
 	});
 
 	const schedules = fields.schedules.getFieldList();
@@ -122,7 +131,7 @@ export function EditDetailDialog<T>({
 											name={fields.talentIds.name}
 											defaultChecked={
 												fields.talentIds.initialValue &&
-													Array.isArray(fields.talentIds.initialValue)
+												Array.isArray(fields.talentIds.initialValue)
 													? fields.talentIds.initialValue.includes(talent.id)
 													: fields.talentIds.initialValue === talent.id
 											}
@@ -144,9 +153,7 @@ export function EditDetailDialog<T>({
 							{schedules.map((schedule, index) => {
 								const sfields = schedule.getFieldset();
 								return (
-									<div
-										key={schedule.key}
-									>
+									<div key={schedule.key}>
 										<ErrorMessage error={sfields.id.errors} />
 										<Input {...getInputProps(sfields.id, { type: "text" })} />
 
@@ -161,9 +168,9 @@ export function EditDetailDialog<T>({
 											defaultValue={
 												sfields.startAt.value
 													? format(
-														new Date(sfields.startAt.value),
-														"yyyy-MM-dd'T'HH:mm",
-													)
+															new Date(sfields.startAt.value),
+															"yyyy-MM-dd'T'HH:mm",
+														)
 													: ""
 											}
 										/>
@@ -176,9 +183,9 @@ export function EditDetailDialog<T>({
 											defaultValue={
 												sfields.endAt.value
 													? format(
-														new Date(sfields.endAt.value),
-														"yyyy-MM-dd'T'HH:mm",
-													)
+															new Date(sfields.endAt.value),
+															"yyyy-MM-dd'T'HH:mm",
+														)
 													: ""
 											}
 										/>
