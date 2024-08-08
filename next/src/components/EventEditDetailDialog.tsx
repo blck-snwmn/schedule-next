@@ -45,10 +45,6 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 	const [lastResult, action] = useFormState(serverAction, undefined);
 	console.log("lastResult", lastResult);
 
-	if (event) {
-		console.log("event", event);
-	}
-
 	const [form, fields] = useForm({
 		lastResult,
 		onValidate({ formData }) {
