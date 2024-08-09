@@ -18,6 +18,18 @@ interface ScheduleEvent {
 	talents: Talent[];
 }
 
+type OptinalSchedule = Omit<Schedule, 'id'> & { id?: string; };
+
+type EditScheduleEvent = Omit<ScheduleEvent, "talents" | "schedules"> & {
+	talentIds: string[];
+	schedules: OptinalSchedule[];
+}
+
+interface CreateScheduleEvent extends Omit<ScheduleEvent, 'id' | 'talents' | 'schedules'> {
+	talentIds: string[];
+	schedules: Omit<Schedule, 'id'>[];
+}
+
 interface Talent {
 	id: string;
 	name: string;

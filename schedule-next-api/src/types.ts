@@ -15,6 +15,20 @@ export interface EventWithDetails extends Event {
 	talents: Talent[];
 }
 
+type OptinalSchedule = Omit<Schedule, 'id'> & { id?: string; };
+
+export type EditScheduleEvent = Omit<EventWithDetails, 'id' | "talents" | "schedules"> & {
+	talentIds: string[];
+	schedules: OptinalSchedule[];
+};
+
+
+export type CreateEvent = Omit<EventWithDetails, 'id' | 'talents'> & {
+	talentIds: string[];
+}
+
+// export type CreateEvent = Omit<Event/WithDetails, 'id' | 'talents'>
+
 export interface QueryResult {
 	id: string;
 	name: string;
