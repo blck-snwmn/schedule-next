@@ -27,8 +27,6 @@ export type CreateEvent = Omit<EventWithDetails, 'id' | 'talents'> & {
 	talentIds: string[];
 }
 
-// export type CreateEvent = Omit<Event/WithDetails, 'id' | 'talents'>
-
 export interface QueryResult {
 	id: string;
 	name: string;
