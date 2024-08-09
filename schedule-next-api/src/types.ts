@@ -22,11 +22,6 @@ export type EditScheduleEvent = Omit<EventWithDetails, 'id' | "talents" | "sched
 	schedules: OptinalSchedule[];
 };
 
-
-export type CreateEvent = Omit<EventWithDetails, 'id' | 'talents'> & {
-	talentIds: string[];
-}
-
 export interface QueryResult {
 	id: string;
 	name: string;

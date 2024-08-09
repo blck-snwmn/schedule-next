@@ -3,7 +3,6 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { events, eventTalents, schedules, talents } from "./schema";
 import type {
-	CreateEvent,
 	EditScheduleEvent,
 	EventWithDetails,
 	NewEvent,
@@ -12,6 +11,7 @@ import type {
 	QueryResult,
 	Schedule,
 } from "./types";
+import { createEventSchema } from "schema";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -144,7 +144,7 @@ app.get("/api/events/:id", async (c) => {
 app.post("/api/events", async (c) => {
 	// D1 does not support `transaction`.
 	const db = drizzle(c.env.DB);
-	const eventData = await c.req.json() as CreateEvent;
+	const eventData = createEventSchema.parse(await c.req.json());
 
 	const newEvent: NewEvent = {
 		id: crypto.randomUUID(),

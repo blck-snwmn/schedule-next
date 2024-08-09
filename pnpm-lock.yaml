@@ -111,12 +111,21 @@ importers:
 
   schedule-next-api:
     dependencies:
+      '@hono/zod-validator':
+        specifier: ^0.2.2
+        version: 0.2.2(hono@4.5.2)(zod@3.23.8)
       drizzle-orm:
         specifier: ^0.32.1
         version: 0.32.1(@cloudflare/workers-types@4.20240725.0)(@types/react@18.3.3)(react@18.3.1)
       hono:
         specifier: ^4.5.2
         version: 4.5.2
+      schema:
+        specifier: workspace:*
+        version: link:../schema
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
     devDependencies:
       '@cloudflare/vitest-pool-workers':
         specifier: ^0.4.5
@@ -136,6 +145,12 @@ importers:
       wrangler:
         specifier: ^3.60.3
         version: 3.67.1(@cloudflare/workers-types@4.20240725.0)
+
+  schema:
+    dependencies:
+      zod:
+        specifier: ^3.23.8
+        version: 3.23.8
 
 packages:
 
@@ -859,6 +874,12 @@ packages:
   '@fastify/busboy@2.1.1':
     resolution: {integrity: sha512-vBZP4NlzfOlerQTnba4aqZoMhE/a9HY7HRqoOPaETQcSQuWEIyZMHGfVu6w9wGtGK5fED5qRs2DteVCjOH60sA==}
     engines: {node: '>=14'}
+
+  '@hono/zod-validator@0.2.2':
+    resolution: {integrity: sha512-dSDxaPV70Py8wuIU2QNpoVEIOSzSXZ/6/B/h4xA7eOMz7+AarKTSGV8E6QwrdcCbBLkpqfJ4Q2TmBO0eP1tCBQ==}
+    peerDependencies:
+      hono: '>=3.9.0'
+      zod: ^3.19.1
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -3846,6 +3867,11 @@ snapshots:
     optional: true
 
   '@fastify/busboy@2.1.1': {}
+
+  '@hono/zod-validator@0.2.2(hono@4.5.2)(zod@3.23.8)':
+    dependencies:
+      hono: 4.5.2
+      zod: 3.23.8
 
   '@isaacs/cliui@8.0.2':
     dependencies:
