@@ -3,6 +3,8 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { events, eventTalents, schedules, talents } from "./schema";
 import type {
+	CreateEvent,
+	EditScheduleEvent,
 	EventWithDetails,
 	NewEvent,
 	NewSchedule,
@@ -142,7 +144,7 @@ app.get("/api/events/:id", async (c) => {
 app.post("/api/events", async (c) => {
 	// D1 does not support `transaction`.
 	const db = drizzle(c.env.DB);
-	const eventData = await c.req.json();
+	const eventData = await c.req.json() as CreateEvent;
 
 	const newEvent: NewEvent = {
 		id: crypto.randomUUID(),
@@ -177,7 +179,49 @@ app.post("/api/events", async (c) => {
 	return c.json({ id: newEvent.id }, 201);
 });
 
-app.patch("/api/events/:id", async (c) => { });
+app.patch("/api/events/:id", async (c) => {
+	// D1 does not support `transaction`.
+	const db = drizzle(c.env.DB);
+	const { id } = c.req.param();
+	const eventData = await c.req.json() as EditScheduleEvent;
+
+	// スケジュールの追加
+	// scheduleの id がないものは新規で登録。id があるものは更新
+	for (const scheduleData of eventData.schedules.filter((s) => s.id)) {
+		if (!scheduleData.id) {
+			continue;
+		};
+
+		await db.update(schedules)
+			.set({
+				name: scheduleData.name,
+				startAt: new Date(scheduleData.startAt),
+				endAt: new Date(scheduleData.endAt),
+			}).where(eq(schedules.id, scheduleData.id));
+	}
+
+	const newScheduleData = eventData.schedules.filter((s) => !s.id);
+	await db.insert(schedules).values(newScheduleData.map((s) => ({
+		id: crypto.randomUUID(),
+		eventId: id,
+		name: s.name,
+		startAt: new Date(s.startAt),
+		endAt: new Date(s.endAt),
+	})));
+
+	// タレントの関連付け。既存のタレントは削除してから追加
+	await db
+		.delete(eventTalents)
+		.where(eq(eventTalents.eventId, id));
+	await db.insert(eventTalents).values([
+		...eventData.talentIds.map((talentId) => ({
+			eventId: id,
+			talentId,
+		})),
+	]);
+
+	return c.json({ id, ...eventData });
+});
 
 app.delete("/api/events/:id", async (c) => {
 	const db = drizzle(c.env.DB);

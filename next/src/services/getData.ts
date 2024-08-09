@@ -29,22 +29,22 @@ export async function getEventById(id: string) {
 	return json;
 }
 
-export async function createEvent(name: string) {
+export async function createEvent(event: CreateScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(`${endpoint}/api/events`, {
 		method: "POST",
-		body: JSON.stringify({ name: name }),
+		body: JSON.stringify(event),
 	});
 	if (!response.ok) {
 		throw new Error("Failed to create event");
 	}
 }
 
-export async function updateEvent(id: string, name: string) {
+export async function updateEvent(event: EditScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;
-	const response = await fetch(`${endpoint}/api/events/${id}`, {
+	const response = await fetch(`${endpoint}/api/events/${event.id}`, {
 		method: "PATCH",
-		body: JSON.stringify({ name: name }),
+		body: JSON.stringify(event),
 	});
 	if (!response.ok) {
 		throw new Error("Failed to update event");
