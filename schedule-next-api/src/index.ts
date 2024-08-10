@@ -185,6 +185,17 @@ app.patch("/api/events/:id", async (c) => {
 
 	const eventData = updateEventSchema.parse(await c.req.json());
 
+	// イベントの更新
+	const updatedEvent = await db.update(events)
+		.set({
+			name: eventData.name,
+			description: eventData.description,
+			category: eventData.category,
+			thumbnail: eventData.thumbnail,
+		})
+		.where(eq(events.id, id))
+		.returning({ updatedId: events.id });
+
 	// スケジュールの追加
 	// scheduleの id がないものは新規で登録。id があるものは更新
 	for (const scheduleData of eventData.schedules.filter((s) => s.id)) {
@@ -201,13 +212,15 @@ app.patch("/api/events/:id", async (c) => {
 	}
 
 	const newScheduleData = eventData.schedules.filter((s) => !s.id);
-	await db.insert(schedules).values(newScheduleData.map((s) => ({
-		id: crypto.randomUUID(),
-		eventId: id,
-		name: s.name,
-		startAt: new Date(s.startAt),
-		endAt: new Date(s.endAt),
-	})));
+	if (newScheduleData.length > 0) {
+		await db.insert(schedules).values(newScheduleData.map((s) => ({
+			id: crypto.randomUUID(),
+			eventId: id,
+			name: s.name,
+			startAt: new Date(s.startAt),
+			endAt: new Date(s.endAt),
+		})));
+	}
 
 	// タレントの関連付け。既存のタレントは削除してから追加
 	await db
@@ -220,7 +233,7 @@ app.patch("/api/events/:id", async (c) => {
 		})),
 	]);
 
-	return c.json({ id, ...eventData });
+	return c.json({ ...eventData });
 });
 
 app.delete("/api/events/:id", async (c) => {
