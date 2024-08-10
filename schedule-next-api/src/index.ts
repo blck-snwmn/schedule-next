@@ -1,6 +1,7 @@
 import { and, eq, gte, inArray, lte } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
+import { createEventSchema, talentsSchema, updateEventSchema } from "schema";
 import { events, eventTalents, schedules, talents } from "./schema";
 import type {
 	EventWithDetails,
@@ -10,7 +11,6 @@ import type {
 	QueryResult,
 	Schedule,
 } from "./types";
-import { createEventSchema, talentsSchema, updateEventSchema } from "schema";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -186,7 +186,8 @@ app.patch("/api/events/:id", async (c) => {
 	const eventData = updateEventSchema.parse(await c.req.json());
 
 	// イベントの更新
-	const updatedEvent = await db.update(events)
+	const updatedEvent = await db
+		.update(events)
 		.set({
 			name: eventData.name,
 			description: eventData.description,
@@ -201,31 +202,33 @@ app.patch("/api/events/:id", async (c) => {
 	for (const scheduleData of eventData.schedules.filter((s) => s.id)) {
 		if (!scheduleData.id) {
 			continue;
-		};
+		}
 
-		await db.update(schedules)
+		await db
+			.update(schedules)
 			.set({
 				name: scheduleData.name,
 				startAt: new Date(scheduleData.startAt),
 				endAt: new Date(scheduleData.endAt),
-			}).where(eq(schedules.id, scheduleData.id));
+			})
+			.where(eq(schedules.id, scheduleData.id));
 	}
 
 	const newScheduleData = eventData.schedules.filter((s) => !s.id);
 	if (newScheduleData.length > 0) {
-		await db.insert(schedules).values(newScheduleData.map((s) => ({
-			id: crypto.randomUUID(),
-			eventId: id,
-			name: s.name,
-			startAt: new Date(s.startAt),
-			endAt: new Date(s.endAt),
-		})));
+		await db.insert(schedules).values(
+			newScheduleData.map((s) => ({
+				id: crypto.randomUUID(),
+				eventId: id,
+				name: s.name,
+				startAt: new Date(s.startAt),
+				endAt: new Date(s.endAt),
+			})),
+		);
 	}
 
 	// タレントの関連付け。既存のタレントは削除してから追加
-	await db
-		.delete(eventTalents)
-		.where(eq(eventTalents.eventId, id));
+	await db.delete(eventTalents).where(eq(eventTalents.eventId, id));
 	await db.insert(eventTalents).values([
 		...eventData.talentIds.map((talentId) => ({
 			eventId: id,
@@ -240,24 +243,25 @@ app.delete("/api/events/:id", async (c) => {
 	const db = drizzle(c.env.DB);
 	const { id } = c.req.param();
 
-	const deletedScheduleIds = await db.delete(schedules)
+	const deletedScheduleIds = await db
+		.delete(schedules)
 		.where(eq(schedules.eventId, id))
 		.returning({ deletedId: schedules.id });
 
 	console.info(deletedScheduleIds);
 
-	const deletedEventTalentIds = await db.delete(eventTalents)
+	const deletedEventTalentIds = await db
+		.delete(eventTalents)
 		.where(eq(eventTalents.eventId, id))
-		.returning(
-			{
-				deletedId: eventTalents.eventId,
-				deletedTalentId: eventTalents.talentId
-			}
-		);
+		.returning({
+			deletedId: eventTalents.eventId,
+			deletedTalentId: eventTalents.talentId,
+		});
 
 	console.info(deletedEventTalentIds);
 
-	const deletedEventIds = await db.delete(events)
+	const deletedEventIds = await db
+		.delete(events)
 		.where(eq(events.id, id))
 		.returning({ deletedId: events.id });
 	if (deletedEventIds.length === 0) {
@@ -291,13 +295,13 @@ app.post("/api/talents", async (c) => {
 	return c.json({ id: newTalent.id, name: newTalent.name }, 201);
 });
 
-
 app.patch("/api/talents/:talentID", async (c) => {
 	const db = drizzle(c.env.DB);
 	const { talentID } = c.req.param();
 	const talentData = await c.req.json();
 
-	const updatedIds = await db.update(talents)
+	const updatedIds = await db
+		.update(talents)
 		.set({
 			name: talentData.name,
 		})
@@ -308,13 +312,14 @@ app.patch("/api/talents/:talentID", async (c) => {
 	}
 
 	return c.json({ talentID, ...talentData });
-})
+});
 
 app.delete("/api/talents/:talentID", async (c) => {
 	const db = drizzle(c.env.DB);
 	const { talentID } = c.req.param();
 
-	const deletedIds = await db.delete(talents)
+	const deletedIds = await db
+		.delete(talents)
 		.where(eq(talents.id, talentID))
 		.returning({ deletedId: talents.id });
 	if (deletedIds.length === 0) {

@@ -1,6 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import type { CreateScheduleEvent, EditScheduleEvent } from "./type";
 import { eventSchema, eventsSchema, talentsSchema } from "schema";
+import type { CreateScheduleEvent, EditScheduleEvent } from "./type";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -38,7 +38,6 @@ export async function getEventById(id: string) {
 	return result.data;
 }
 
-
 export async function createEvent(event: CreateScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(`${endpoint}/api/events`, {
@@ -49,7 +48,6 @@ export async function createEvent(event: CreateScheduleEvent) {
 		throw new Error("Failed to create event");
 	}
 }
-
 
 export async function updateEvent(event: EditScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;

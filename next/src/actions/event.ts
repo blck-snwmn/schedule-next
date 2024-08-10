@@ -23,7 +23,7 @@ export async function createEventAction(
 		return submission.reply();
 	}
 	console.info("createEventAction");
-	console.log('talentIds:', submission.value.talentIds);
+	console.log("talentIds:", submission.value.talentIds);
 
 	try {
 		await createEvent({
@@ -44,7 +44,7 @@ export async function createEventAction(
 	} catch (error) {
 		console.error(error);
 		return submission.reply({
-			formErrors: ['Failed to create event'],
+			formErrors: ["Failed to create event"],
 		});
 	}
 	redirect("/admin/events");
@@ -87,7 +87,7 @@ export async function updateEventAction(
 	} catch (error) {
 		console.error(error);
 		return submission.reply({
-			formErrors: ['Failed to edit event'],
+			formErrors: ["Failed to edit event"],
 		});
 	}
 	redirect("/admin/events");
