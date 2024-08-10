@@ -1,4 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
+import type { z } from "zod";
+import type { updateEventSchema } from "schema";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -39,6 +41,8 @@ export async function createEvent(event: CreateScheduleEvent) {
 		throw new Error("Failed to create event");
 	}
 }
+
+type EditScheduleEvent = z.infer<typeof updateEventSchema>;
 
 export async function updateEvent(event: EditScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;

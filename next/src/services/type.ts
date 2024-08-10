@@ -20,11 +20,6 @@ interface ScheduleEvent {
 
 type OptinalSchedule = Omit<Schedule, 'id'> & { id?: string; };
 
-type EditScheduleEvent = Omit<ScheduleEvent, "talents" | "schedules"> & {
-	talentIds: string[];
-	schedules: OptinalSchedule[];
-}
-
 type CreateScheduleEvent = Omit<ScheduleEvent, 'id' | 'talents' | 'schedules'> & {
 	talentIds: string[];
 	schedules: Omit<Schedule, 'id'>[];

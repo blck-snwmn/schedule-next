@@ -55,6 +55,7 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 		shouldRevalidate: "onInput",
 		defaultValue: event
 			? {
+				id: event.id,
 				name: event.name,
 				category: event.category,
 				description: event.description,
@@ -71,6 +72,7 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 				})),
 			}
 			: {
+				id: "",
 				name: "",
 				category: "",
 				description: "",
@@ -90,6 +92,7 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 				</DialogHeader>
 				<form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
 					<div className="grid grid-cols-2 gap-4">
+						<Input {...getInputProps(fields.id, { type: "hidden" })} />
 						<div>
 							<Label htmlFor={fields.name.id}>Event Name</Label>
 							<ErrorMessage error={fields.name.errors} />
