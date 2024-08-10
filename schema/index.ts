@@ -25,6 +25,7 @@ export const eventSchema = z.object({
 });
 
 export const updateEventSchema = eventSchema.omit({
+    id: true,
     talents: true,
 }).extend({
     talentIds: z.array(talentSchema.shape.id),
@@ -33,9 +34,7 @@ export const updateEventSchema = eventSchema.omit({
     }))
 });
 
-export const createEventSchema = updateEventSchema.omit({
-    id: true,
-}).extend({
+export const createEventSchema = updateEventSchema.extend({
     schedules: z.array(scheduleSchema.omit({
         id: true
     }))

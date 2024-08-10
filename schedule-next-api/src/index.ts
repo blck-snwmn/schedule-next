@@ -3,7 +3,6 @@ import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { events, eventTalents, schedules, talents } from "./schema";
 import type {
-	EditScheduleEvent,
 	EventWithDetails,
 	NewEvent,
 	NewSchedule,
@@ -11,7 +10,7 @@ import type {
 	QueryResult,
 	Schedule,
 } from "./types";
-import { createEventSchema } from "schema";
+import { createEventSchema, updateEventSchema } from "schema";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -183,7 +182,8 @@ app.patch("/api/events/:id", async (c) => {
 	// D1 does not support `transaction`.
 	const db = drizzle(c.env.DB);
 	const { id } = c.req.param();
-	const eventData = await c.req.json() as EditScheduleEvent;
+
+	const eventData = updateEventSchema.parse(await c.req.json());
 
 	// スケジュールの追加
 	// scheduleの id がないものは新規で登録。id があるものは更新
