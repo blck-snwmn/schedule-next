@@ -1,4 +1,5 @@
 import { Badge } from "@/components/ui/badge";
+import type { ScheduleEvent } from "@/services/type";
 import { formatDate } from "@/utils/formatDate";
 import { CategoryBadge } from "./CategoryBadge";
 export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {

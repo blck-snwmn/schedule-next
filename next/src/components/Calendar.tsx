@@ -1,5 +1,6 @@
 "use client";
 
+import type { ScheduleEvent } from "@/services/type";
 import { hasEvent } from "@/utils/eventUtils";
 import {
 	eachDayOfInterval,

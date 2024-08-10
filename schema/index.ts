@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-export const talentSchema = z.object({
+const talentSchema = z.object({
     id: z.string().uuid(),
     name: z.string().min(1, "Name is required"),
 });

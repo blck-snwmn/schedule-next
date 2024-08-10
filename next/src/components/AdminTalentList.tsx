@@ -5,6 +5,7 @@ import {
 	deleteTalentAction,
 	updateTalentAction,
 } from "@/actions/talent";
+import type { Talent } from "@/services/type";
 import {
 	type ColumnDef,
 	type ColumnFiltersState,

@@ -1,6 +1,7 @@
 "use client";
 
 import { eventFormSchema } from "@/services/schema";
+import type { ScheduleEvent, Talent } from "@/services/type";
 import {
 	type SubmissionResult,
 	getInputProps,

@@ -1,5 +1,6 @@
 "use client";
 
+import type { Schedule, ScheduleEvent, Talent } from "@/services/type";
 import { formatDate } from "@/utils/formatDate";
 import {
 	endOfMonth,
