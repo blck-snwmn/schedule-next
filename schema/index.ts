@@ -16,13 +16,15 @@ export const eventSchema = z.object({
     id: z.string().uuid(),
     name: z.string().min(1, "Event name is required"),
     category: z.string().min(1, "Category is required"),
-    description: z.string().optional(),
-    thumbnail: z.string().url().optional(),
+    description: z.string().nullable(),
+    thumbnail: z.string().url().nullable(),
     talents: z.array(talentSchema),
     schedules: z
         .array(scheduleSchema)
         .min(1, "At least one schedule is required"),
 });
+
+export const eventsSchema = z.array(eventSchema);
 
 export const talentsSchema = eventSchema.shape.talents;
 

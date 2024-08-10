@@ -1,6 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import type { CreateScheduleEvent, EditScheduleEvent, ScheduleEvent } from "./type";
-import { talentsSchema } from "schema";
+import type { CreateScheduleEvent, EditScheduleEvent } from "./type";
+import { eventSchema, eventsSchema, talentsSchema } from "schema";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -11,8 +11,12 @@ export async function getEvents(year: number, month: number) {
 	if (!response.ok) {
 		throw new Error("Failed to fetch events");
 	}
-	const json = (await response.json()) as ScheduleEvent[];
-	return json;
+	const result = eventsSchema.safeParse(await response.json());
+	if (!result.success) {
+		console.error(result.error.errors);
+		throw new Error("Failed to fetch events");
+	}
+	return result.data;
 }
 
 export async function getEventById(id: string) {
@@ -27,8 +31,11 @@ export async function getEventById(id: string) {
 		}
 		throw new Error("Failed to fetch event");
 	}
-	const json = (await response.json()) as ScheduleEvent;
-	return json;
+	const result = eventSchema.safeParse(await response.json());
+	if (!result.success) {
+		throw new Error("Failed to fetch event");
+	}
+	return result.data;
 }
 
 

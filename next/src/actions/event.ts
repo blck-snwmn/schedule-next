@@ -29,8 +29,8 @@ export async function createEventAction(
 		await createEvent({
 			name: submission.value.name,
 			category: submission.value.category,
-			description: submission.value.description,
-			thumbnail: submission.value.thumbnail,
+			description: submission.value.description ?? null,
+			thumbnail: submission.value.thumbnail ?? null,
 			schedules: submission.value.schedules.map((schedule) => ({
 				id: schedule.id ?? "",
 				name: schedule.name,
@@ -72,8 +72,8 @@ export async function updateEventAction(
 			id: submission.value.id ?? "", // FIXME: id is required
 			name: submission.value.name,
 			category: submission.value.category,
-			description: submission.value.description,
-			thumbnail: submission.value.thumbnail,
+			description: submission.value.description ?? null,
+			thumbnail: submission.value.thumbnail ?? null,
 			schedules: submission.value.schedules.map((schedule) => ({
 				id: schedule.id,
 				name: schedule.name,
