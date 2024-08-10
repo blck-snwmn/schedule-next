@@ -1,6 +1,7 @@
 "use client";
 
 import { deleteEventAction } from "@/actions/event";
+import type { ScheduleEvent } from "@/services/type";
 import {
 	type ColumnDef,
 	type ColumnFiltersState,
@@ -26,7 +27,6 @@ import {
 	DialogTrigger,
 } from "./ui/dialog";
 import { Input } from "./ui/input";
-import { Label } from "./ui/label";
 import {
 	Table,
 	TableBody,
@@ -35,8 +35,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "./ui/table";
-import { Textarea } from "./ui/textarea";
-import { Toggle } from "./ui/toggle";
 
 interface EventListProps {
 	events: ScheduleEvent[];
@@ -227,129 +225,5 @@ function DataTable<TData, TValue>({
 				</Table>
 			</div>
 		</>
-	);
-}
-
-interface EventFormProps<T> {
-	event?: ScheduleEvent;
-	onSubmit: (formData: FormData) => Promise<T>;
-}
-
-function EventForm<T>({ event, onSubmit }: EventFormProps<T>) {
-	// const [schedules, setSchedules] = useState(event?.schedules || []);
-
-	// const handleSubmit = (e) => {
-	//     e.preventDefault();
-	//     const formData = new FormData(e.target);
-	//     formData.append('schedules', JSON.stringify(schedules));
-	//     onSubmit(formData);
-	// };
-
-	// const addSchedule = () => {
-	//     setSchedules([...schedules, { id: Date.now().toString(), name: '', startAt: '', endAt: '', status: 'SCHEDULED' }]);
-	// };
-
-	return (
-		<form action={onSubmit}>
-			<div className="grid grid-cols-2 gap-4">
-				<div>
-					<Label htmlFor="name">Event Name</Label>
-					<Input id="name" name="name" defaultValue={event?.name} required />
-				</div>
-				<div>
-					<Label htmlFor="category">Category</Label>
-					<Input
-						id="category"
-						name="category"
-						defaultValue={event?.category}
-						required
-					/>
-				</div>
-				<div className="col-span-2">
-					<Label htmlFor="description">Description</Label>
-					<Textarea
-						id="description"
-						name="description"
-						defaultValue={event?.description}
-					/>
-				</div>
-				<div className="col-span-2">
-					<Label htmlFor="thumbnail">Thumbnail URL</Label>
-					<Input
-						id="thumbnail"
-						name="thumbnail"
-						type="url"
-						defaultValue={event?.thumbnail}
-					/>
-				</div>
-				<div className="col-span-2">
-					<Label>Talents</Label>
-					<div className="flex">
-						{event?.talents?.map((talent) => (
-							<Toggle
-								key={talent.id}
-								// pressed={selectedTalents.includes(talent.id)}
-								// onPressedChange={() => toggleTalent(talent.id)}
-							>
-								{talent.name}
-							</Toggle>
-						))}
-					</div>
-					{/* <Select name="talents" multiple>
-                        <SelectTrigger>
-                            <SelectValue placeholder="Select talents" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {talents.map((talent) => (
-                                <SelectItem key={talent.id} value={talent.id}>{talent.name}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select> */}
-				</div>
-			</div>
-
-			<div className="mt-4">
-				<Label>Schedules</Label>
-				{/* {schedules.map((schedule, index) => (
-                    <div key={schedule.id} className="grid grid-cols-3 gap-2 mt-2">
-                        <Input
-                            placeholder="Schedule Name"
-                            value={schedule.name}
-                            onChange={(e) => {
-                                const newSchedules = [...schedules];
-                                newSchedules[index].name = e.target.value;
-                                setSchedules(newSchedules);
-                            }}
-                        />
-                        <DateTimePicker
-                            date={new Date(schedule.startAt)}
-                            setDate={(date) => {
-                                const newSchedules = [...schedules];
-                                newSchedules[index].startAt = date.toISOString();
-                                setSchedules(newSchedules);
-                            }}
-                        />
-                        <DateTimePicker
-                            date={new Date(schedule.endAt)}
-                            setDate={(date) => {
-                                const newSchedules = [...schedules];
-                                newSchedules[index].endAt = date.toISOString();
-                                setSchedules(newSchedules);
-                            }}
-                        />
-                    </div>
-                ))} */}
-				{/* <Button type="button" onClick={addSchedule} className="mt-2">
-                    <Plus size={16} className="mr-2" /> Add Schedule
-                </Button> */}
-			</div>
-
-			<DialogFooter className="mt-6">
-				<DialogClose asChild>
-					<Button variant="outline">Cancel</Button>
-				</DialogClose>
-				<Button type="submit">Save Event</Button>
-			</DialogFooter>
-		</form>
 	);
 }
