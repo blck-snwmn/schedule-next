@@ -1,6 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import type { z } from "zod";
-import type { updateEventSchema } from "schema";
+import type { createEventSchema, updateEventSchema } from "schema";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -31,6 +31,8 @@ export async function getEventById(id: string) {
 	return json;
 }
 
+type CreateScheduleEvent = z.infer<typeof createEventSchema>;
+
 export async function createEvent(event: CreateScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(`${endpoint}/api/events`, {
@@ -51,6 +53,8 @@ export async function updateEvent(event: EditScheduleEvent) {
 		body: JSON.stringify(event),
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error("Failed to update event", error);
 		throw new Error("Failed to update event");
 	}
 }
