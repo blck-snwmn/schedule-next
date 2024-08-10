@@ -9,6 +9,7 @@ import {
 	DialogTitle,
 } from "@/components/ui/dialog";
 import { eventFormSchema } from "@/services/schema";
+import type { ScheduleEvent, Talent } from "@/services/type";
 import {
 	type SubmissionResult,
 	getInputProps,

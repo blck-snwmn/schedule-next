@@ -5,6 +5,7 @@ import {
 	DialogHeader,
 	DialogTitle,
 } from "@/components/ui/dialog";
+import type { ScheduleEvent } from "@/services/type";
 import { useRouter } from "next/navigation";
 import { EventDetail } from "./EventDetail";
 

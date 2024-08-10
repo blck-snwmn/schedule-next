@@ -1,10 +1,10 @@
 "use server";
 
 import { createEvent, deleteEvent, updateEvent } from "@/services/getData";
-import { eventFormSchema } from "@/services/schema";
 import { parseWithZod } from "@conform-to/zod";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { createEventSchema, updateEventSchema } from "schema";
 
 export async function createEventAction(
 	prevState: unknown,
@@ -14,7 +14,7 @@ export async function createEventAction(
 	// console.log(formData);
 
 	const submission = parseWithZod(formData, {
-		schema: eventFormSchema,
+		schema: createEventSchema,
 	});
 	// console.log("submission", submission.status);
 
@@ -32,7 +32,6 @@ export async function createEventAction(
 			description: submission.value.description ?? null,
 			thumbnail: submission.value.thumbnail ?? null,
 			schedules: submission.value.schedules.map((schedule) => ({
-				id: schedule.id ?? "",
 				name: schedule.name,
 				startAt: schedule.startAt,
 				endAt: schedule.endAt,
@@ -58,7 +57,7 @@ export async function updateEventAction(
 	console.log(formData);
 
 	const submission = parseWithZod(formData, {
-		schema: eventFormSchema,
+		schema: updateEventSchema,
 	});
 	console.log("submission", submission.status);
 
@@ -67,9 +66,15 @@ export async function updateEventAction(
 		return submission.reply();
 	}
 	console.info("updateEventAction");
+	if (!submission.value.id) {
+		console.error("id is required");
+		return submission.reply({
+			formErrors: ["Failed to edit event"],
+		});
+	}
 	try {
 		await updateEvent({
-			id: submission.value.id ?? "", // FIXME: id is required
+			id: submission.value.id,
 			name: submission.value.name,
 			category: submission.value.category,
 			description: submission.value.description ?? null,
