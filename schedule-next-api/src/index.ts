@@ -10,7 +10,7 @@ import type {
 	QueryResult,
 	Schedule,
 } from "./types";
-import { createEventSchema, updateEventSchema } from "schema";
+import { createEventSchema, talentsSchema, updateEventSchema } from "schema";
 
 const app = new Hono<{ Bindings: Env }>();
 
@@ -270,7 +270,11 @@ app.delete("/api/events/:id", async (c) => {
 app.get("/api/talents", async (c) => {
 	const db = drizzle(c.env.DB);
 	const result = await db.select().from(talents);
-	return c.json(result);
+	const talentData = talentsSchema.safeParse(result);
+	if (!talentData.success) {
+		return c.json({ error: "Failed to fetch talents" }, 500);
+	}
+	return c.json(talentData.data);
 });
 
 app.post("/api/talents", async (c) => {

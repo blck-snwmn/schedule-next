@@ -1,6 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import type { z } from "zod";
-import type { createEventSchema, updateEventSchema } from "schema";
+import type { CreateScheduleEvent, EditScheduleEvent, ScheduleEvent } from "./type";
+import { talentsSchema } from "schema";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -31,7 +31,6 @@ export async function getEventById(id: string) {
 	return json;
 }
 
-type CreateScheduleEvent = z.infer<typeof createEventSchema>;
 
 export async function createEvent(event: CreateScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -44,7 +43,6 @@ export async function createEvent(event: CreateScheduleEvent) {
 	}
 }
 
-type EditScheduleEvent = z.infer<typeof updateEventSchema>;
 
 export async function updateEvent(event: EditScheduleEvent) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -76,8 +74,11 @@ export async function getTaletns() {
 	if (!response.ok) {
 		throw new Error("Failed to fetch talents");
 	}
-	const json = (await response.json()) as Talent[];
-	return json;
+	const result = talentsSchema.safeParse(await response.json());
+	if (!result.success) {
+		throw new Error("Failed to fetch talents");
+	}
+	return result.data;
 }
 
 export async function createTalent(name: string) {

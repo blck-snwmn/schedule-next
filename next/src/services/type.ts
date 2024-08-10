@@ -1,6 +1,10 @@
 type Status = "active" | "upcoming" | "past";
 
-interface Schedule {
+import type { z } from "zod";
+import type { createEventSchema, talentSchema, updateEventSchema } from "schema";
+
+
+export interface Schedule {
 	id: string;
 	name: string;
 	startAt: Date; // ISO 8601 形式の日時文字列
@@ -8,7 +12,7 @@ interface Schedule {
 	status: Status;
 }
 
-interface ScheduleEvent {
+export interface ScheduleEvent {
 	id: string;
 	name: string;
 	category: string;
@@ -18,15 +22,17 @@ interface ScheduleEvent {
 	talents: Talent[];
 }
 
-type OptinalSchedule = Omit<Schedule, 'id'> & { id?: string; };
-
-
-interface Talent {
-	id: string;
-	name: string;
-}
+// export interface Talent {
+// 	id: string;
+// 	name: string;
+// }
 
 interface AppData {
 	talents: Talent[];
 	events: ScheduleEvent[];
 }
+
+export type CreateScheduleEvent = z.infer<typeof createEventSchema>;
+export type EditScheduleEvent = z.infer<typeof updateEventSchema>;
+export type Talent = z.infer<typeof talentSchema>;
+

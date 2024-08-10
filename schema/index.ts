@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-const talentSchema = z.object({
+export const talentSchema = z.object({
     id: z.string().uuid(),
     name: z.string().min(1, "Name is required"),
 });
@@ -23,6 +23,8 @@ export const eventSchema = z.object({
         .array(scheduleSchema)
         .min(1, "At least one schedule is required"),
 });
+
+export const talentsSchema = eventSchema.shape.talents;
 
 export const updateEventSchema = eventSchema.omit({
     talents: true,
