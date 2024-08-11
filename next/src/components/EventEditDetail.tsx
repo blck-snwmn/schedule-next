@@ -31,13 +31,9 @@ type Props = {
 	) => Promise<SubmissionResult<string[]>>;
 };
 
-export const EventEditDetail = ({ event, talents, serverAction }: Props) => {
+export function EventEditDetail({ event, talents, serverAction }: Props) {
 	const [lastResult, action] = useFormState(serverAction, undefined);
 	console.log("lastResult", lastResult);
-
-	if (event) {
-		console.log("event", event);
-	}
 
 	const [form, fields] = useForm({
 		lastResult,
@@ -49,6 +45,7 @@ export const EventEditDetail = ({ event, talents, serverAction }: Props) => {
 		shouldRevalidate: "onInput",
 		defaultValue: event
 			? {
+					id: event.id,
 					name: event.name,
 					category: event.category,
 					description: event.description,
@@ -65,6 +62,7 @@ export const EventEditDetail = ({ event, talents, serverAction }: Props) => {
 					})),
 				}
 			: {
+					id: "",
 					name: "",
 					category: "",
 					description: "",
@@ -78,6 +76,7 @@ export const EventEditDetail = ({ event, talents, serverAction }: Props) => {
 	return (
 		<form id={form.id} onSubmit={form.onSubmit} action={action} noValidate>
 			<div className="grid grid-cols-2 gap-4">
+				<Input {...getInputProps(fields.id, { type: "hidden" })} />
 				<div>
 					<Label htmlFor={fields.name.id}>Event Name</Label>
 					<ErrorMessage error={fields.name.errors} />
@@ -110,6 +109,7 @@ export const EventEditDetail = ({ event, talents, serverAction }: Props) => {
 								<Checkbox
 									id={`talent-${talent.id}`}
 									name={fields.talentIds.name}
+									value={talent.id}
 									defaultChecked={
 										fields.talentIds.initialValue &&
 										Array.isArray(fields.talentIds.initialValue)
@@ -199,8 +199,9 @@ export const EventEditDetail = ({ event, talents, serverAction }: Props) => {
 					</Button>
 				</div>
 			</div>
-			<Button variant="outline">Cancel</Button>
-			<Button type="submit">Save Event</Button>
+			<div>
+				<Button type="submit">Save Event</Button>
+			</div>
 		</form>
 	);
-};
+}
