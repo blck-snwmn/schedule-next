@@ -1,3 +1,4 @@
+import type { ScheduleEvent } from "@/services/type";
 import { addDays, isWithinInterval } from "date-fns";
 
 export const hasEvent = (date: Date, events: ScheduleEvent[]) => {
