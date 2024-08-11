@@ -6,7 +6,6 @@ export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(
 		`${endpoint}/api/events?year=${year}&month=${month}`,
-		{ cache: "no-cache" },
 	);
 	if (!response.ok) {
 		throw new Error("Failed to fetch events");
@@ -23,7 +22,6 @@ export async function getEventById(id: string) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 
 	const response = await fetch(`${endpoint}/api/events/${id}`, {
-		cache: "no-cache",
 	});
 	if (!response.ok) {
 		if (response.status === 404) {
