@@ -1,4 +1,4 @@
-import { and, eq, gte, inArray, lte } from "drizzle-orm";
+import { and, eq, gte, inArray, lte, not } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { createEventSchema, talentsSchema, updateEventSchema } from "schema";
@@ -135,7 +135,7 @@ app.get("/api/events/:id", async (c) => {
 			}, []),
 		talents: result.map((e) => e.talents).filter(Boolean),
 	};
-
+	console.log(formattedEvent);
 	return c.json(formattedEvent);
 });
 
@@ -184,6 +184,7 @@ app.patch("/api/events/:id", async (c) => {
 	const { id } = c.req.param();
 
 	const eventData = updateEventSchema.parse(await c.req.json());
+	console.log(eventData);
 
 	// イベントの更新
 	const updatedEvent = await db
@@ -197,9 +198,17 @@ app.patch("/api/events/:id", async (c) => {
 		.where(eq(events.id, id))
 		.returning({ updatedId: events.id });
 
-	// スケジュールの追加
+	// スケジュールの更新/追加/削除
+	const updatedSchedules = eventData.schedules.filter((s) => s.id);
+	const updatedScheduleIds = updatedSchedules.map((s) => s.id).filter((s) => s != null);
+	// スケジュールの削除
+	const deletedScheduleIds = await db
+		.delete(schedules)
+		.where(and(eq(schedules.eventId, id), not(inArray(schedules.id, updatedScheduleIds))))
+		.returning({ deletedId: schedules.id });
+
 	// scheduleの id がないものは新規で登録。id があるものは更新
-	for (const scheduleData of eventData.schedules.filter((s) => s.id)) {
+	for (const scheduleData of updatedSchedules) {
 		if (!scheduleData.id) {
 			continue;
 		}
@@ -215,6 +224,7 @@ app.patch("/api/events/:id", async (c) => {
 	}
 
 	const newScheduleData = eventData.schedules.filter((s) => !s.id);
+	console.log("newScheduleData", newScheduleData);
 	if (newScheduleData.length > 0) {
 		await db.insert(schedules).values(
 			newScheduleData.map((s) => ({
