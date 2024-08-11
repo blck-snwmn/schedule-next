@@ -83,7 +83,7 @@ export const eventColumns: ColumnDef<ScheduleEvent>[] = [
 		},
 	},
 	{
-		accessorKey: "dialog",
+		accessorKey: "edit-dialog",
 		header: () => {
 			return <div className="w-10">Edit</div>;
 		},
@@ -96,7 +96,7 @@ export const eventColumns: ColumnDef<ScheduleEvent>[] = [
 		},
 	},
 	{
-		accessorKey: "dialog",
+		accessorKey: "delete-dialog",
 		header: () => {
 			return <div className="w-12">Delete</div>;
 		},
