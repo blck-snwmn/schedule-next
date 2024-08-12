@@ -2,7 +2,7 @@
 
 import { createEvent, deleteEvent, updateEvent } from "@/services/getData";
 import { parseWithZod } from "@conform-to/zod";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 import { createEventSchema, updateEventSchema } from "schema";
 
@@ -39,7 +39,7 @@ export async function createEventAction(
 			})),
 			talentIds: submission.value.talentIds,
 		});
-		revalidatePath("/admin/events");
+		revalidateTag("events");
 	} catch (error) {
 		console.error(error);
 		return submission.reply({
@@ -88,7 +88,8 @@ export async function updateEventAction(
 			})),
 			talentIds: submission.value.talentIds,
 		});
-		revalidatePath("/admin/events");
+		revalidateTag(`events?eventId=${submission.value.id}`);
+		revalidateTag("events");
 	} catch (error) {
 		console.error(error);
 		return submission.reply({
@@ -102,7 +103,6 @@ export async function deleteEventAction(id: string) {
 	console.info(`deleteEventAction: id=${id}`);
 	try {
 		await deleteEvent(id);
-		revalidatePath("/admin/events");
 	} catch (error) {
 		return { message: "Failed to delete event" };
 	}

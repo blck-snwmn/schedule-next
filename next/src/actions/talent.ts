@@ -1,13 +1,13 @@
 "use server";
 
 import { createTalent, deleteTalent, updateTalent } from "@/services/getData";
-import { revalidatePath } from "next/cache";
+import { revalidateTag } from "next/cache";
 import { redirect } from "next/navigation";
 
 export async function createTalentAction(formData: FormData) {
 	try {
 		await createTalent(formData.get("name") as string);
-		revalidatePath("/admin/talents");
+		revalidateTag("talents");
 	} catch (error) {
 		return { message: "Failed to create talent" };
 	}
@@ -22,7 +22,7 @@ export async function updateTalentAction(formData: FormData) {
 			formData.get("id") as string,
 			formData.get("name") as string,
 		);
-		revalidatePath("/admin/talents");
+		revalidateTag("talents");
 	} catch (error) {
 		return { message: "Failed to update talent" };
 	}
@@ -32,7 +32,7 @@ export async function updateTalentAction(formData: FormData) {
 export async function deleteTalentAction(id: string) {
 	try {
 		await deleteTalent(id);
-		revalidatePath("/admin/talents");
+		revalidateTag("talents");
 	} catch (error) {
 		return { message: "Failed to delete talent" };
 	}

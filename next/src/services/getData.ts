@@ -6,6 +6,11 @@ export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(
 		`${endpoint}/api/events?year=${year}&month=${month}`,
+		{
+			next: {
+				tags: ["events"]
+			}
+		}
 	);
 	if (!response.ok) {
 		throw new Error("Failed to fetch events");
@@ -21,8 +26,13 @@ export async function getEvents(year: number, month: number) {
 export async function getEventById(id: string) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 
-	const response = await fetch(`${endpoint}/api/events/${id}`, {
-	});
+	const response = await fetch(`${endpoint}/api/events/${id}`,
+		{
+			next: {
+				tags: [`events?eventId=${id}`]
+			}
+		}
+	);
 	if (!response.ok) {
 		if (response.status === 404) {
 			return null; // イベントが見つからない場合
@@ -73,7 +83,7 @@ export async function deleteEvent(id: string) {
 
 export async function getTaletns() {
 	const endpoint = getRequestContext().env.ENDPOINT;
-	const response = await fetch(`${endpoint}/api/talents`);
+	const response = await fetch(`${endpoint}/api/talents`, { next: { tags: ["talents"] } });
 	if (!response.ok) {
 		throw new Error("Failed to fetch talents");
 	}
