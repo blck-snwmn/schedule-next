@@ -200,11 +200,18 @@ app.patch("/api/events/:id", async (c) => {
 
 	// スケジュールの更新/追加/削除
 	const updatedSchedules = eventData.schedules.filter((s) => s.id);
-	const updatedScheduleIds = updatedSchedules.map((s) => s.id).filter((s) => s != null);
+	const updatedScheduleIds = updatedSchedules
+		.map((s) => s.id)
+		.filter((s) => s != null);
 	// スケジュールの削除
 	const deletedScheduleIds = await db
 		.delete(schedules)
-		.where(and(eq(schedules.eventId, id), not(inArray(schedules.id, updatedScheduleIds))))
+		.where(
+			and(
+				eq(schedules.eventId, id),
+				not(inArray(schedules.id, updatedScheduleIds)),
+			),
+		)
 		.returning({ deletedId: schedules.id });
 
 	// scheduleの id がないものは新規で登録。id があるものは更新
