@@ -33,7 +33,7 @@ export const updateEventSchema = eventSchema
         talents: true,
     })
     .extend({
-        talentIds: z.array(talentSchema.shape.id),
+        talentIds: z.array(talentSchema.shape.id).nonempty(),
         schedules: z.array(
             scheduleSchema.partial({
                 id: true,
