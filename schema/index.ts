@@ -26,7 +26,7 @@ export const eventSchema = z.object({
 
 export const eventsSchema = z.array(eventSchema);
 
-export const talentsSchema = eventSchema.shape.talents;
+export const talentsSchema = z.array(talentSchema);
 
 export const updateEventSchema = eventSchema
     .omit({
