@@ -17,6 +17,13 @@ import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
 import { Checkbox } from "./ui/checkbox";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from "./ui/select";
 import { Textarea } from "./ui/textarea";
 
 const ErrorMessage = ({ error }: { error?: string[] }) => {
@@ -101,11 +108,31 @@ export function EventEditDetail({ event, talents, serverAction }: Props) {
 						</div>
 						<div className="space-y-2">
 							<Label htmlFor={fields.category.id}>Category</Label>
-							<Input
-								{...getInputProps(fields.category, { type: "text" })}
-								required
-								className="w-full"
-							/>
+							<Select
+								// {...getSelectProps(fields.category)}
+								key={fields.category.id}
+								name={fields.category.name}
+								defaultValue={fields.category.value}
+							>
+								<SelectTrigger className="w-[180px]">
+									<SelectValue placeholder="カテゴリ" />
+								</SelectTrigger>
+								<SelectContent>
+									{[
+										"音楽",
+										"ライブ",
+										"メディア",
+										"出版",
+										"ファンイベント",
+										"コラボレーション",
+										"その他",
+									].map((category) => (
+										<SelectItem key={category} value={category}>
+											{category}
+										</SelectItem>
+									))}
+								</SelectContent>
+							</Select>
 							<ErrorMessage error={fields.category.errors} />
 						</div>
 					</div>
