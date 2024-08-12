@@ -18,10 +18,10 @@ export const eventSchema = z.object({
     category: z.string().min(1, "Category is required"),
     description: z.string().nullable().optional(),
     thumbnail: z.string().url().nullable().optional(),
-    talents: z.array(talentSchema),
+    talents: z.array(talentSchema).nonempty("At least one talent is required"),
     schedules: z
         .array(scheduleSchema)
-        .min(1, "At least one schedule is required"),
+        .nonempty("At least one schedule is required"),
 });
 
 export const eventsSchema = z.array(eventSchema);
