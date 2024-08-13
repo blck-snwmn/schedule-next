@@ -1,10 +1,10 @@
 #:schema node_modules/wrangler/config-schema.json
 name = "schedule-next"
-compatibility_date = "2024-07-12"
+compatibility_date = "2023-12-01"
 compatibility_flags = ["nodejs_compat"]
 pages_build_output_dir = ".vercel/output/static"
 
 
 kv_namespaces = [
-    { binding = "__NEXT_ON_PAGES_KV_SUSPENSE_CACHE", id = "00095c27e0bc48d799598388b3e16d9f" }
+    { binding = "__NEXT_ON_PAGES__KV_SUSPENSE_CACHE", id = "00095c27e0bc48d799598388b3e16d9f" }
 ]
