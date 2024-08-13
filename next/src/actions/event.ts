@@ -103,6 +103,7 @@ export async function deleteEventAction(id: string) {
 	console.info(`deleteEventAction: id=${id}`);
 	try {
 		await deleteEvent(id);
+		revalidateTag("events");
 	} catch (error) {
 		return { message: "Failed to delete event" };
 	}
