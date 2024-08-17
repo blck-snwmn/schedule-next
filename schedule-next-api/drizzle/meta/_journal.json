@@ -22,6 +22,13 @@
       "when": 1722164039771,
       "tag": "0002_concerned_payback",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "6",
+      "when": 1723906379282,
+      "tag": "0003_quick_rumiko_fujikawa",
+      "breakpoints": true
     }
   ]
 }

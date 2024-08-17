@@ -7,7 +7,7 @@ import {
 
 export const talents = sqliteTable("talents", {
 	id: text("id").primaryKey(),
-	name: text("name").notNull(),
+	name: text("name").notNull().unique(),
 });
 
 export const events = sqliteTable("events", {

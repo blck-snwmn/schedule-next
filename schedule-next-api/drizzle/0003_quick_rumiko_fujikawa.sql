@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `talents_name_unique` ON `talents` (`name`);
