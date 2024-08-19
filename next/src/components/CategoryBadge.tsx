@@ -1,4 +1,4 @@
-import { categoryColors, type Category } from "@/services/type";
+import { type Category, categoryColors } from "@/services/type";
 import { Badge } from "./ui/badge";
 
 const getCategoryColor = (category: string): string => {
