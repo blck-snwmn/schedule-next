@@ -170,8 +170,8 @@ function DataTable<TData, TValue>({
 						table.getColumn("name")?.setFilterValue(e.target.value)
 					}
 				/>
-				<Link key={"xxxx"} href={"/admin/events/new"}>
-					<SquarePlus size={18} />
+				<Link key={"xxxx"} href={"/admin/events/new"} className="mx-3">
+					<SquarePlus size={20} />
 				</Link>
 			</div>
 			<div className="rounded-md border">
