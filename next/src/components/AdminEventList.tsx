@@ -171,7 +171,9 @@ function DataTable<TData, TValue>({
 					}
 				/>
 				<Link key={"xxxx"} href={"/admin/events/new"} className="mx-3">
-					<SquarePlus size={20} />
+					<Button variant="outline" className="mx-5">
+						<SquarePlus size={18} />
+					</Button>
 				</Link>
 			</div>
 			<div className="rounded-md border">
