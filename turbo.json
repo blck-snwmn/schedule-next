@@ -11,13 +11,20 @@
 			"outputs": [".vercel/**", ".output/**"]
 		},
 		"deploy": {
-			"dependsOn": ["build", "pages:build"],
+			"dependsOn": ["build", "pages:build", "check-types", "migrate:remote"],
 			"outputs": []
 		},
 		"check-types": {
 			"dependsOn": ["^check-types"]
 		},
+		"migrate:local": {
+			"cache": false
+		},
+		"migrate:remote": {
+			"cache": false
+		},
 		"test": {
+			"dependsOn": ["migrate:local"],
 			"outputs": []
 		}
 	}

@@ -7,7 +7,9 @@
 		"dev": "wrangler dev",
 		"start": "wrangler dev",
 		"cf-typegen": "wrangler types",
-		"generate": "drizzle-kit generate"
+		"generate": "drizzle-kit generate",
+		"migrate:local": "wrangler d1 migrations apply schedule-next-db --local",
+		"migrate:remote": "wrangler d1 migrations apply schedule-next-db --remote"
 	},
 	"devDependencies": {
 		"@cloudflare/vitest-pool-workers": "^0.4.5",
