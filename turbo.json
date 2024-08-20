@@ -1,0 +1,24 @@
+{
+	"$schema": "https://turbo.build/schema.json",
+	"globalEnv": ["CLOUDFLARE_API_TOKEN"],
+	"tasks": {
+		"build": {
+			"dependsOn": ["^build"],
+			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
+		},
+		"pages:build": {
+			"dependsOn": ["build"],
+			"outputs": [".vercel/**", ".output/**"]
+		},
+		"deploy": {
+			"dependsOn": ["build", "pages:build"],
+			"outputs": []
+		},
+		"check-types": {
+			"dependsOn": ["^check-types"]
+		},
+		"test": {
+			"outputs": []
+		}
+	}
+}
