@@ -1,6 +1,6 @@
+import type { ScheduleEvent } from "@/services/type";
 import { describe, expect, it } from "vitest";
 import { hasEvent } from "./eventUtils";
-import type { ScheduleEvent } from "@/services/type";
 
 describe("hasEvent", () => {
 	it("should return true for an event entirely within the day", () => {
