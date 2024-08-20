@@ -11,7 +11,7 @@
 			"outputs": [".vercel/**", ".output/**"]
 		},
 		"deploy": {
-			"dependsOn": ["build", "pages:build", "check-types", "migrate:remote"],
+			"dependsOn": ["build", "pages:build", "check-types"],
 			"outputs": []
 		},
 		"check-types": {
