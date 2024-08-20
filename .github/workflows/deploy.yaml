@@ -23,12 +23,6 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           run_install: true
-      - name: migration(test)
-        run: |
-          pnpm wrangler d1 migrations apply schedule-next-db --remote
-        working-directory: ./schedule-next-api
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
       - name: deploy
         run: |
           pnpm turbo build check-types deploy
