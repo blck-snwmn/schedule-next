@@ -18,10 +18,10 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           run_install: true
-      - name: migration
-        run: |
-          pnpm  wrangler d1 migrations apply event-products --local
-        working-directory: ./data-saver
+      # - name: migration
+      #   run: |
+      #     pnpm  wrangler d1 migrations apply event-products --local
+        # working-directory: ./data-saver
       - name: test
         run: |
           pnpm turbo test
