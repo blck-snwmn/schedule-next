@@ -5,6 +5,8 @@ const talentSchema = z.object({
 	name: z.string().min(1, "Name is required"),
 });
 
+export const talentsSchema = z.array(talentSchema);
+
 const scheduleSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string().min(1, "Name is required"),
@@ -25,8 +27,6 @@ export const eventSchema = z.object({
 });
 
 export const eventsSchema = z.array(eventSchema);
-
-export const talentsSchema = z.array(talentSchema);
 
 export const updateEventSchema = eventSchema
 	.omit({
