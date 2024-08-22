@@ -5,6 +5,23 @@ import {
 	text,
 } from "drizzle-orm/sqlite-core";
 
+export const groups = sqliteTable("groups", {
+	id: text("id").primaryKey(),
+	name: text("name").notNull().unique(),
+	description: text("description"),
+});
+
+export const groupJoinTalents = sqliteTable(
+	"group_join_talents",
+	{
+		groupId: text("group_id").notNull().references(() => groups.id),
+		talentId: text("talent_id").notNull().references(() => talents.id),
+	},
+	(table) => ({
+		unq: primaryKey({ columns: [table.groupId, table.talentId] }),
+	})
+);
+
 export const talents = sqliteTable("talents", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull().unique(),
