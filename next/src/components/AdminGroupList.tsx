@@ -1,6 +1,5 @@
 "use client";
 
-import { deleteEventAction } from "@/actions/event";
 import type { Group } from "@/services/type";
 import {
 	type ColumnDef,
@@ -35,6 +34,7 @@ import {
 	TableRow,
 } from "./ui/table";
 import { Badge } from "./ui/badge";
+import { deleteGroupAction } from "@/actions/group";
 
 interface GroupListProps {
 	groups: Group[];
@@ -95,7 +95,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
 		},
 		cell: ({ row }) => {
 			return (
-				<Link key={row.original.id} href={`/admin/events/${row.original.id}`}>
+				<Link key={row.original.id} href={`/admin/groups/${row.original.id}`}>
 					<Pencil size={12} />
 				</Link>
 			);
@@ -127,7 +127,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
 							<Button
 								variant="default"
 								onClick={async () => {
-									await deleteEventAction(row.original.id);
+									await deleteGroupAction(row.original.id);
 								}}
 							>
 								OK
@@ -176,7 +176,7 @@ function DataTable<TData, TValue>({
 						table.getColumn("name")?.setFilterValue(e.target.value)
 					}
 				/>
-				<Link key={"xxxx"} href={"/admin/events/new"} className="mx-3">
+				<Link key={"xxxx"} href={"/admin/groups/new"} className="mx-3">
 					<Button variant="outline" className="mx-5">
 						<SquarePlus size={18} />
 					</Button>

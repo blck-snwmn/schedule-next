@@ -1,4 +1,4 @@
-import { createEventSchema, updateEventSchema } from "schema";
+import { createEventSchema, createGroupSchema, updateEventSchema, updateGroupSchema } from "schema";
 import { z } from "zod";
 
 const scheduleSchema = z.object({
@@ -24,6 +24,8 @@ const scheduleSchema = z.object({
 export const eventFormSchema = createEventSchema
 	.merge(updateEventSchema)
 	.partial({ id: true });
+
+export const groupFormSchema = createGroupSchema.merge(updateGroupSchema).partial({ id: true });
 // export const eventFormSchema = createEventSchema.or(updateEventSchema);
 type zzz1 = z.infer<typeof updateEventSchema>;
 type zzz2 = z.infer<typeof createEventSchema>;

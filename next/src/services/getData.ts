@@ -1,6 +1,6 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import { eventSchema, eventsSchema, groupsSchema, talentsSchema } from "schema";
-import type { CreateScheduleEvent, EditScheduleEvent } from "./type";
+import { eventSchema, eventsSchema, groupSchema, groupsSchema, talentsSchema } from "schema";
+import type { CreateGroup, CreateScheduleEvent, EditGroup, EditScheduleEvent } from "./type";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;
@@ -140,4 +140,58 @@ export async function getGroups() {
 		throw new Error("Failed to fetch talents");
 	}
 	return result.data;
+}
+
+export async function getGroupById(id: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+
+	const response = await fetch(`${endpoint}/api/groups/${id}`, {
+		next: {
+			tags: [`groups?groupId=${id}`],
+		},
+	});
+	if (!response.ok) {
+		if (response.status === 404) {
+			return null; // グループが見つからない場合
+		}
+		throw new Error("Failed to fetch group");
+	}
+	const result = groupSchema.safeParse(await response.json());
+	if (!result.success) {
+		throw new Error("Failed to fetch group");
+	}
+	return result.data;
+}
+
+export async function createGroup(group: CreateGroup) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/groups`, {
+		method: "POST",
+		body: JSON.stringify(group),
+	});
+	if (!response.ok) {
+		throw new Error("Failed to create group");
+	}
+}
+
+export async function updateGroup(group: EditGroup) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/groups/${group.id}`, {
+		method: "PATCH",
+		body: JSON.stringify(group),
+	});
+	if (!response.ok) {
+		throw new Error("Failed to update group");
+	}
+}
+
+export async function deleteGroup(id: string) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/groups/${id}`, {
+		method: "DELETE",
+	});
+	if (!response.ok) {
+		console.error("Failed to delete group");
+		throw new Error("Failed to delete group");
+	}
 }
