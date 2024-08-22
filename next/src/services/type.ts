@@ -1,4 +1,4 @@
-import type { createEventSchema, eventSchema, updateEventSchema } from "schema";
+import type { createEventSchema, eventSchema, groupsSchema, updateEventSchema } from "schema";
 import type { z } from "zod";
 
 export type Category =
@@ -22,6 +22,7 @@ export const categoryColors: Record<Category, string> = {
 
 export const categories: Category[] = Object.keys(categoryColors) as Category[];
 
+export type Group = z.infer<typeof groupsSchema.element>;
 export type ScheduleEvent = z.infer<typeof eventSchema>;
 export type Schedule = z.infer<typeof eventSchema.shape.schedules.element>;
 export type CreateScheduleEvent = z.infer<typeof createEventSchema>;

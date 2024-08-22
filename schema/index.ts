@@ -14,6 +14,18 @@ const groupSchema = z.object({
 	talents: z.array(talentSchema).nonempty("At least one talent is required"),
 });
 
+export const updateGroupSchema = groupSchema
+	.omit({
+		talents: true,
+	})
+	.extend({
+		talentIds: z.array(talentSchema.shape.id).nonempty(),
+	});
+
+export const createGroupSchema = updateGroupSchema.omit({
+	id: true,
+});
+
 export const groupsSchema = z.array(groupSchema);
 
 const scheduleSchema = z.object({

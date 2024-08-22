@@ -1,10 +1,11 @@
 import { and, eq, gte, inArray, lte, not } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
-import { createEventSchema, talentsSchema, updateEventSchema } from "schema";
-import { events, eventTalents, schedules, talents } from "./schema";
+import { createEventSchema, createGroupSchema, groupsSchema, talentsSchema, updateEventSchema, updateGroupSchema } from "schema";
+import { groupJoinTalents, events, eventTalents, groups, schedules, talents } from "./schema";
 import type {
 	EventWithDetails,
+	GroupQueryResult,
 	NewEvent,
 	NewSchedule,
 	NewTalent,
@@ -344,6 +345,120 @@ app.delete("/api/talents/:talentID", async (c) => {
 	}
 
 	return c.json({ talentID });
+});
+
+app.get("/api/groups", async (c) => {
+	const db = drizzle(c.env.DB);
+	const rawResult = await db.select({
+		id: groups.id,
+		name: groups.name,
+		description: groups.description,
+		talents: talents,
+	}).
+		from(groups).
+		innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId)).
+		innerJoin(talents, eq(talents.id, groupJoinTalents.talentId));
+
+	const result = rawResult.reduce((acc: GroupQueryResult[], curr) => {
+		const groupIndex = acc.findIndex((g) => g.id === curr.id);
+		if (groupIndex === -1) {
+			acc.push({
+				...curr,
+				talents: [curr.talents],
+			});
+		} else {
+			if (!acc[groupIndex].talents.find((t) => t.id === curr.talents.id)) {
+				acc[groupIndex].talents.push(curr.talents);
+			}
+		}
+		return acc;
+	}, [] as GroupQueryResult[]);
+
+	const data = groupsSchema.safeParse(result);
+	if (!data.success) {
+		console.error(data.error);
+		return c.json({ error: "Failed to fetch groups" }, 500);
+	}
+	return c.json(data.data);
+});
+
+app.post("/api/groups", async (c) => {
+	// D1 does not support `transaction`.
+	const db = drizzle(c.env.DB);
+	const groupData = createGroupSchema.parse(await c.req.json());
+
+	const newGroupId = crypto.randomUUID();
+	await db.insert(groups).values({
+		id: newGroupId,
+		name: groupData.name,
+		description: groupData.description,
+	});
+
+	for (const talentId of groupData.talentIds) {
+		await db.insert(groupJoinTalents).values({
+			groupId: newGroupId,
+			talentId,
+		});
+	}
+
+	return c.json({ id: newGroupId }, 201);
+});
+
+app.patch("/api/groups/:groupID", async (c) => {
+	// D1 does not support `transaction`.
+	const db = drizzle(c.env.DB);
+	const { groupID } = c.req.param();
+	const groupData = updateGroupSchema.parse(await c.req.json());
+
+	const updatedIds = await db
+		.update(groups)
+		.set({
+			name: groupData.name,
+			description: groupData.description,
+		})
+		.where(eq(groups.id, groupID))
+		.returning({ updatedId: groups.id });
+	if (updatedIds.length === 0) {
+		return c.json({ error: "Group not found" }, 404);
+	}
+
+	await db.delete(groupJoinTalents).where(eq(groupJoinTalents.groupId, groupID));
+	for (const talentId of groupData.talentIds) {
+		await db.insert(groupJoinTalents).values({
+			groupId: groupID,
+			talentId,
+		});
+	}
+
+	return c.json({ groupID, ...groupData });
+})
+
+app.delete("/api/groups/:groupID", async (c) => {
+	// D1 does not support `transaction`.
+	const db = drizzle(c.env.DB);
+	const { groupID } = c.req.param();
+
+	const ids = await db
+		.delete(groupJoinTalents)
+		.where(eq(groupJoinTalents.groupId, groupID))
+		.returning({
+			deletedGroupId: groupJoinTalents.groupId,
+			deletedTalentId: groupJoinTalents.talentId,
+		});
+
+	console.info(ids);
+
+	const deletedIds = await db
+		.delete(groups)
+		.where(eq(groups.id, groupID))
+		.returning({ deletedId: groups.id });
+	if (deletedIds.length === 0) {
+		return c.json({ error: "Group not found" }, 404);
+	}
+
+	console.info(deletedIds);
+
+	return c.json({ groupID });
 });
 
 export default app;

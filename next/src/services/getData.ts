@@ -1,5 +1,5 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import { eventSchema, eventsSchema, talentsSchema } from "schema";
+import { eventSchema, eventsSchema, groupsSchema, talentsSchema } from "schema";
 import type { CreateScheduleEvent, EditScheduleEvent } from "./type";
 
 export async function getEvents(year: number, month: number) {
@@ -125,4 +125,19 @@ export async function deleteTalent(id: string) {
 		console.error("Failed to delete talent");
 		throw new Error("Failed to delete talent");
 	}
+}
+
+export async function getGroups() {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(`${endpoint}/api/groups`, {
+		next: { tags: ["groups"] },
+	});
+	if (!response.ok) {
+		throw new Error("Failed to fetch talents");
+	}
+	const result = groupsSchema.safeParse(await response.json());
+	if (!result.success) {
+		throw new Error("Failed to fetch talents");
+	}
+	return result.data;
 }
