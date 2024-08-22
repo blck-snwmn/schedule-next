@@ -1,4 +1,11 @@
-import type { createEventSchema, createGroupSchema, eventSchema, groupsSchema, updateEventSchema, updateGroupSchema } from "schema";
+import type {
+	createEventSchema,
+	createGroupSchema,
+	eventSchema,
+	groupsSchema,
+	updateEventSchema,
+	updateGroupSchema,
+} from "schema";
 import type { z } from "zod";
 
 export type Category =

@@ -14,12 +14,16 @@ export const groups = sqliteTable("groups", {
 export const groupJoinTalents = sqliteTable(
 	"group_join_talents",
 	{
-		groupId: text("group_id").notNull().references(() => groups.id),
-		talentId: text("talent_id").notNull().references(() => talents.id),
+		groupId: text("group_id")
+			.notNull()
+			.references(() => groups.id),
+		talentId: text("talent_id")
+			.notNull()
+			.references(() => talents.id),
 	},
 	(table) => ({
 		unq: primaryKey({ columns: [table.groupId, table.talentId] }),
-	})
+	}),
 );
 
 export const talents = sqliteTable("talents", {

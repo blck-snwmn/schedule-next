@@ -1,6 +1,17 @@
 import { getRequestContext } from "@cloudflare/next-on-pages";
-import { eventSchema, eventsSchema, groupSchema, groupsSchema, talentsSchema } from "schema";
-import type { CreateGroup, CreateScheduleEvent, EditGroup, EditScheduleEvent } from "./type";
+import {
+	eventSchema,
+	eventsSchema,
+	groupSchema,
+	groupsSchema,
+	talentsSchema,
+} from "schema";
+import type {
+	CreateGroup,
+	CreateScheduleEvent,
+	EditGroup,
+	EditScheduleEvent,
+} from "./type";
 
 export async function getEvents(year: number, month: number) {
 	const endpoint = getRequestContext().env.ENDPOINT;

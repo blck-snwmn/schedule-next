@@ -7,83 +7,83 @@ import { redirect } from "next/navigation";
 import { createGroupSchema, updateGroupSchema } from "schema";
 
 export async function createGroupAction(
-    prevState: unknown,
-    formData: FormData,
+	prevState: unknown,
+	formData: FormData,
 ) {
-    console.log("zzzzzz");
+	console.log("zzzzzz");
 
-    const submission = parseWithZod(formData, {
-        schema: createGroupSchema,
-    });
-    console.log("submission", submission.status);
+	const submission = parseWithZod(formData, {
+		schema: createGroupSchema,
+	});
+	console.log("submission", submission.status);
 
-    if (submission.status !== "success") {
-        console.error("error", submission.error);
-        return submission.reply();
-    }
-    console.info("createGroup");
-    console.log("talentIds:", submission.value.talentIds);
+	if (submission.status !== "success") {
+		console.error("error", submission.error);
+		return submission.reply();
+	}
+	console.info("createGroup");
+	console.log("talentIds:", submission.value.talentIds);
 
-    try {
-        await createGroup({
-            name: submission.value.name,
-            description: submission.value.description ?? null,
-            talentIds: submission.value.talentIds,
-        });
-        revalidateTag("groups");
-    } catch (error) {
-        console.error(error);
-        return submission.reply({
-            formErrors: ["Failed to create group"],
-        });
-    }
-    redirect("/admin/groups");
+	try {
+		await createGroup({
+			name: submission.value.name,
+			description: submission.value.description ?? null,
+			talentIds: submission.value.talentIds,
+		});
+		revalidateTag("groups");
+	} catch (error) {
+		console.error(error);
+		return submission.reply({
+			formErrors: ["Failed to create group"],
+		});
+	}
+	redirect("/admin/groups");
 }
 
 export async function updateGroupAction(
-    prevState: unknown,
-    formData: FormData,
+	prevState: unknown,
+	formData: FormData,
 ) {
-    console.log("zzzzzz");
-    console.log(formData);
+	console.log("zzzzzz");
+	console.log(formData);
 
-    const submission = parseWithZod(formData, {
-        schema: updateGroupSchema,
-    });
+	const submission = parseWithZod(formData, {
+		schema: updateGroupSchema,
+	});
 
-    if (submission.status !== "success") {
-        console.error("error", submission.error);
-        return submission.reply();
-    }
-    console.info("updateGroupAction");
-    console.log("talentIds:", submission.value.talentIds);
+	if (submission.status !== "success") {
+		console.error("error", submission.error);
+		return submission.reply();
+	}
+	console.info("updateGroupAction");
+	console.log("talentIds:", submission.value.talentIds);
 
-    try {
-        await updateGroup({
-            id: submission.value.id,
-            name: submission.value.name,
-            description: submission.value.description ?? null,
-            talentIds: submission.value.talentIds,
-        });
-        revalidateTag(`groups?groupId=${submission.value.id}`);
-        revalidateTag("groups");
-    } catch (error) {
-        console.error(error);
-        return submission.reply({
-            formErrors: ["Failed to update group"],
-        });
-    }
-    redirect("/admin/groups");
+	try {
+		await updateGroup({
+			id: submission.value.id,
+			name: submission.value.name,
+			description: submission.value.description ?? null,
+			talentIds: submission.value.talentIds,
+		});
+		revalidateTag(`groups?groupId=${submission.value.id}`);
+		revalidateTag("groups");
+	} catch (error) {
+		console.error(error);
+		return submission.reply({
+			formErrors: ["Failed to update group"],
+		});
+	}
+	redirect("/admin/groups");
 }
 
 export async function deleteGroupAction(id: string) {
-    console.log("deleteGroupAction");
-    try {
-        await deleteGroup(id);
-        revalidateTag("groups");
-    } catch (error) {
-        console.error(error);
-        throw new Error("Failed to delete group");
-    }
-    redirect("/admin/groups");
+	console.log("deleteGroupAction");
+	try {
+		await deleteGroup(id);
+		revalidateTag("groups");
+	} catch (error) {
+		console.error(error);
+		throw new Error("Failed to delete group");
+	}
+	redirect("/admin/groups");
 }

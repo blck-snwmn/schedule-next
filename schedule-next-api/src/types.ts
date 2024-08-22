@@ -1,7 +1,7 @@
 import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
-import type { events, schedules, talents } from "./schema";
-import type { z } from "zod";
 import { groupsSchema, talentsSchema } from "schema";
+import type { z } from "zod";
+import type { events, schedules, talents } from "./schema";
 
 export type Event = InferSelectModel<typeof events>;
 export type NewEvent = InferInsertModel<typeof events>;
@@ -35,11 +35,10 @@ export interface QueryResult {
 	thumbnail: string | null;
 	schedules: Schedule;
 	talents: Talent;
-};
+}
 
-const modifiedGroupsElement = groupsSchema.
-	element.
-	omit({ talents: true }).
-	extend({ talents: talentsSchema });
+const modifiedGroupsElement = groupsSchema.element
+	.omit({ talents: true })
+	.extend({ talents: talentsSchema });
 
-export type GroupQueryResult = z.infer<typeof modifiedGroupsElement>
+export type GroupQueryResult = z.infer<typeof modifiedGroupsElement>;

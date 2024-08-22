@@ -1,8 +1,23 @@
 import { and, eq, gte, inArray, lte, not } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
-import { createEventSchema, createGroupSchema, groupSchema, groupsSchema, talentsSchema, updateEventSchema, updateGroupSchema } from "schema";
-import { groupJoinTalents, events, eventTalents, groups, schedules, talents } from "./schema";
+import {
+	createEventSchema,
+	createGroupSchema,
+	groupSchema,
+	groupsSchema,
+	talentsSchema,
+	updateEventSchema,
+	updateGroupSchema,
+} from "schema";
+import {
+	events,
+	eventTalents,
+	groupJoinTalents,
+	groups,
+	schedules,
+	talents,
+} from "./schema";
 import type {
 	EventWithDetails,
 	GroupQueryResult,
@@ -349,16 +364,16 @@ app.delete("/api/talents/:talentID", async (c) => {
 
 app.get("/api/groups", async (c) => {
 	const db = drizzle(c.env.DB);
-	const rawResult = await db.select({
-		id: groups.id,
-		name: groups.name,
-		description: groups.description,
-		talents: talents,
-	}).
-		from(groups).
-		innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId)).
-		innerJoin(talents, eq(talents.id, groupJoinTalents.talentId));
-
+	const rawResult = await db
+		.select({
+			id: groups.id,
+			name: groups.name,
+			description: groups.description,
+			talents: talents,
+		})
+		.from(groups)
+		.innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId))
+		.innerJoin(talents, eq(talents.id, groupJoinTalents.talentId));
 
 	if (rawResult.length === 0) {
 		return c.json({ error: "Group not found" }, 404);
@@ -387,21 +402,21 @@ app.get("/api/groups", async (c) => {
 	return c.json(data.data);
 });
 
-
 app.get("/api/groups/:groupID", async (c) => {
 	const db = drizzle(c.env.DB);
 	const { groupID } = c.req.param();
 
-	const rawResult = await db.select({
-		id: groups.id,
-		name: groups.name,
-		description: groups.description,
-		talents: talents,
-	}).
-		from(groups).
-		innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId)).
-		innerJoin(talents, eq(talents.id, groupJoinTalents.talentId)).
-		where(eq(groups.id, groupID));
+	const rawResult = await db
+		.select({
+			id: groups.id,
+			name: groups.name,
+			description: groups.description,
+			talents: talents,
+		})
+		.from(groups)
+		.innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId))
+		.innerJoin(talents, eq(talents.id, groupJoinTalents.talentId))
+		.where(eq(groups.id, groupID));
 
 	if (rawResult.length === 0) {
 		return c.json({ error: "Group not found" }, 404);
@@ -460,7 +475,9 @@ app.patch("/api/groups/:groupID", async (c) => {
 		return c.json({ error: "Group not found" }, 404);
 	}
 
-	await db.delete(groupJoinTalents).where(eq(groupJoinTalents.groupId, groupID));
+	await db
+		.delete(groupJoinTalents)
+		.where(eq(groupJoinTalents.groupId, groupID));
 	for (const talentId of groupData.talentIds) {
 		await db.insert(groupJoinTalents).values({
 			groupId: groupID,
@@ -469,7 +486,7 @@ app.patch("/api/groups/:groupID", async (c) => {
 	}
 
 	return c.json({ groupID, ...groupData });
-})
+});
 
 app.delete("/api/groups/:groupID", async (c) => {
 	// D1 does not support `transaction`.

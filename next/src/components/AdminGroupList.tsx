@@ -1,5 +1,6 @@
 "use client";
 
+import { deleteGroupAction } from "@/actions/group";
 import type { Group } from "@/services/type";
 import {
 	type ColumnDef,
@@ -14,6 +15,7 @@ import {
 import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import {
 	Dialog,
@@ -33,8 +35,6 @@ import {
 	TableHeader,
 	TableRow,
 } from "./ui/table";
-import { Badge } from "./ui/badge";
-import { deleteGroupAction } from "@/actions/group";
 
 interface GroupListProps {
 	groups: Group[];
@@ -86,7 +86,7 @@ export const groupsColumns: ColumnDef<Group>[] = [
 					))}
 				</div>
 			);
-		}
+		},
 	},
 	{
 		accessorKey: "edit-dialog",
@@ -193,9 +193,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
