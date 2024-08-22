@@ -7,7 +7,7 @@ const talentSchema = z.object({
 
 export const talentsSchema = z.array(talentSchema);
 
-const groupSchema = z.object({
+export const groupSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string().min(1, "Name is required"),
 	description: z.string().nullable().optional(),

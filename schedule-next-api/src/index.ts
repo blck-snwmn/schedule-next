@@ -1,7 +1,7 @@
 import { and, eq, gte, inArray, lte, not } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
-import { createEventSchema, createGroupSchema, groupsSchema, talentsSchema, updateEventSchema, updateGroupSchema } from "schema";
+import { createEventSchema, createGroupSchema, groupSchema, groupsSchema, talentsSchema, updateEventSchema, updateGroupSchema } from "schema";
 import { groupJoinTalents, events, eventTalents, groups, schedules, talents } from "./schema";
 import type {
 	EventWithDetails,
@@ -359,6 +359,11 @@ app.get("/api/groups", async (c) => {
 		innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId)).
 		innerJoin(talents, eq(talents.id, groupJoinTalents.talentId));
 
+
+	if (rawResult.length === 0) {
+		return c.json({ error: "Group not found" }, 404);
+	}
+
 	const result = rawResult.reduce((acc: GroupQueryResult[], curr) => {
 		const groupIndex = acc.findIndex((g) => g.id === curr.id);
 		if (groupIndex === -1) {
@@ -375,6 +380,39 @@ app.get("/api/groups", async (c) => {
 	}, [] as GroupQueryResult[]);
 
 	const data = groupsSchema.safeParse(result);
+	if (!data.success) {
+		console.error(data.error);
+		return c.json({ error: "Failed to fetch groups" }, 500);
+	}
+	return c.json(data.data);
+});
+
+
+app.get("/api/groups/:groupID", async (c) => {
+	const db = drizzle(c.env.DB);
+	const { groupID } = c.req.param();
+
+	const rawResult = await db.select({
+		id: groups.id,
+		name: groups.name,
+		description: groups.description,
+		talents: talents,
+	}).
+		from(groups).
+		innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId)).
+		innerJoin(talents, eq(talents.id, groupJoinTalents.talentId)).
+		where(eq(groups.id, groupID));
+
+	if (rawResult.length === 0) {
+		return c.json({ error: "Group not found" }, 404);
+	}
+
+	const result = {
+		...rawResult[0],
+		talents: rawResult.map((e) => e.talents).filter(Boolean),
+	};
+
+	const data = groupSchema.safeParse(result);
 	if (!data.success) {
 		console.error(data.error);
 		return c.json({ error: "Failed to fetch groups" }, 500);
