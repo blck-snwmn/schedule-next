@@ -7,6 +7,15 @@ const talentSchema = z.object({
 
 export const talentsSchema = z.array(talentSchema);
 
+const groupSchema = z.object({
+	id: z.string().uuid(),
+	name: z.string().min(1, "Name is required"),
+	description: z.string().nullable().optional(),
+	talents: z.array(talentSchema).nonempty("At least one talent is required"),
+});
+
+export const groupsSchema = z.array(groupSchema);
+
 const scheduleSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string().min(1, "Name is required"),
