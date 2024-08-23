@@ -144,11 +144,11 @@ export async function getGroups() {
 		next: { tags: ["groups"] },
 	});
 	if (!response.ok) {
-		throw new Error("Failed to fetch talents");
+		throw new Error("Failed to fetch groups");
 	}
 	const result = groupsSchema.safeParse(await response.json());
 	if (!result.success) {
-		throw new Error("Failed to fetch talents");
+		throw new Error("Failed to fetch groups");
 	}
 	return result.data;
 }
