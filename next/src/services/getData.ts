@@ -148,7 +148,7 @@ export async function getGroups() {
 	}
 	const result = groupsSchema.safeParse(await response.json());
 	if (!result.success) {
-		throw new Error("Failed to fetch groups");
+		throw new Error("Failed to parse groups");
 	}
 	return result.data;
 }
