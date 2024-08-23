@@ -375,10 +375,6 @@ app.get("/api/groups", async (c) => {
 		.innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId))
 		.innerJoin(talents, eq(talents.id, groupJoinTalents.talentId));
 
-	if (rawResult.length === 0) {
-		return c.json({ error: "Group not found" }, 404);
-	}
-
 	const result = rawResult.reduce((acc: GroupQueryResult[], curr) => {
 		const groupIndex = acc.findIndex((g) => g.id === curr.id);
 		if (groupIndex === -1) {
