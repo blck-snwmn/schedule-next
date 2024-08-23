@@ -44,17 +44,17 @@ export function GroupEditDetail({ group, talents, serverAction }: Props) {
 		shouldRevalidate: "onInput",
 		defaultValue: group
 			? {
-					id: group.id,
-					name: group.name,
-					description: group.description,
-					talentIds: group.talents.map((talent) => talent.id),
-				}
+				id: group.id,
+				name: group.name,
+				description: group.description,
+				talentIds: group.talents.map((talent) => talent.id),
+			}
 			: {
-					id: "",
-					name: "",
-					description: "",
-					talentIds: [],
-				},
+				id: "",
+				name: "",
+				description: "",
+				talentIds: [],
+			},
 	});
 
 	return (
@@ -118,7 +118,7 @@ export function GroupEditDetail({ group, talents, serverAction }: Props) {
 				</CardContent>
 			</Card>
 			<Button type="submit" className="w-full">
-				Save Event
+				Save Group
 			</Button>
 		</form>
 	);
