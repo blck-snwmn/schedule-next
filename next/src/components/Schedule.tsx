@@ -62,7 +62,7 @@ const EventInfo: React.FC<{
 				"mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"
 			}
 		>
-			<Link key={event.id} href={`/schedule/${event.id}`}>
+			<Link key={event.id} href={`/events/${event.id}`}>
 				<div className="h-48 relative bg-gray-700">
 					{event.thumbnail ? (
 						<img
