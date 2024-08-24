@@ -11,6 +11,7 @@ type Props = {
 export default async function EditDetail({ params }: Props) {
 	let event = null;
 	if (params.eventId !== "new") {
+		// 新規作成
 		event = await getEventById(params.eventId);
 		if (!event) {
 			notFound();

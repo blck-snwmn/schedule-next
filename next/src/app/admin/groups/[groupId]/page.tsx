@@ -12,6 +12,7 @@ export default async function EditDetail({ params }: Props) {
 	console.log("group: EditDetail");
 	let group = null;
 	if (params.groupId !== "new") {
+		// 新規作成
 		group = await getGroupById(params.groupId);
 		if (!group) {
 			notFound();
