@@ -91,19 +91,24 @@ export const talentColumns: ColumnDef<Talent>[] = [
 							<DialogTitle>Edit Talent</DialogTitle>
 						</DialogHeader>
 						<form action={updateTalentAction}>
-							<Label htmlFor="name">Name</Label>
-							<Input
-								id="name"
-								name="name"
-								type="text"
-								defaultValue={row.original.name}
-							/>
-							<Input
-								id="sortKey"
-								name="sortKey"
-								type="text"
-								defaultValue={row.original.sortKey ?? ""}
-							/>
+							<div className="space-y-2">
+								<Label htmlFor="name">Name</Label>
+								<Input
+									id="name"
+									name="name"
+									type="text"
+									defaultValue={row.original.name}
+								/>
+							</div>
+							<div className="space-y-2">
+								<Label htmlFor="sortKey">SortKey</Label>
+								<Input
+									id="sortKey"
+									name="sortKey"
+									type="text"
+									defaultValue={row.original.sortKey ?? ""}
+								/>
+							</div>
 							<Input type="hidden" name="id" value={row.original.id} />
 							<DialogFooter className="mt-5">
 								<DialogClose asChild>
