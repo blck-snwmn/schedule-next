@@ -26,19 +26,7 @@ export async function createEventAction(
 	console.log("talentIds:", submission.value.talentIds);
 
 	try {
-		await createEvent({
-			name: submission.value.name,
-			category: submission.value.category,
-			description: submission.value.description ?? null,
-			thumbnail: submission.value.thumbnail ?? null,
-			schedules: submission.value.schedules.map((schedule) => ({
-				name: schedule.name,
-				startAt: schedule.startAt,
-				endAt: schedule.endAt,
-				status: "active",
-			})),
-			talentIds: submission.value.talentIds,
-		});
+		await createEvent(submission.value);
 		revalidateTag("events");
 	} catch (error) {
 		console.error(error);
@@ -73,21 +61,7 @@ export async function updateEventAction(
 		});
 	}
 	try {
-		await updateEvent({
-			id: submission.value.id,
-			name: submission.value.name,
-			category: submission.value.category,
-			description: submission.value.description ?? null,
-			thumbnail: submission.value.thumbnail ?? null,
-			schedules: submission.value.schedules.map((schedule) => ({
-				id: schedule.id,
-				name: schedule.name,
-				startAt: schedule.startAt,
-				endAt: schedule.endAt,
-				status: "active",
-			})),
-			talentIds: submission.value.talentIds,
-		});
+		await updateEvent(submission.value);
 		revalidateTag(`events?eventId=${submission.value.id}`);
 		revalidateTag("events");
 	} catch (error) {
