@@ -76,6 +76,10 @@ export const groupsColumns: ColumnDef<Group>[] = [
 		},
 	},
 	{
+		accessorKey: "sortKey",
+		header: "sortKey",
+	},
+	{
 		accessorKey: "talents",
 		header: "Talents",
 		cell: ({ row }) => {

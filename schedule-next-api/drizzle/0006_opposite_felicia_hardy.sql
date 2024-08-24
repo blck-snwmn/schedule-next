@@ -1,0 +1,1 @@
+ALTER TABLE `groups` ADD `sort_key` text;

@@ -370,12 +370,14 @@ app.get("/api/groups", async (c) => {
 		.select({
 			id: groups.id,
 			name: groups.name,
+			sortKey: groups.sortKey,
 			description: groups.description,
 			talents: talents,
 		})
 		.from(groups)
 		.innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId))
-		.innerJoin(talents, eq(talents.id, groupJoinTalents.talentId));
+		.innerJoin(talents, eq(talents.id, groupJoinTalents.talentId))
+		.orderBy(groups.sortKey, talents.sortKey);
 
 	const result = rawResult.reduce((acc: GroupQueryResult[], curr) => {
 		const groupIndex = acc.findIndex((g) => g.id === curr.id);
@@ -414,7 +416,8 @@ app.get("/api/groups/:groupID", async (c) => {
 		.from(groups)
 		.innerJoin(groupJoinTalents, eq(groups.id, groupJoinTalents.groupId))
 		.innerJoin(talents, eq(talents.id, groupJoinTalents.talentId))
-		.where(eq(groups.id, groupID));
+		.where(eq(groups.id, groupID))
+		.orderBy(talents.sortKey);
 
 	if (rawResult.length === 0) {
 		return c.json({ error: "Group not found" }, 404);
@@ -443,6 +446,7 @@ app.post("/api/groups", async (c) => {
 		id: newGroupId,
 		name: groupData.name,
 		description: groupData.description,
+		sortKey: groupData.sortKey,
 	});
 
 	for (const talentId of groupData.talentIds) {
@@ -466,6 +470,7 @@ app.patch("/api/groups/:groupID", async (c) => {
 		.set({
 			name: groupData.name,
 			description: groupData.description,
+			sortKey: groupData.sortKey,
 		})
 		.where(eq(groups.id, groupID))
 		.returning({ updatedId: groups.id });

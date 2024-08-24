@@ -28,6 +28,7 @@ export async function createGroupAction(
 		await createGroup({
 			name: submission.value.name,
 			description: submission.value.description ?? null,
+			sortKey: submission.value.sortKey ?? null,
 			talentIds: submission.value.talentIds,
 		});
 		revalidateTag("groups");
@@ -63,6 +64,7 @@ export async function updateGroupAction(
 			id: submission.value.id,
 			name: submission.value.name,
 			description: submission.value.description ?? null,
+			sortKey: submission.value.sortKey ?? null,
 			talentIds: submission.value.talentIds,
 		});
 		revalidateTag(`groups?groupId=${submission.value.id}`);

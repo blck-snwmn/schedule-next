@@ -47,12 +47,14 @@ export function GroupEditDetail({ group, talents, serverAction }: Props) {
 					id: group.id,
 					name: group.name,
 					description: group.description,
+					sortKey: group.sortKey,
 					talentIds: group.talents.map((talent) => talent.id),
 				}
 			: {
 					id: "",
 					name: "",
 					description: "",
+					sortKey: "",
 					talentIds: [],
 				},
 	});
@@ -81,6 +83,18 @@ export function GroupEditDetail({ group, talents, serverAction }: Props) {
 								className="w-full"
 							/>
 							<ErrorMessage error={fields.name.errors} />
+						</div>
+					</div>
+
+					<div className="grid grid-cols-2 gap-4">
+						<div className="space-y-2">
+							<Label htmlFor={fields.sortKey.id}>SortKey</Label>
+							<Input
+								{...getInputProps(fields.sortKey, { type: "text" })}
+								required
+								className="w-full"
+							/>
+							<ErrorMessage error={fields.sortKey.errors} />
 						</div>
 					</div>
 

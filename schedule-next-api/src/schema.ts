@@ -9,6 +9,7 @@ export const groups = sqliteTable("groups", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull().unique(),
 	description: text("description"),
+	sortKey: text("sort_key"), // sortKey is the key used to sort the groups
 });
 
 export const groupJoinTalents = sqliteTable(
