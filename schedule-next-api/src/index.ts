@@ -410,6 +410,7 @@ app.get("/api/groups/:groupID", async (c) => {
 		.select({
 			id: groups.id,
 			name: groups.name,
+			sortKey: groups.sortKey,
 			description: groups.description,
 			talents: talents,
 		})
