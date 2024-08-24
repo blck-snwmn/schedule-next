@@ -69,14 +69,14 @@ export function GroupEditDetail({ group, talents, serverAction }: Props) {
 		>
 			<Card>
 				<CardHeader>
-					<h2 className="text-2xl font-bold">Event Details</h2>
+					<h2 className="text-2xl font-bold">Group</h2>
 				</CardHeader>
 				<CardContent className="space-y-4">
 					<Input {...getInputProps(fields.id, { type: "hidden" })} />
 
 					<div className="grid grid-cols-2 gap-4">
 						<div className="space-y-2">
-							<Label htmlFor={fields.name.id}>Event Name</Label>
+							<Label htmlFor={fields.name.id}>Name</Label>
 							<Input
 								{...getInputProps(fields.name, { type: "text" })}
 								required
