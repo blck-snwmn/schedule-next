@@ -306,7 +306,7 @@ app.delete("/api/events/:id", async (c) => {
 
 app.get("/api/talents", async (c) => {
 	const db = drizzle(c.env.DB);
-	const result = await db.select().from(talents);
+	const result = await db.select().from(talents).orderBy(talents.sortKey);
 	const talentData = talentsSchema.safeParse(result);
 	if (!talentData.success) {
 		return c.json({ error: "Failed to fetch talents" }, 500);
@@ -321,6 +321,7 @@ app.post("/api/talents", async (c) => {
 	const newTalent: NewTalent = {
 		id: crypto.randomUUID(),
 		name: talentData.name,
+		sortKey: talentData.sortKey,
 	};
 
 	await db.insert(talents).values(newTalent);
@@ -337,6 +338,7 @@ app.patch("/api/talents/:talentID", async (c) => {
 		.update(talents)
 		.set({
 			name: talentData.name,
+			sortKey: talentData.sortKey,
 		})
 		.where(eq(talents.id, talentID))
 		.returning({ updatedId: talents.id });

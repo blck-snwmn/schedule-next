@@ -29,6 +29,7 @@ export const groupJoinTalents = sqliteTable(
 export const talents = sqliteTable("talents", {
 	id: text("id").primaryKey(),
 	name: text("name").notNull().unique(),
+	sortKey: text("sort_key"), // sortKey is the key used to sort the talents
 });
 
 export const events = sqliteTable("events", {

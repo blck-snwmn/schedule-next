@@ -1,0 +1,1 @@
+ALTER TABLE `talents` ADD `sort_key` text;

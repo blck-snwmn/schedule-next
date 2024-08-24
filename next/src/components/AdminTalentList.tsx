@@ -70,6 +70,10 @@ export const talentColumns: ColumnDef<Talent>[] = [
 		},
 	},
 	{
+		accessorKey: "sortKey",
+		header: "sortKey",
+	},
+	{
 		accessorKey: "dialog",
 		header: () => {
 			return <div className="w-10">Edit</div>;
@@ -93,6 +97,12 @@ export const talentColumns: ColumnDef<Talent>[] = [
 								name="name"
 								type="text"
 								defaultValue={row.original.name}
+							/>
+							<Input
+								id="sortKey"
+								name="sortKey"
+								type="text"
+								defaultValue={row.original.sortKey ?? ""}
 							/>
 							<Input type="hidden" name="id" value={row.original.id} />
 							<DialogFooter className="mt-5">

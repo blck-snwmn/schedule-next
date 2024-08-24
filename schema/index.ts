@@ -3,6 +3,7 @@ import { z } from "zod";
 const talentSchema = z.object({
 	id: z.string().uuid(),
 	name: z.string().min(1, "Name is required"),
+	sortKey: z.string().nullable().optional(),
 });
 
 export const talentsSchema = z.array(talentSchema);

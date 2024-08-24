@@ -105,22 +105,22 @@ export async function getTaletns() {
 	return result.data;
 }
 
-export async function createTalent(name: string) {
+export async function createTalent(name: string, sortKey: string) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(`${endpoint}/api/talents`, {
 		method: "POST",
-		body: JSON.stringify({ name: name }),
+		body: JSON.stringify({ name: name, sortKey: sortKey }),
 	});
 	if (!response.ok) {
 		throw new Error("Failed to create talents");
 	}
 }
 
-export async function updateTalent(id: string, name: string) {
+export async function updateTalent(id: string, name: string, sortKey: string) {
 	const endpoint = getRequestContext().env.ENDPOINT;
 	const response = await fetch(`${endpoint}/api/talents/${id}`, {
 		method: "PATCH",
-		body: JSON.stringify({ name: name }),
+		body: JSON.stringify({ name: name, sortKey: sortKey }),
 	});
 	if (!response.ok) {
 		throw new Error("Failed to update talents");

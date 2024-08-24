@@ -6,7 +6,10 @@ import { redirect } from "next/navigation";
 
 export async function createTalentAction(formData: FormData) {
 	try {
-		await createTalent(formData.get("name") as string);
+		await createTalent(
+			formData.get("name") as string,
+			formData.get("sortKey") as string,
+		);
 		revalidateTag("talents");
 	} catch (error) {
 		return { message: "Failed to create talent" };
@@ -21,6 +24,7 @@ export async function updateTalentAction(formData: FormData) {
 		await updateTalent(
 			formData.get("id") as string,
 			formData.get("name") as string,
+			formData.get("sortKey") as string,
 		);
 		revalidateTag("talents");
 	} catch (error) {
