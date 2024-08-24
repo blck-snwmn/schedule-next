@@ -215,19 +215,11 @@ function DataTable<TData, TValue>({
 						<form action={createTalentAction}>
 							<div className="space-y-2">
 								<Label htmlFor="name">Name</Label>
-								<Input
-									id="name"
-									name="name"
-									type="text"
-								/>
+								<Input id="name" name="name" type="text" />
 							</div>
 							<div className="space-y-2">
 								<Label htmlFor="sortKey">SortKey</Label>
-								<Input
-									id="sortKey"
-									name="sortKey"
-									type="text"
-								/>
+								<Input id="sortKey" name="sortKey" type="text" />
 							</div>
 							<DialogFooter className="mt-5">
 								<DialogClose asChild>
@@ -255,9 +247,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
