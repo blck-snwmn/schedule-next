@@ -1,11 +1,7 @@
 import { GroupList } from "@/components/AdminGroupList";
 import { getGroups } from "@/services/getData";
 
-type Props = {
-	searchParams: { year?: string; month?: string };
-};
-
-export default async function Group({ searchParams }: Props) {
+export default async function Group() {
 	const groups = await getGroups();
 	return (
 		<div className="space-y-6">
