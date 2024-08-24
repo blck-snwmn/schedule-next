@@ -213,8 +213,22 @@ function DataTable<TData, TValue>({
 							<DialogTitle>Create Talent</DialogTitle>
 						</DialogHeader>
 						<form action={createTalentAction}>
-							<Label htmlFor="name">Name</Label>
-							<Input id="name" name="name" type="text" />
+							<div className="space-y-2">
+								<Label htmlFor="name">Name</Label>
+								<Input
+									id="name"
+									name="name"
+									type="text"
+								/>
+							</div>
+							<div className="space-y-2">
+								<Label htmlFor="sortKey">SortKey</Label>
+								<Input
+									id="sortKey"
+									name="sortKey"
+									type="text"
+								/>
+							</div>
 							<DialogFooter className="mt-5">
 								<DialogClose asChild>
 									<Button variant="outline">Cancel</Button>
@@ -241,9 +255,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
 										</TableHead>
 									);
 								})}
