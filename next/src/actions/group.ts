@@ -25,12 +25,7 @@ export async function createGroupAction(
 	console.log("talentIds:", submission.value.talentIds);
 
 	try {
-		await createGroup({
-			name: submission.value.name,
-			description: submission.value.description ?? null,
-			sortKey: submission.value.sortKey ?? null,
-			talentIds: submission.value.talentIds,
-		});
+		await createGroup(submission.value);
 		revalidateTag("groups");
 	} catch (error) {
 		console.error(error);
@@ -60,13 +55,7 @@ export async function updateGroupAction(
 	console.log("talentIds:", submission.value.talentIds);
 
 	try {
-		await updateGroup({
-			id: submission.value.id,
-			name: submission.value.name,
-			description: submission.value.description ?? null,
-			sortKey: submission.value.sortKey ?? null,
-			talentIds: submission.value.talentIds,
-		});
+		await updateGroup(submission.value);
 		revalidateTag(`groups?groupId=${submission.value.id}`);
 		revalidateTag("groups");
 	} catch (error) {
