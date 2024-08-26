@@ -40,13 +40,13 @@ const Calendar: React.FC<CalendarProps> = ({ events, year, month }) => {
 				</h2>
 				<div>
 					<Link
-						href={`/schedule?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`}
+						href={`/events?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`}
 						className="mr-2"
 					>
 						前月
 					</Link>
 					<Link
-						href={`/schedule?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}
+						href={`/events?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}
 					>
 						翌月
 					</Link>
