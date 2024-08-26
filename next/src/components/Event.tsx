@@ -37,7 +37,9 @@ const ScheduleInfo: React.FC<{
 	return (
 		<div
 			className={`mb-2 p-2 rounded text-sm ${
-				isInMonth ? "bg-gray-800 text-white" : "bg-gray-600 text-gray-400" // グレーアウト
+				isInMonth
+					? "bg-gray-700 text-white border-l-4 border-blue-500"
+					: "bg-gray-800 text-gray-400"
 			}`}
 		>
 			<div className="flex justify-between items-start">
