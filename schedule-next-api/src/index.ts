@@ -150,12 +150,14 @@ app.get("/api/events/:id", async (c) => {
 				}
 				return acc;
 			}, []),
-		talents: result.map((e) => e.talents).reduce((acc: Talent[], curr) => {
-			if (!acc.find((t) => t.id === curr.id)) {
-				acc.push(curr);
-			}
-			return acc;
-		}, []),
+		talents: result
+			.map((e) => e.talents)
+			.reduce((acc: Talent[], curr) => {
+				if (!acc.find((t) => t.id === curr.id)) {
+					acc.push(curr);
+				}
+				return acc;
+			}, []),
 	};
 	console.log(formattedEvent);
 	return c.json(formattedEvent);
