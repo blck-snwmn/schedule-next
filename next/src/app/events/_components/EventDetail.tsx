@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import type { ScheduleEvent } from "@/services/type";
 import { formatDate } from "@/utils/formatDate";
-import { CategoryBadge } from "./CategoryBadge";
+import { CategoryBadge } from "@/components/CategoryBadge";
 export const EventDetail: React.FC<{ event: ScheduleEvent }> = ({ event }) => {
 	return (
 		<div className="text-foreground">
