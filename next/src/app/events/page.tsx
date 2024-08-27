@@ -1,7 +1,7 @@
-import { Events } from "@/components/Event";
 import { getEvents, getTaletns } from "@/services/getData";
 import { isValid, parseISO } from "date-fns";
 import { notFound } from "next/navigation";
+import { Events } from "./_components/Event";
 
 type Props = {
 	searchParams: { year?: string; month?: string };
