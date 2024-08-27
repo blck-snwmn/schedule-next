@@ -1,4 +1,4 @@
-import { EventList } from "@/components/AdminEventList";
+import { EventList } from "@/app/admin/_components/AdminEventList";
 import { getEvents } from "@/services/getData";
 import { isValid, parseISO } from "date-fns";
 import Link from "next/link";

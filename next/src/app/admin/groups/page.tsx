@@ -1,4 +1,4 @@
-import { GroupList } from "@/components/AdminGroupList";
+import { GroupList } from "@/app/admin/_components/AdminGroupList";
 import { getGroups } from "@/services/getData";
 
 export default async function Group() {

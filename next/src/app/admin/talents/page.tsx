@@ -1,4 +1,4 @@
-import { TalentList } from "@/components/AdminTalentList";
+import { TalentList } from "@/app/admin/_components/AdminTalentList";
 import { getTaletns } from "@/services/getData";
 
 export default async function TalentsPage() {

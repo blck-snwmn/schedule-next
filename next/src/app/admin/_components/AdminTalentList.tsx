@@ -18,7 +18,7 @@ import {
 } from "@tanstack/react-table";
 import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
 import { useState } from "react";
-import { Button } from "./ui/button";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogClose,
@@ -27,9 +27,9 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
 	Table,
 	TableBody,
@@ -37,7 +37,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "./ui/table";
+} from "@/components/ui/table";
 
 interface TalentListProps {
 	talents: Talent[];
@@ -247,9 +247,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
 										</TableHead>
 									);
 								})}

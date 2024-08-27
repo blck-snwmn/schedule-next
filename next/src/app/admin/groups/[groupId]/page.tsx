@@ -1,5 +1,5 @@
 import { createGroupAction, updateGroupAction } from "@/actions/group";
-import { GroupEditDetail } from "@/components/GroupEditDetail";
+import { GroupEditDetail } from "@/app/admin/_components/GroupEditDetail";
 import { getGroupById, getTaletns } from "@/services/getData";
 import Link from "next/link";
 import { notFound } from "next/navigation";

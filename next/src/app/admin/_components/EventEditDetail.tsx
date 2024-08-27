@@ -12,19 +12,19 @@ import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { format } from "date-fns";
 import { Plus, Trash2 } from "lucide-react";
 import { useFormState } from "react-dom";
-import { Button } from "./ui/button";
-import { Card, CardContent, CardFooter, CardHeader } from "./ui/card";
-import { Checkbox } from "./ui/checkbox";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardFooter, CardHeader } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
 	Select,
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
 	SelectValue,
-} from "./ui/select";
-import { Textarea } from "./ui/textarea";
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 
 const ErrorMessage = ({ error }: { error?: string[] }) => {
 	return <div className="text-red-500">{error}</div>;
@@ -53,31 +53,31 @@ export function EventEditDetail({ event, talents, serverAction }: Props) {
 		shouldRevalidate: "onInput",
 		defaultValue: event
 			? {
-					id: event.id,
-					name: event.name,
-					category: event.category,
-					description: event.description,
-					thumbnail: event.thumbnail,
-					talentIds: event.talents.map((talent) => talent.id),
-					schedules: event.schedules.map((schedule) => ({
-						id: schedule.id,
-						name: schedule.name,
-						startAt: format(
-							new Date(schedule.startAt ?? ""),
-							"yyyy-MM-dd'T'HH:mm",
-						),
-						endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
-					})),
-				}
+				id: event.id,
+				name: event.name,
+				category: event.category,
+				description: event.description,
+				thumbnail: event.thumbnail,
+				talentIds: event.talents.map((talent) => talent.id),
+				schedules: event.schedules.map((schedule) => ({
+					id: schedule.id,
+					name: schedule.name,
+					startAt: format(
+						new Date(schedule.startAt ?? ""),
+						"yyyy-MM-dd'T'HH:mm",
+					),
+					endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
+				})),
+			}
 			: {
-					id: "",
-					name: "",
-					category: "",
-					description: "",
-					thumbnail: "",
-					talentIds: [],
-					schedules: [],
-				},
+				id: "",
+				name: "",
+				category: "",
+				description: "",
+				thumbnail: "",
+				talentIds: [],
+				schedules: [],
+			},
 	});
 
 	const schedules = fields.schedules.getFieldList();
@@ -214,9 +214,9 @@ export function EventEditDetail({ event, talents, serverAction }: Props) {
 													defaultValue={
 														sfields.startAt.value
 															? format(
-																	new Date(sfields.startAt.value),
-																	"yyyy-MM-dd'T'HH:mm",
-																)
+																new Date(sfields.startAt.value),
+																"yyyy-MM-dd'T'HH:mm",
+															)
 															: ""
 													}
 													className="w-full pl-10"
@@ -235,9 +235,9 @@ export function EventEditDetail({ event, talents, serverAction }: Props) {
 													defaultValue={
 														sfields.endAt.value
 															? format(
-																	new Date(sfields.endAt.value),
-																	"yyyy-MM-dd'T'HH:mm",
-																)
+																new Date(sfields.endAt.value),
+																"yyyy-MM-dd'T'HH:mm",
+															)
 															: ""
 													}
 													className="w-full pl-10"

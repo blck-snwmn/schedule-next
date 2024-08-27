@@ -22,11 +22,11 @@ import { Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useFormState } from "react-dom";
 // import { EventEditDetail } from "./EventEditDetail";
-import { Button } from "./ui/button";
-import { Checkbox } from "./ui/checkbox";
-import { Input } from "./ui/input";
-import { Label } from "./ui/label";
-import { Textarea } from "./ui/textarea";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 
 const ErrorMessage = ({ error }: { error?: string[] }) => {
 	return <div className="text-red-500">{error}</div>;
@@ -56,31 +56,31 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 		shouldRevalidate: "onInput",
 		defaultValue: event
 			? {
-					id: event.id,
-					name: event.name,
-					category: event.category,
-					description: event.description,
-					thumbnail: event.thumbnail,
-					talentIds: event.talents.map((talent) => talent.id),
-					schedules: event.schedules.map((schedule) => ({
-						id: schedule.id,
-						name: schedule.name,
-						startAt: format(
-							new Date(schedule.startAt ?? ""),
-							"yyyy-MM-dd'T'HH:mm",
-						),
-						endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
-					})),
-				}
+				id: event.id,
+				name: event.name,
+				category: event.category,
+				description: event.description,
+				thumbnail: event.thumbnail,
+				talentIds: event.talents.map((talent) => talent.id),
+				schedules: event.schedules.map((schedule) => ({
+					id: schedule.id,
+					name: schedule.name,
+					startAt: format(
+						new Date(schedule.startAt ?? ""),
+						"yyyy-MM-dd'T'HH:mm",
+					),
+					endAt: format(new Date(schedule.endAt ?? ""), "yyyy-MM-dd'T'HH:mm"),
+				})),
+			}
 			: {
-					id: "",
-					name: "",
-					category: "",
-					description: "",
-					thumbnail: "",
-					talentIds: [],
-					schedules: [],
-				},
+				id: "",
+				name: "",
+				category: "",
+				description: "",
+				thumbnail: "",
+				talentIds: [],
+				schedules: [],
+			},
 	});
 
 	const schedules = fields.schedules.getFieldList();
@@ -132,7 +132,7 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 											value={talent.id}
 											defaultChecked={
 												fields.talentIds.initialValue &&
-												Array.isArray(fields.talentIds.initialValue)
+													Array.isArray(fields.talentIds.initialValue)
 													? fields.talentIds.initialValue.includes(talent.id)
 													: fields.talentIds.initialValue === talent.id
 											}
@@ -169,9 +169,9 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 											defaultValue={
 												sfields.startAt.value
 													? format(
-															new Date(sfields.startAt.value),
-															"yyyy-MM-dd'T'HH:mm",
-														)
+														new Date(sfields.startAt.value),
+														"yyyy-MM-dd'T'HH:mm",
+													)
 													: ""
 											}
 										/>
@@ -184,9 +184,9 @@ export function EditDetailDialog<T>({ event, talents, serverAction }: Props) {
 											defaultValue={
 												sfields.endAt.value
 													? format(
-															new Date(sfields.endAt.value),
-															"yyyy-MM-dd'T'HH:mm",
-														)
+														new Date(sfields.endAt.value),
+														"yyyy-MM-dd'T'HH:mm",
+													)
 													: ""
 											}
 										/>

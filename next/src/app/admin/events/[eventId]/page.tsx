@@ -1,5 +1,5 @@
 import { createEventAction, updateEventAction } from "@/actions/event";
-import { EventEditDetail } from "@/components/EventEditDetail";
+import { EventEditDetail } from "@/app/admin/_components/EventEditDetail";
 import { getEventById, getTaletns } from "@/services/getData";
 import Link from "next/link";
 import { notFound } from "next/navigation";

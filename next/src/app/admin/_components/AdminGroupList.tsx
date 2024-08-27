@@ -15,8 +15,8 @@ import {
 import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
-import { Badge } from "./ui/badge";
-import { Button } from "./ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
 	Dialog,
 	DialogClose,
@@ -25,8 +25,8 @@ import {
 	DialogHeader,
 	DialogTitle,
 	DialogTrigger,
-} from "./ui/dialog";
-import { Input } from "./ui/input";
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
 import {
 	Table,
 	TableBody,
@@ -34,7 +34,7 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "./ui/table";
+} from "../../../components/ui/table";
 
 interface GroupListProps {
 	groups: Group[];
@@ -197,9 +197,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-														header.column.columnDef.header,
-														header.getContext(),
-													)}
+													header.column.columnDef.header,
+													header.getContext(),
+												)}
 										</TableHead>
 									);
 								})}
