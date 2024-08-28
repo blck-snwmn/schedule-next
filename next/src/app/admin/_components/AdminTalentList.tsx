@@ -5,19 +5,6 @@ import {
 	deleteTalentAction,
 	updateTalentAction,
 } from "@/actions/talent";
-import type { Talent } from "@/services/type";
-import {
-	type ColumnDef,
-	type ColumnFiltersState,
-	type SortingState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from "@tanstack/react-table";
-import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
-import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import {
 	Dialog,
@@ -38,6 +25,19 @@ import {
 	TableHeader,
 	TableRow,
 } from "@/components/ui/table";
+import type { Talent } from "@/services/type";
+import {
+	type ColumnDef,
+	type ColumnFiltersState,
+	type SortingState,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getSortedRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
+import { useState } from "react";
 
 interface TalentListProps {
 	talents: Talent[];
@@ -247,9 +247,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}

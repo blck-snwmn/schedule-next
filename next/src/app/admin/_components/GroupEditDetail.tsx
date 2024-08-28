@@ -1,5 +1,11 @@
 "use client";
 
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import { groupFormSchema } from "@/services/schema";
 import type { Group, Talent } from "@/services/type";
 import {
@@ -10,12 +16,6 @@ import {
 } from "@conform-to/react";
 import { getZodConstraint, parseWithZod } from "@conform-to/zod";
 import { useFormState } from "react-dom";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Checkbox } from "@/components/ui/checkbox";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 
 const ErrorMessage = ({ error }: { error?: string[] }) => {
 	return <div className="text-red-500">{error}</div>;
@@ -44,19 +44,19 @@ export function GroupEditDetail({ group, talents, serverAction }: Props) {
 		shouldRevalidate: "onInput",
 		defaultValue: group
 			? {
-				id: group.id,
-				name: group.name,
-				description: group.description,
-				sortKey: group.sortKey,
-				talentIds: group.talents.map((talent) => talent.id),
-			}
+					id: group.id,
+					name: group.name,
+					description: group.description,
+					sortKey: group.sortKey,
+					talentIds: group.talents.map((talent) => talent.id),
+				}
 			: {
-				id: "",
-				name: "",
-				description: "",
-				sortKey: "",
-				talentIds: [],
-			},
+					id: "",
+					name: "",
+					description: "",
+					sortKey: "",
+					talentIds: [],
+				},
 	});
 
 	return (

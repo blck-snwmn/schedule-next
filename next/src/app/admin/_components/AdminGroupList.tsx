@@ -1,20 +1,6 @@
 "use client";
 
 import { deleteGroupAction } from "@/actions/group";
-import type { Group } from "@/services/type";
-import {
-	type ColumnDef,
-	type ColumnFiltersState,
-	type SortingState,
-	flexRender,
-	getCoreRowModel,
-	getFilteredRowModel,
-	getSortedRowModel,
-	useReactTable,
-} from "@tanstack/react-table";
-import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
-import Link from "next/link";
-import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,7 +20,21 @@ import {
 	TableHead,
 	TableHeader,
 	TableRow,
-} from "../../../components/ui/table";
+} from "@/components/ui/table";
+import type { Group } from "@/services/type";
+import {
+	type ColumnDef,
+	type ColumnFiltersState,
+	type SortingState,
+	flexRender,
+	getCoreRowModel,
+	getFilteredRowModel,
+	getSortedRowModel,
+	useReactTable,
+} from "@tanstack/react-table";
+import { ArrowUpDown, Pencil, SquarePlus, Trash2 } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
 
 interface GroupListProps {
 	groups: Group[];
@@ -197,9 +197,9 @@ function DataTable<TData, TValue>({
 											{header.isPlaceholder
 												? null
 												: flexRender(
-													header.column.columnDef.header,
-													header.getContext(),
-												)}
+														header.column.columnDef.header,
+														header.getContext(),
+													)}
 										</TableHead>
 									);
 								})}
