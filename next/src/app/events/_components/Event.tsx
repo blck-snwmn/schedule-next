@@ -130,7 +130,7 @@ export const Events: React.FC<{
 	return (
 		<main className="min-h-screen bg-gray-900 text-white p-4">
 			<div className="container mx-auto">
-				<h1 className="text-3xl font-bold mb-6">イベント情報ダッシュボード</h1>
+				<h1 className="text-3xl font-bold mb-6">イベント</h1>
 				<Calendar events={filteredEvents} year={year} month={month} />
 				<TalentSelector
 					talents={talents}
