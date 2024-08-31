@@ -1,4 +1,4 @@
-import 'server-only';
+import "server-only";
 import { getRequestContext } from "@cloudflare/next-on-pages";
 import {
 	eventSchema,
