@@ -202,11 +202,35 @@ export const Events: React.FC<EventsProps> = ({
 		},
 		{} as Record<string, ScheduleEvent[]>,
 	);
+	const currentDate = new Date(year, month - 1, 1);
+	const prevMonth = new Date(year, month - 2);
+	const nextMonth = new Date(year, month);
+
+	const formatMonth = (date: Date) =>
+		(date.getMonth() + 1).toString().padStart(2, "0");
 
 	return (
 		<main className="min-h-screen bg-gray-900 text-white p-4">
 			<div className="container mx-auto">
 				<h1 className="text-3xl font-bold mb-6">イベント</h1>
+				<div className="flex items-center justify-between px-6 py-4 border-b">
+					<h2 className="text-xl font-semibold ">
+						{format(currentDate, "yyyy年 M月", { locale: ja })}
+					</h2>
+					<div>
+						<Link
+							href={`/events?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`}
+							className="mr-2"
+						>
+							前月
+						</Link>
+						<Link
+							href={`/events?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}
+						>
+							翌月
+						</Link>
+					</div>
+				</div>
 				<Button
 					onClick={() => setShowCalendar(!showCalendar)}
 					className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
