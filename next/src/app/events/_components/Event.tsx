@@ -5,16 +5,12 @@ import { Button } from "@/components/ui/button";
 import type { Schedule, ScheduleEvent, Talent } from "@/services/type";
 import { formatDate } from "@/utils/formatDate";
 import {
-	eachDayOfInterval,
 	endOfMonth,
-	format,
 	isAfter,
 	isBefore,
 	isSameMonth,
-	isWithinInterval,
 	startOfMonth,
 } from "date-fns";
-import { ja } from "date-fns/locale";
 import Link from "next/link";
 import { useState } from "react";
 import Calendar from "./Calendar";
@@ -127,44 +123,6 @@ interface EventsProps {
 	month: number;
 }
 
-const EventCard: React.FC<{ event: ScheduleEvent; currentDate: Date }> = ({
-	event,
-	currentDate,
-}) => {
-	const getDateRangeString = (schedules: Schedule[]) => {
-		const sortedSchedules = [...schedules].sort(
-			(a, b) => a.startAt.getTime() - b.startAt.getTime(),
-		);
-		const start = sortedSchedules[0].startAt;
-		const end = sortedSchedules[sortedSchedules.length - 1].endAt;
-
-		if (format(start, "yyyy-MM-dd") === format(end, "yyyy-MM-dd")) {
-			return `${format(start, "M/d")} ${format(start, "HH:mm")} - ${format(end, "HH:mm")}`;
-		}
-		return `${format(start, "M/d HH:mm")} - ${format(end, "M/d HH:mm")}`;
-	};
-
-	const isOngoing = event.schedules.some((schedule) =>
-		isWithinInterval(currentDate, {
-			start: schedule.startAt,
-			end: schedule.endAt,
-		}),
-	);
-
-	return (
-		<div
-			className={`bg-gray-800 rounded overflow-hidden shadow-lg mb-4 ${isOngoing ? "border-l-4 border-green-500" : ""}`}
-		>
-			<div className="p-4">
-				<h3 className="font-bold text-lg mb-2">{event.name}</h3>
-				<p className="text-sm text-gray-400">
-					{getDateRangeString(event.schedules)}
-				</p>
-			</div>
-		</div>
-	);
-};
-
 export const Events: React.FC<EventsProps> = ({
 	scheduleEvent,
 	talents,
@@ -179,30 +137,6 @@ export const Events: React.FC<EventsProps> = ({
 				event.talents.some((talent) => talent.id === selectedTalent.id),
 			)
 		: scheduleEvent;
-
-	// イベントを日付でグループ化
-	const groupedEvents = filteredEvents.reduce(
-		(acc, event) => {
-			for (const schedule of event.schedules) {
-				const dateRange = eachDayOfInterval({
-					start: schedule.startAt,
-					end: schedule.endAt,
-				});
-
-				for (const date of dateRange) {
-					const dateKey = format(date, "yyyy-MM-dd");
-					if (!acc[dateKey]) {
-						acc[dateKey] = [];
-					}
-					if (!acc[dateKey].some((e) => e.id === event.id)) {
-						acc[dateKey].push(event);
-					}
-				}
-			}
-			return acc;
-		},
-		{} as Record<string, ScheduleEvent[]>,
-	);
 
 	return (
 		<main className="min-h-screen">
@@ -221,26 +155,7 @@ export const Events: React.FC<EventsProps> = ({
 				selectedTalent={selectedTalent}
 				onSelect={setSelectedTalent}
 			/>
-			<div className="space-y-8 mt-6">
-				{Object.entries(groupedEvents).map(([dateKey, events]) => {
-					const date = new Date(dateKey);
-					return (
-						<div key={dateKey} className="flex">
-							<div className="w-24 flex-shrink-0 pt-4">
-								<div className="text-sm text-gray-400">
-									{format(date, "E", { locale: ja })}
-								</div>
-								<div className="text-lg font-bold">{format(date, "d")}</div>
-							</div>
-							<div className="flex-grow space-y-4">
-								{events.map((event) => (
-									<EventCard key={event.id} event={event} currentDate={date} />
-								))}
-							</div>
-						</div>
-					);
-				})}
-			</div>
+			<EventList events={filteredEvents} year={year} month={month} />
 		</main>
 	);
 };
