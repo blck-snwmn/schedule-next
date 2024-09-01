@@ -30,7 +30,7 @@ export default async function SchedulePage({ searchParams }: Props) {
 		getTaletns(),
 	]);
 	return (
-		<div className="container bg-gray-900 text-white p-4">
+		<div className="bg-gray-900 text-white p-4">
 			<h1 className="text-3xl font-bold mb-6">イベント</h1>
 			<Events
 				scheduleEvent={scheduleEvent}
