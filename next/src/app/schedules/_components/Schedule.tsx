@@ -15,7 +15,6 @@ import Calendar from "./Calendar";
 import { Header } from "./ScheduleHeader";
 import { TalentSelector } from "./TalentSelector";
 
-
 interface SchedulesProps {
 	scheduleEvent: ScheduleEvent[];
 	talents: Talent[];
@@ -92,8 +91,8 @@ export const Schedules: React.FC<SchedulesProps> = ({
 
 	const filteredEvents = selectedTalent
 		? scheduleEvent.filter((event) =>
-			event.talents.some((talent) => talent.id === selectedTalent.id),
-		)
+				event.talents.some((talent) => talent.id === selectedTalent.id),
+			)
 		: scheduleEvent;
 
 	// イベントを日付でグループ化
@@ -150,7 +149,11 @@ export const Schedules: React.FC<SchedulesProps> = ({
 							</div>
 							<div className="flex-grow space-y-4">
 								{events.map((event) => (
-									<ScheduleCard key={event.id} event={event} currentDate={date} />
+									<ScheduleCard
+										key={event.id}
+										event={event}
+										currentDate={date}
+									/>
 								))}
 							</div>
 						</div>
