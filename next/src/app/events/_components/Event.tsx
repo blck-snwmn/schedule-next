@@ -18,6 +18,7 @@ import { ja } from "date-fns/locale";
 import Link from "next/link";
 import { useState } from "react";
 import Calendar from "./Calendar";
+import { Header } from "./EventHeader";
 import { TalentSelector } from "./TalentSelector";
 
 const isScheduleInMonth = (schedule: Schedule, year: number, month: number) => {
@@ -210,65 +211,41 @@ export const Events: React.FC<EventsProps> = ({
 		(date.getMonth() + 1).toString().padStart(2, "0");
 
 	return (
-		<main className="min-h-screen bg-gray-900 text-white p-4">
-			<div className="container mx-auto">
-				<h1 className="text-3xl font-bold mb-6">イベント</h1>
-				<div className="flex items-center justify-between px-6 py-4 border-b">
-					<h2 className="text-xl font-semibold ">
-						{format(currentDate, "yyyy年 M月", { locale: ja })}
-					</h2>
-					<div>
-						<Link
-							href={`/events?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`}
-							className="mr-2"
-						>
-							前月
-						</Link>
-						<Link
-							href={`/events?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}
-						>
-							翌月
-						</Link>
-					</div>
-				</div>
-				<Button
-					onClick={() => setShowCalendar(!showCalendar)}
-					className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
-				>
-					{showCalendar ? "カレンダーを非表示" : "カレンダーを表示"}
-				</Button>
-				{showCalendar && (
-					<Calendar events={filteredEvents} year={year} month={month} />
-				)}
-				<TalentSelector
-					talents={talents}
-					selectedTalent={selectedTalent}
-					onSelect={setSelectedTalent}
-				/>
-				<div className="space-y-8 mt-6">
-					{Object.entries(groupedEvents).map(([dateKey, events]) => {
-						const date = new Date(dateKey);
-						return (
-							<div key={dateKey} className="flex">
-								<div className="w-24 flex-shrink-0 pt-4">
-									<div className="text-sm text-gray-400">
-										{format(date, "E", { locale: ja })}
-									</div>
-									<div className="text-lg font-bold">{format(date, "d")}</div>
+		<main className="min-h-screen">
+			<Header year={year} month={month} />
+			<Button
+				onClick={() => setShowCalendar(!showCalendar)}
+				className="bg-blue-500 text-white px-4 py-2 rounded mb-4"
+			>
+				{showCalendar ? "カレンダーを非表示" : "カレンダーを表示"}
+			</Button>
+			{showCalendar && (
+				<Calendar events={filteredEvents} year={year} month={month} />
+			)}
+			<TalentSelector
+				talents={talents}
+				selectedTalent={selectedTalent}
+				onSelect={setSelectedTalent}
+			/>
+			<div className="space-y-8 mt-6">
+				{Object.entries(groupedEvents).map(([dateKey, events]) => {
+					const date = new Date(dateKey);
+					return (
+						<div key={dateKey} className="flex">
+							<div className="w-24 flex-shrink-0 pt-4">
+								<div className="text-sm text-gray-400">
+									{format(date, "E", { locale: ja })}
 								</div>
-								<div className="flex-grow space-y-4">
-									{events.map((event) => (
-										<EventCard
-											key={event.id}
-											event={event}
-											currentDate={date}
-										/>
-									))}
-								</div>
+								<div className="text-lg font-bold">{format(date, "d")}</div>
 							</div>
-						);
-					})}
-				</div>
+							<div className="flex-grow space-y-4">
+								{events.map((event) => (
+									<EventCard key={event.id} event={event} currentDate={date} />
+								))}
+							</div>
+						</div>
+					);
+				})}
 			</div>
 		</main>
 	);

@@ -30,11 +30,14 @@ export default async function SchedulePage({ searchParams }: Props) {
 		getTaletns(),
 	]);
 	return (
-		<Events
-			scheduleEvent={scheduleEvent}
-			talents={talents}
-			year={year}
-			month={month}
-		/>
+		<div className="container bg-gray-900 text-white p-4">
+			<h1 className="text-3xl font-bold mb-6">イベント</h1>
+			<Events
+				scheduleEvent={scheduleEvent}
+				talents={talents}
+				year={year}
+				month={month}
+			/>
+		</div>
 	);
 }
