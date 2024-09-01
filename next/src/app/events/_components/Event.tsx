@@ -203,12 +203,6 @@ export const Events: React.FC<EventsProps> = ({
 		},
 		{} as Record<string, ScheduleEvent[]>,
 	);
-	const currentDate = new Date(year, month - 1, 1);
-	const prevMonth = new Date(year, month - 2);
-	const nextMonth = new Date(year, month);
-
-	const formatMonth = (date: Date) =>
-		(date.getMonth() + 1).toString().padStart(2, "0");
 
 	return (
 		<main className="min-h-screen">
