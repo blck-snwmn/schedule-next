@@ -1,4 +1,4 @@
-import { getEvents, getTaletns } from "@/services/getData";
+import { getSchedules, getTaletns } from "@/services/getData";
 import { isValid, parseISO } from "date-fns";
 import { notFound } from "next/navigation";
 import { Schedules } from "./_components/Schedule";
@@ -25,15 +25,15 @@ export default async function SchedulePage({ searchParams }: Props) {
 	const year = result.getFullYear();
 	const month = result.getMonth() + 1;
 
-	const [scheduleEvent, talents] = await Promise.all([
-		getEvents(year, month),
+	const [schedules, talents] = await Promise.all([
+		getSchedules(year, month),
 		getTaletns(),
 	]);
 	return (
 		<div className="bg-gray-900 text-white p-4">
 			<h1 className="text-3xl font-bold mb-6">イベント</h1>
 			<Schedules
-				scheduleEvent={scheduleEvent}
+				schedules={schedules}
 				talents={talents}
 				year={year}
 				month={month}

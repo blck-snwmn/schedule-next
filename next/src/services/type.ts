@@ -3,6 +3,7 @@ import type {
 	createGroupSchema,
 	eventSchema,
 	groupsSchema,
+	scheduleEventSchema,
 	updateEventSchema,
 	updateGroupSchema,
 } from "schema";
@@ -36,4 +37,7 @@ export type ScheduleEvent = z.infer<typeof eventSchema>;
 export type Schedule = z.infer<typeof eventSchema.shape.schedules.element>;
 export type CreateScheduleEvent = z.infer<typeof createEventSchema>;
 export type EditScheduleEvent = z.infer<typeof updateEventSchema>;
+
+export type ScheduleWithEvent = z.infer<typeof scheduleEventSchema>;
+
 export type Talent = z.infer<typeof eventSchema.shape.talents.element>;

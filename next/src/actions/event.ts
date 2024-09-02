@@ -28,6 +28,7 @@ export async function createEventAction(
 	try {
 		await createEvent(submission.value);
 		revalidateTag("events");
+		revalidateTag("schedules");
 	} catch (error) {
 		console.error(error);
 		return submission.reply({
@@ -64,6 +65,7 @@ export async function updateEventAction(
 		await updateEvent(submission.value);
 		revalidateTag(`events?eventId=${submission.value.id}`);
 		revalidateTag("events");
+		revalidateTag("schedules");
 	} catch (error) {
 		console.error(error);
 		return submission.reply({
@@ -78,6 +80,7 @@ export async function deleteEventAction(id: string) {
 	try {
 		await deleteEvent(id);
 		revalidateTag("events");
+		revalidateTag("schedules");
 	} catch (error) {
 		return { message: "Failed to delete event" };
 	}

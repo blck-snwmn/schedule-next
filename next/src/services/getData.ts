@@ -5,6 +5,7 @@ import {
 	eventsSchema,
 	groupSchema,
 	groupsSchema,
+	scheduleEventsSchema,
 	talentsSchema,
 } from "schema";
 import type {
@@ -89,6 +90,24 @@ export async function deleteEvent(id: string) {
 		console.error("Failed to delete event");
 		throw new Error("Failed to delete event");
 	}
+}
+
+export async function getSchedules(year: number, month: number) {
+	const endpoint = getRequestContext().env.ENDPOINT;
+	const response = await fetch(
+		`${endpoint}/api/schedules?year=${year}&month=${month}`,
+		{
+			next: { tags: ["schedules"] },
+		},
+	);
+	if (!response.ok) {
+		throw new Error("Failed to fetch schedules");
+	}
+	const result = scheduleEventsSchema.safeParse(await response.json());
+	if (!result.success) {
+		throw new Error("Failed to fetch schedules");
+	}
+	return result.data;
 }
 
 export async function getTaletns() {
