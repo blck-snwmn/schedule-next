@@ -26,6 +26,7 @@ import type {
 	NewTalent,
 	QueryResult,
 	Schedule,
+	ScheduleEvent,
 	Talent,
 } from "./types";
 
@@ -311,6 +312,75 @@ app.delete("/api/events/:id", async (c) => {
 
 	return c.json({ id });
 });
+
+app.get("/api/schedules", async (c) => {
+	const { year, month } = c.req.query();
+	const now = new Date();
+	const yearStr = year || now.getFullYear().toString();
+	const monthStr = month || (now.getMonth() + 1).toString();
+
+	const db = drizzle(c.env.DB);
+
+	const startOfMonth = new Date(
+		Number.parseInt(yearStr),
+		Number.parseInt(monthStr) - 1,
+		1,
+	);
+	const endOfMonth = new Date(
+		Number.parseInt(yearStr),
+		Number.parseInt(monthStr),
+		0,
+		23,
+		59,
+		59,
+	);
+
+	const result = await db.select({
+		id: schedules.id,
+		name: schedules.name,
+		startAt: schedules.startAt,
+		endAt: schedules.endAt,
+		event: {
+			id: events.id,
+			name: events.name,
+			description: events.description,
+			category: events.category,
+			thumbnail: events.thumbnail,
+		},
+		talents: talents,
+	}).
+		from(schedules).
+		innerJoin(events, eq(schedules.eventId, events.id)).
+		innerJoin(eventTalents, eq(events.id, eventTalents.eventId)).
+		innerJoin(talents, eq(eventTalents.talentId, talents.id)).
+		where(
+			and(
+				lte(schedules.startAt, endOfMonth),
+				gte(schedules.endAt, startOfMonth),
+			),
+		).
+		orderBy(schedules.startAt, schedules.endAt);
+
+	const formatedSchedule: ScheduleEvent[] = result.reduce((acc: ScheduleEvent[], curr) => {
+		const scheduleIndex = acc.findIndex((s) => s.id === curr.id);
+		if (scheduleIndex === -1) {
+			acc.push({
+				...curr,
+				event: {
+					...curr.event,
+					talents: [curr.talents],
+				},
+			});
+		} else {
+			if (!acc[scheduleIndex].event.talents.find((t) => t.id === curr.talents.id)) {
+				acc[scheduleIndex].event.talents.push(curr.talents);
+			}
+		}
+		return acc;
+	}, []);
+
+	return c.json(formatedSchedule);
+})
 
 app.get("/api/talents", async (c) => {
 	const db = drizzle(c.env.DB);

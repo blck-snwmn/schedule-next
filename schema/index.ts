@@ -76,5 +76,10 @@ export const createEventSchema = updateEventSchema
 		),
 	});
 
-type zzz1 = z.infer<typeof updateEventSchema>;
-type zzz2 = z.infer<typeof createEventSchema>;
+export const scheduleEventSchema = scheduleSchema.extend({
+	event: eventSchema.omit({
+		schedules: true,
+	}),
+});
+
+export const scheduleEventsSchema = z.array(scheduleEventSchema);
