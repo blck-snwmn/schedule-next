@@ -23,13 +23,13 @@ export const Header = ({ year, month }: EventsProps) => {
 			</h2>
 			<div>
 				<Link
-					href={`/events?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`}
+					href={`/schedules?year=${prevMonth.getFullYear()}&month=${formatMonth(prevMonth)}`}
 					className="mr-2"
 				>
 					前月
 				</Link>
 				<Link
-					href={`/events?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}
+					href={`/schedules?year=${nextMonth.getFullYear()}&month=${formatMonth(nextMonth)}`}
 				>
 					翌月
 				</Link>
