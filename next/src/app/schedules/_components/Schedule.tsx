@@ -29,7 +29,7 @@ const ScheduleCard: React.FC<{
 
 	return (
 		<div className={"bg-gray-800 rounded overflow-hidden shadow-lg "}>
-			<div className="flex">
+			<div className="flex relative">
 				<div className="w-1/3 h-32">
 					{schedule.event.thumbnail ? (
 						<img
@@ -42,14 +42,18 @@ const ScheduleCard: React.FC<{
 							No Image
 						</div>
 					)}
+					<div className="absolute top-0 left-0 m-1">
+						<CategoryBadge category={schedule.event.category} />
+					</div>
 				</div>
 				<div className="w-2/3 p-4">
 					<div className="flex justify-between items-start mb-2">
 						<h3 className="font-bold text-lg">{schedule.event.name}</h3>
-						<div>{schedule.name}</div>
-						<CategoryBadge category={schedule.event.category} />
 					</div>
-					{getScheduleString(schedule)}
+					<div>
+						<div>{schedule.name}</div>
+						<div>{getScheduleString(schedule)}</div>
+					</div>
 					{/* {relevantSchedules.map((schedule, index) => (
 						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
 						<p key={index} className="text-sm text-gray-400">
