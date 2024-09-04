@@ -116,7 +116,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 					const date = new Date(dateKey);
 					return (
 						<div key={dateKey} className="flex">
-							<div className="w-24 flex-shrink-0 pt-4">
+							<div className="pr-2 flex flex-col items-center">
 								<div className="text-sm text-gray-400">
 									{format(date, "E", { locale: ja })}
 								</div>
