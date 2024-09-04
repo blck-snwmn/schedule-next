@@ -54,11 +54,6 @@ const ScheduleCard: React.FC<{
 						<div>{schedule.name}</div>
 						<div>{getScheduleString(schedule)}</div>
 					</div>
-					{/* {relevantSchedules.map((schedule, index) => (
-						// biome-ignore lint/suspicious/noArrayIndexKey: <explanation>
-						<p key={index} className="text-sm text-gray-400">
-						</p>
-					))} */}
 				</div>
 			</div>
 		</div>
