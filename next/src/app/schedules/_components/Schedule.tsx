@@ -16,49 +16,64 @@ interface SchedulesProps {
 	month: number;
 }
 
+const ScheduleImage = ({ event }: { event: ScheduleWithEvent["event"] }) => {
+	return event.thumbnail ? (
+		<img
+			src={event.thumbnail}
+			alt={event.name}
+			className="w-full h-full object-cover"
+		/>
+	) : (
+		<div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-500">
+			No Image
+		</div>
+	);
+};
+
 const ScheduleCard: React.FC<{
 	schedule: ScheduleWithEvent;
 	currentDate: Date;
 }> = ({ schedule, currentDate }) => {
-	const getScheduleString = (schedule: Schedule) => {
-		if (isSameDay(schedule.startAt, schedule.endAt)) {
-			return `${format(schedule.startAt, "HH:mm")} - ${format(schedule.endAt, "HH:mm")}`;
-		}
-		return `${format(schedule.startAt, "M/d HH:mm")} - ${format(schedule.endAt, "M/d HH:mm")}`;
+	const isStartOrEndDate = (schedule: Schedule, currentDate: Date) => {
+		return (
+			isSameDay(schedule.startAt, currentDate) ||
+			isSameDay(schedule.endAt, currentDate)
+		);
 	};
 
 	return (
-		<div className={"bg-gray-800 rounded overflow-hidden shadow-lg "}>
-			<div className="flex relative">
-				<div className="w-1/3 h-32">
-					{schedule.event.thumbnail ? (
-						<img
-							src={schedule.event.thumbnail}
-							alt={schedule.event.name}
-							className="w-full h-full object-cover"
-						/>
-					) : (
-						<div className="w-full h-full bg-gray-700 flex items-center justify-center text-gray-500">
-							No Image
+		<div className={"bg-gray-800 rounded overflow-hidden shadow-lg"}>
+			{/* 開始日か終了日であれば詳細を表示、それ以外はタイトルのみ表示 */}
+			{isStartOrEndDate(schedule, currentDate) ? (
+				<div className="flex relative">
+					<div className="w-1/3 h-32">
+						<ScheduleImage event={schedule.event} />
+						<div className="absolute top-0 left-0 m-1">
+							<CategoryBadge category={schedule.event.category} />
 						</div>
-					)}
-					<div className="absolute top-0 left-0 m-1">
-						<CategoryBadge category={schedule.event.category} />
+					</div>
+					<div className="w-2/3 p-4">
+						<div className="flex justify-between items-start mb-2">
+							<h3 className="font-bold text-lg">{schedule.event.name}</h3>
+						</div>
+						<div>
+							<div>{schedule.name}</div>
+							<div>{`${format(schedule.startAt, "M/d HH:mm")} - ${format(schedule.endAt, "M/d HH:mm")}`}</div>
+						</div>
 					</div>
 				</div>
-				<div className="w-2/3 p-4">
-					<div className="flex justify-between items-start mb-2">
-						<h3 className="font-bold text-lg">{schedule.event.name}</h3>
-					</div>
-					<div>
-						<div>{schedule.name}</div>
-						<div>{getScheduleString(schedule)}</div>
-					</div>
+			) : (
+				// 簡略化表示（タイトルのみ）
+				<div className="p-4">
+					<h3 className="font-bold text-lg">
+						{schedule.event.name}: {schedule.name}
+					</h3>
 				</div>
-			</div>
+			)}
 		</div>
 	);
 };
+
 export const Schedules: React.FC<SchedulesProps> = ({
 	schedules,
 	talents,
