@@ -85,7 +85,7 @@ app.get("/api/events", async (c) => {
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
 		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
 		.where(inArray(events.id, eventIds))
-		.orderBy(schedules.startAt, schedules.endAt)) as QueryResult[];
+		.orderBy(schedules.startAt, schedules.endAt, talents.sortKey)) as QueryResult[];
 
 	console.log(result.length);
 	// 結果を整形
@@ -134,7 +134,9 @@ app.get("/api/events/:id", async (c) => {
 		.where(eq(events.id, id))
 		.leftJoin(schedules, eq(events.id, schedules.eventId))
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
-		.leftJoin(talents, eq(eventTalents.talentId, talents.id))) as QueryResult[];
+		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
+		.orderBy(talents.sortKey)) as QueryResult[];
+
 
 	if (!result.length) {
 		return c.json({ error: "Event not found" }, 404);
@@ -360,7 +362,7 @@ app.get("/api/schedules", async (c) => {
 				gte(schedules.endAt, startOfMonth),
 			),
 		)
-		.orderBy(schedules.startAt, schedules.endAt);
+		.orderBy(schedules.startAt, schedules.endAt, talents.sortKey);
 
 	const formatedSchedule: ScheduleEvent[] = result.reduce(
 		(acc: ScheduleEvent[], curr) => {
