@@ -62,9 +62,8 @@ const ScheduleCard: React.FC<{
 					</div>
 				</div>
 			) : (
-				// 簡略化表示（タイトルのみ）
-				<div className="p-4">
-					<h3 className="font-bold text-lg">
+				<div className="p-2">
+					<h3 className="text-sm">
 						{schedule.event.name}: {schedule.name}
 					</h3>
 				</div>
