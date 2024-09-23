@@ -7,7 +7,6 @@ import { eachDayOfInterval, format, isSameDay } from "date-fns";
 import { ja } from "date-fns/locale";
 import { useState } from "react";
 import { Header } from "./ScheduleHeader";
-import { TalentSelector } from "./TalentSelector";
 
 interface SchedulesProps {
 	schedules: ScheduleWithEvent[];
@@ -123,11 +122,11 @@ export const Schedules: React.FC<SchedulesProps> = ({
 			{/* {showCalendar && (
 				<Calendar events={filteredEvents} year={year} month={month} />
 			)} */}
-			<TalentSelector
+			{/* <TalentSelector
 				talents={talents}
 				selectedTalent={selectedTalent}
 				onSelect={setSelectedTalent}
-			/>
+			/> */}
 			<div className="space-y-8 mt-6">
 				{Object.entries(groupedEvents).map(([dateKey, events]) => {
 					const date = new Date(dateKey);
