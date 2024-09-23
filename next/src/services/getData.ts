@@ -107,6 +107,7 @@ export async function getSchedules(year: number, month: number) {
 	if (!result.success) {
 		throw new Error("Failed to fetch schedules");
 	}
+	console.info(result.data);
 	return result.data;
 }
 
