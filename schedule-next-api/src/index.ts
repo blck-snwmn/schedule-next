@@ -386,7 +386,7 @@ app.get("/api/schedules", async (c) => {
 		},
 		[],
 	);
-
+	console.log(JSON.stringify(formatedSchedule));
 	return c.json(formatedSchedule);
 });
 
