@@ -90,12 +90,14 @@ export const Schedules: React.FC<SchedulesProps> = ({
 	// 	)
 	// 	: scheduleEvent;
 
+	const monthStart = new Date(year, month - 1, 1);
+	const monthEnd = new Date(year, month, 0);
 	// イベントを日付でグループ化
 	const groupedEvents = filteredEvents.reduce(
 		(acc, schedule) => {
 			const dateRange = eachDayOfInterval({
-				start: schedule.startAt,
-				end: schedule.endAt,
+				start: schedule.startAt < monthStart ? monthStart : schedule.startAt,
+				end: schedule.endAt > monthEnd ? monthEnd : schedule.endAt,
 			});
 			for (const date of dateRange) {
 				const dateKey = format(date, "yyyy-MM-dd");
