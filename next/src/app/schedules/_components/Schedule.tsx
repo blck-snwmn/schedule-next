@@ -88,6 +88,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 	// 		event.talents.some((talent) => talent.id === selectedTalent.id),
 	// 	)
 	// 	: scheduleEvent;
+	console.info(filteredEvents);
 
 	const monthStart = new Date(year, month - 1, 1);
 	const monthEnd = new Date(year, month, 0);
