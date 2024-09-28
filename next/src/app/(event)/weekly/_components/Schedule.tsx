@@ -1,4 +1,5 @@
 import { getCategoryColor } from "@/components/CategoryBadge";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
 import { eachDayOfInterval, format, getDay, getDaysInMonth } from "date-fns";
@@ -49,45 +50,48 @@ export const Schedules: React.FC<SchedulesProps> = ({
 
 	return (
 		<div>
-			<div
-				className="grid gap-2"
-				style={{
-					gridTemplateColumns: `repeat(${numberOfDays}, minmax(50px, 1fr))`,
-				}}
-			>
-				{range.map((date) => {
-					const dayIndex = getDay(date);
-					return (
-						<div
-							key={date.toISOString()}
-							className={cn(
-								"text-center p-2 rounded-lg shadow-sm",
-								getDayBackground(dayIndex),
-							)}
-						>
-							<div className="text-xs font-semibold text-gray-400">
-								{format(date, "EEE")} {/* 曜日 */}
+			<ScrollArea>
+				<div
+					className="grid gap-2 mb-5"
+					style={{
+						gridTemplateColumns: `repeat(${numberOfDays}, minmax(50px, 1fr))`,
+					}}
+				>
+					{range.map((date) => {
+						const dayIndex = getDay(date);
+						return (
+							<div
+								key={date.toISOString()}
+								className={cn(
+									"text-center p-2 rounded-lg shadow-sm",
+									getDayBackground(dayIndex),
+								)}
+							>
+								<div className="text-xs font-semibold text-gray-400">
+									{format(date, "EEE")} {/* 曜日 */}
+								</div>
+								<div className="text-lg font-bold">{format(date, "dd")}</div>
 							</div>
-							<div className="text-lg font-bold">{format(date, "dd")}</div>
+						);
+					})}
+					{schedules.map((schedule, index) => (
+						<div
+							key={schedule.id}
+							className={cn(
+								"p-1 rounded-lg text-center whitespace-nowrap",
+								getCategoryColor(schedule.event.category),
+							)}
+							style={{
+								gridColumn: getGridColumnSpan(schedule),
+								gridRow: index + 2,
+							}}
+						>
+							{schedule.event.name}: {schedule.name}
 						</div>
-					);
-				})}
-				{schedules.map((schedule, index) => (
-					<div
-						key={schedule.id}
-						className={cn(
-							"p-1 rounded-lg text-center whitespace-nowrap",
-							getCategoryColor(schedule.event.category),
-						)}
-						style={{
-							gridColumn: getGridColumnSpan(schedule),
-							gridRow: index + 2,
-						}}
-					>
-						{schedule.event.name}: {schedule.name}
-					</div>
-				))}
-			</div>
+					))}
+				</div>
+				<ScrollBar orientation="horizontal" />
+			</ScrollArea>
 		</div>
 	);
 };
