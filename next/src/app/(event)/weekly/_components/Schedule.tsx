@@ -2,7 +2,7 @@ import { getCategoryColor } from "@/components/CategoryBadge";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
-import { eachDayOfInterval, format, getDay, getDaysInMonth } from "date-fns";
+import { eachDayOfInterval, format, getDay, getDaysInMonth, isToday } from "date-fns";
 
 interface SchedulesProps {
 	schedules: ScheduleWithEvent[];
@@ -37,7 +37,11 @@ export const Schedules: React.FC<SchedulesProps> = ({
 		return `${startIndex + 1} / span ${endIndex - startIndex + 1}`;
 	};
 
-	const getDayBackground = (dayIndex: number) => {
+	const getDayBackground = (date: Date) => {
+		if (isToday(date)) {
+			return "border-2 border-yellow-500";
+		}
+		const dayIndex = getDay(date);
 		switch (dayIndex) {
 			case 0: // sunday
 				return "text-red-500";
@@ -64,7 +68,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 								key={date.toISOString()}
 								className={cn(
 									"text-center p-2 rounded-lg shadow-sm",
-									getDayBackground(dayIndex),
+									getDayBackground(date),
 								)}
 							>
 								<div className="text-xs font-semibold text-gray-400">
