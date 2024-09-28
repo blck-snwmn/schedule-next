@@ -62,7 +62,6 @@ export const Schedules: React.FC<SchedulesProps> = ({
 					}}
 				>
 					{range.map((date) => {
-						const dayIndex = getDay(date);
 						return (
 							<div
 								key={date.toISOString()}
