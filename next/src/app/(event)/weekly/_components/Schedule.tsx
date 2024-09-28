@@ -26,12 +26,16 @@ export const Schedules: React.FC<SchedulesProps> = ({
 
 	const getGridColumnSpan = (schedule: ScheduleWithEvent) => {
 		// If you started last month or earlier, adjust `startIndex`.
-		let startIndex = range.findIndex((date) => date >= schedule.startAt);
-		startIndex = startIndex === -1 ? 0 : startIndex;
+		const startIndex = Math.max(
+			0,
+			range.findIndex((date) => date >= schedule.startAt),
+		);
 
 		// If it ends next month or later, adjust `endIndex`.
-		let endIndex = range.findIndex((date) => date >= schedule.endAt);
-		endIndex = endIndex === -1 ? range.length - 1 : endIndex;
+		const endIndex = Math.min(
+			range.length - 1,
+			range.findIndex((date) => date >= schedule.endAt),
+		);
 
 		return `${startIndex + 1} / span ${endIndex - startIndex + 1}`;
 	};
