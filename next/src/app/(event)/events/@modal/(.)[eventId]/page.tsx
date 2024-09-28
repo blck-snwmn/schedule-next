@@ -1,4 +1,4 @@
-import DetailDialog from "@/app/events/_components/EventDetailDialog";
+import DetailDialog from "@/app/(event)/events/_components/EventDetailDialog";
 import { getEventById } from "@/services/getData";
 import { notFound } from "next/navigation";
 
