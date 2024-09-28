@@ -1,7 +1,7 @@
 import { type Category, categoryColors } from "@/services/type";
 import { Badge } from "./ui/badge";
 
-const getCategoryColor = (category: string): string => {
+export const getCategoryColor = (category: string): string => {
 	if (isCategory(category)) {
 		return categoryColors[category];
 	}
