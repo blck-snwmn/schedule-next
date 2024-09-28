@@ -1,4 +1,5 @@
 import { getCategoryColor } from "@/components/CategoryBadge";
+import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
 import { eachDayOfInterval, format, getDay, getDaysInMonth } from "date-fns";
 
@@ -56,7 +57,10 @@ export const Schedules: React.FC<SchedulesProps> = ({
 					return (
 						<div
 							key={date.toISOString()}
-							className={`text-center p-2 rounded-lg shadow-sm ${getDayBackground(dayIndex)}`}
+							className={cn(
+								"text-center p-2 rounded-lg shadow-sm",
+								getDayBackground(dayIndex),
+							)}
 						>
 							<div className="text-xs font-semibold text-gray-400">
 								{format(date, "EEE")} {/* 曜日 */}
@@ -68,7 +72,10 @@ export const Schedules: React.FC<SchedulesProps> = ({
 				{schedules.map((schedule, index) => (
 					<div
 						key={schedule.id}
-						className={`p-1 rounded-lg text-center ${getCategoryColor(schedule.event.category)}`}
+						className={cn(
+							"p-1 rounded-lg text-center whitespace-nowrap",
+							getCategoryColor(schedule.event.category)
+						)}
 						style={{
 							gridColumn: getGridColumnSpan(schedule),
 							gridRow: index + 2,
