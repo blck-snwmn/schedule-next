@@ -35,11 +35,11 @@ export const Schedules: React.FC<SchedulesProps> = ({
 	const getDayBackground = (dayIndex: number) => {
 		switch (dayIndex) {
 			case 0: // sunday
-				return "bg-red-800 text-white";
+				return "text-red-500";
 			case 6: // saturday
-				return "bg-blue-800 text-white";
+				return "text-blue-500";
 			default: // weekday
-				return "bg-gray-800 text-gray-200";
+				return "text-gray-300";
 		}
 	};
 
