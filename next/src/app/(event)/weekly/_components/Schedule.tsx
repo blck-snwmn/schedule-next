@@ -74,7 +74,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 							gridRow: index + 2,
 						}}
 					>
-						{schedule.event.name}
+						{schedule.event.name}: {schedule.name}
 					</div>
 				))}
 			</div>
