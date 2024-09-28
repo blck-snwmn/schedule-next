@@ -77,7 +77,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 						key={schedule.id}
 						className={cn(
 							"p-1 rounded-lg text-center whitespace-nowrap",
-							getCategoryColor(schedule.event.category)
+							getCategoryColor(schedule.event.category),
 						)}
 						style={{
 							gridColumn: getGridColumnSpan(schedule),
