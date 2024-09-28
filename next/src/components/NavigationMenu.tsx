@@ -18,6 +18,7 @@ export const Menu = () => {
             links: [
                 { href: "/events", label: "Events" },
                 { href: "/schedules", label: "Schedules" },
+                { href: "/weekly", label: "Weekly" },
             ],
         },
         {
