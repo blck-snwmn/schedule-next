@@ -111,7 +111,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 	);
 
 	return (
-		<main className="min-h-screen">
+		<main>
 			<Header year={year} month={month} />
 			<Button
 				onClick={() => setShowCalendar(!showCalendar)}

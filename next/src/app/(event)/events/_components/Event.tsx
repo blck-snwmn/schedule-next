@@ -139,7 +139,7 @@ export const Events: React.FC<EventsProps> = ({
 		: scheduleEvent;
 
 	return (
-		<main className="min-h-screen">
+		<main>
 			<Header year={year} month={month} />
 			<Button
 				onClick={() => setShowCalendar(!showCalendar)}
