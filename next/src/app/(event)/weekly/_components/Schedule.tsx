@@ -60,6 +60,22 @@ const getGridColumnSpan = (range: Date[], schedule: ScheduleWithEvent) => {
 	return `${startIndex + 1} / span ${endIndex - startIndex + 1}`;
 };
 
+const getBorderRadiusClass = (range: Date[], schedule: ScheduleWithEvent) => {
+	const isStartBeforeMonth = schedule.startAt < range[0]; // 開始日が当月より前かどうか
+	const isEndAfterMonth = schedule.endAt > range[range.length - 1]; // 終了日が当月より後かどうか
+
+	let borderRadiusClass = "rounded-l-lg rounded-r-lg"; // デフォルトで角丸をすべてつける
+
+	if (isStartBeforeMonth) {
+		borderRadiusClass = borderRadiusClass.replace("rounded-l-lg", ""); // 左の角を丸めない
+	}
+
+	if (isEndAfterMonth) {
+		borderRadiusClass = borderRadiusClass.replace("rounded-r-lg", ""); // 右の角を丸めない
+	}
+	return borderRadiusClass;
+};
+
 const ScheduleCell: React.FC<{
 	range: Date[];
 	schedule: ScheduleWithEvent;
@@ -69,8 +85,9 @@ const ScheduleCell: React.FC<{
 		<div
 			key={schedule.id}
 			className={cn(
-				"p-1 rounded-lg text-center whitespace-nowrap",
+				"p-1 text-center whitespace-nowrap",
 				getCategoryColor(schedule.event.category),
+				getBorderRadiusClass(range, schedule),
 			)}
 			style={{
 				gridColumn: getGridColumnSpan(range, schedule),
