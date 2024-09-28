@@ -85,7 +85,11 @@ app.get("/api/events", async (c) => {
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
 		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
 		.where(inArray(events.id, eventIds))
-		.orderBy(schedules.startAt, schedules.endAt, talents.sortKey)) as QueryResult[];
+		.orderBy(
+			schedules.startAt,
+			schedules.endAt,
+			talents.sortKey,
+		)) as QueryResult[];
 
 	console.log(result.length);
 	// 結果を整形
@@ -136,7 +140,6 @@ app.get("/api/events/:id", async (c) => {
 		.leftJoin(eventTalents, eq(events.id, eventTalents.eventId))
 		.leftJoin(talents, eq(eventTalents.talentId, talents.id))
 		.orderBy(talents.sortKey)) as QueryResult[];
-
 
 	if (!result.length) {
 		return c.json({ error: "Event not found" }, 404);
