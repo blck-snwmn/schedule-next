@@ -102,7 +102,7 @@ const ScheduleCell: React.FC<{
 				</div>
 			</HoverCardTrigger>
 			<HoverCardContent>
-				<div>
+				<div className="flex flex-row flex-wrap gap-1">
 					{schedule.event.talents.map((t) => {
 						return (
 							<div key={t.id}>
