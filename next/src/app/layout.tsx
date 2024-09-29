@@ -46,7 +46,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en">
-			<body className={`${inter.className} bg-sky-900 text-white`}>
+			<body className={`${inter.className} bg-sky-950 text-white`}>
 				<Menu />
 				<Separator />
 				<div className="m-3">{children}</div>
