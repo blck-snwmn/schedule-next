@@ -1,4 +1,4 @@
-import { getCategoryColor } from "@/components/CategoryBadge";
+import { CategoryBadge, getCategoryColor } from "@/components/CategoryBadge";
 import { Badge } from "@/components/ui/badge";
 import {
 	Popover,
@@ -8,6 +8,7 @@ import {
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
+import { formatDate } from "@/utils/formatDate";
 import {
 	eachDayOfInterval,
 	format,
@@ -106,14 +107,37 @@ const ScheduleCell: React.FC<{
 				</div>
 			</PopoverTrigger>
 			<PopoverContent>
-				<div className="flex flex-row flex-wrap gap-1">
-					{schedule.event.talents.map((t) => {
-						return (
-							<div key={t.id}>
-								<Badge>{t.name}</Badge>
-							</div>
-						);
-					})}
+				<div className="h-48 relative bg-gray-700">
+					{schedule.event.thumbnail ? (
+						<img
+							src={schedule.event.thumbnail}
+							alt={schedule.event.name}
+							className="w-full h-full object-cover"
+						/>
+					) : (
+						<div className="w-full h-full flex items-center justify-center text-gray-500">
+							No Image
+						</div>
+					)}
+					<div className="absolute top-0 left-0 m-2">
+						<CategoryBadge category={schedule.event.category} />
+					</div>
+				</div>
+				<div className="flex flex-row my-1">
+					<div className="text-xs">{formatDate(schedule.startAt)}</div>
+					<div className="text-xs"> ~ {formatDate(schedule.endAt)}</div>
+				</div>
+				<div>
+					関連
+					<div className="flex flex-row flex-wrap gap-1">
+						{schedule.event.talents.map((t) => {
+							return (
+								<div key={t.id}>
+									<Badge>{t.name}</Badge>
+								</div>
+							);
+						})}
+					</div>
 				</div>
 			</PopoverContent>
 		</Popover>
