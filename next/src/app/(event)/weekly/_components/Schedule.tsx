@@ -1,6 +1,10 @@
 import { getCategoryColor } from "@/components/CategoryBadge";
 import { Badge } from "@/components/ui/badge";
-import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
+import {
+	HoverCard,
+	HoverCardContent,
+	HoverCardTrigger,
+} from "@/components/ui/hover-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
@@ -108,7 +112,7 @@ const ScheduleCell: React.FC<{
 							<div key={t.id}>
 								<Badge>{t.name}</Badge>
 							</div>
-						)
+						);
 					})}
 				</div>
 			</HoverCardContent>
