@@ -1,4 +1,6 @@
 import { getCategoryColor } from "@/components/CategoryBadge";
+import { Badge } from "@/components/ui/badge";
+import { HoverCard, HoverCardContent, HoverCardTrigger } from "@/components/ui/hover-card";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
@@ -82,20 +84,35 @@ const ScheduleCell: React.FC<{
 	index: number;
 }> = ({ range, schedule, index }) => {
 	return (
-		<div
-			key={schedule.id}
-			className={cn(
-				"p-1 text-center whitespace-nowrap",
-				getCategoryColor(schedule.event.category),
-				getBorderRadiusClass(range, schedule),
-			)}
-			style={{
-				gridColumn: getGridColumnSpan(range, schedule),
-				gridRow: index + 2,
-			}}
-		>
-			{schedule.event.name}: {schedule.name}
-		</div>
+		<HoverCard>
+			<HoverCardTrigger asChild>
+				<div
+					key={schedule.id}
+					className={cn(
+						"p-1 text-center whitespace-nowrap",
+						getCategoryColor(schedule.event.category),
+						getBorderRadiusClass(range, schedule),
+					)}
+					style={{
+						gridColumn: getGridColumnSpan(range, schedule),
+						gridRow: index + 2,
+					}}
+				>
+					{schedule.event.name}: {schedule.name}
+				</div>
+			</HoverCardTrigger>
+			<HoverCardContent>
+				<div>
+					{schedule.event.talents.map((t) => {
+						return (
+							<div key={t.id}>
+								<Badge>{t.name}</Badge>
+							</div>
+						)
+					})}
+				</div>
+			</HoverCardContent>
+		</HoverCard>
 	);
 };
 
