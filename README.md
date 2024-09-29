@@ -1,5 +1,14 @@
 # schedule-next
 
+## Run
+in next, schedule-next-api dir
+```bash
+pnpm run dev
+```
+
+## Deploy
+see: ./.github/workflows/deploy.yml
+
 ## Use
 - TypeScript
 - Zod
