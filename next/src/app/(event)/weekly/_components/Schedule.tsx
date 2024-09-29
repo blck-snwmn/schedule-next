@@ -5,6 +5,11 @@ import {
 	HoverCardContent,
 	HoverCardTrigger,
 } from "@/components/ui/hover-card";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { cn } from "@/lib/utils";
 import type { ScheduleWithEvent, Talent } from "@/services/type";
@@ -88,8 +93,8 @@ const ScheduleCell: React.FC<{
 	index: number;
 }> = ({ range, schedule, index }) => {
 	return (
-		<HoverCard>
-			<HoverCardTrigger asChild>
+		<Popover>
+			<PopoverTrigger asChild>
 				<div
 					key={schedule.id}
 					className={cn(
@@ -104,8 +109,8 @@ const ScheduleCell: React.FC<{
 				>
 					{schedule.event.name}: {schedule.name}
 				</div>
-			</HoverCardTrigger>
-			<HoverCardContent>
+			</PopoverTrigger>
+			<PopoverContent>
 				<div className="flex flex-row flex-wrap gap-1">
 					{schedule.event.talents.map((t) => {
 						return (
@@ -115,8 +120,8 @@ const ScheduleCell: React.FC<{
 						);
 					})}
 				</div>
-			</HoverCardContent>
-		</HoverCard>
+			</PopoverContent>
+		</Popover>
 	);
 };
 
