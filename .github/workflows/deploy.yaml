@@ -13,6 +13,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+      - name: create .dev.vars
+        run: |
+          echo "ENDPOINT=${{ secrets.ENDPOINT }}" > .dev.vars
       - name: Cache turbo build setup
         uses: actions/cache@v4
         with: 
