@@ -15,7 +15,7 @@ jobs:
           fetch-depth: 0
       - name: create .dev.vars
         run: |
-          echo "ENDPOINT=${{ secrets.ENDPOINT }}" > .dev.vars
+          echo "ENDPOINT=${{ secrets.ENDPOINT }}" > ./schedule-next-worker/.dev.vars
       - name: show
         run: |
           cat .dev.vars
