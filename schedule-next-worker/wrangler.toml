@@ -15,3 +15,7 @@ workers_dev = false
 
 [observability]
 enabled = true
+
+[[kv_namespaces]]
+binding = "NEXT_CACHE_WORKERS_KV"
+id = "66487a0dd2034585a4d1dac2bce6f1ea"
