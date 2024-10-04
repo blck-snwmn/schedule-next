@@ -16,6 +16,9 @@ jobs:
       - name: create .dev.vars
         run: |
           echo "ENDPOINT=${{ secrets.ENDPOINT }}" > .dev.vars
+      - name: show
+        run: |
+          cat .dev.vars
       - name: Cache turbo build setup
         uses: actions/cache@v4
         with: 
