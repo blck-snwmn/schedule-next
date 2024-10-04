@@ -10,5 +10,7 @@ database_name = "schedule-next-db"
 database_id = "6ad15f9a-3577-4469-b69a-70206db00325"
 migrations_dir = "drizzle"
 
+workers_dev = false
+
 [observability]
 enabled = true

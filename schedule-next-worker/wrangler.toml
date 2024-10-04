@@ -11,5 +11,7 @@ minify = true
 # Use the new Workers + Assets to host the static frontend files
 assets = { directory = ".worker-next/assets", binding = "ASSETS" }
 
+workers_dev = false
+
 [observability]
 enabled = true
