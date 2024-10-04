@@ -6,12 +6,16 @@
 			"dependsOn": ["^build"],
 			"outputs": ["dist/**", ".next/**", "!.next/cache/**"]
 		},
+		"build:worker": {
+			"dependsOn": ["^build"],
+			"outputs": [".worker-next/**"]
+		},
 		"pages:build": {
-			"dependsOn": ["build"],
+			"dependsOn": ["^build"],
 			"outputs": [".vercel/**", ".output/**"]
 		},
 		"deploy": {
-			"dependsOn": ["build", "pages:build"],
+			"dependsOn": ["build", "pages:build", "build:worker"],
 			"outputs": []
 		},
 		"check-types": {
