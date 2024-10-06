@@ -12,7 +12,7 @@
 		},
 		"pages:build": {
 			"dependsOn": ["^build"],
-			"outputs": [".vercel/**", ".output/**"]
+			"outputs": [".vercel/**", ".output/**", ".next/**"]
 		},
 		"deploy": {
 			"dependsOn": ["build", "pages:build", "build:worker"],
