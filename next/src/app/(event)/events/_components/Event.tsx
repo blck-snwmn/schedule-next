@@ -11,11 +11,12 @@ import {
 	isSameMonth,
 	startOfMonth,
 } from "date-fns";
-import Link from "next/link";
 import { useState } from "react";
 import Calendar from "./Calendar";
 import { Header } from "./EventHeader";
 import { TalentSelector } from "./TalentSelector";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Badge } from "@/components/ui/badge";
 
 const isScheduleInMonth = (schedule: Schedule, year: number, month: number) => {
 	const scheduleStart = schedule.startAt;
@@ -39,11 +40,10 @@ const ScheduleInfo: React.FC<{
 	const isInMonth = isScheduleInMonth(schedule, year, month);
 	return (
 		<div
-			className={`mb-2 p-2 rounded text-sm ${
-				isInMonth
-					? "bg-gray-700 text-white border-l-4 border-blue-500"
-					: "bg-gray-800 text-gray-400"
-			}`}
+			className={`mb-2 p-2 rounded text-sm ${isInMonth
+				? "bg-gray-700 text-white border-l-4 border-blue-500"
+				: "bg-gray-800 text-gray-400"
+				}`}
 		>
 			<div className="flex justify-between items-start">
 				<div className="font-semibold">{schedule.name}</div>
@@ -67,37 +67,68 @@ const EventInfo: React.FC<{
 				"mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"
 			}
 		>
-			<Link key={event.id} href={`/events/${event.id}`}>
-				<div className="h-48 relative bg-gray-700">
-					{event.thumbnail ? (
-						<img
-							src={event.thumbnail}
-							alt={event.name}
-							className="w-full h-full object-cover"
-						/>
-					) : (
-						<div className="w-full h-full flex items-center justify-center text-gray-500">
-							No Image
+			<div className="h-48 relative bg-gray-700">
+				{event.thumbnail ? (
+					<img
+						src={event.thumbnail}
+						alt={event.name}
+						className="w-full h-full object-cover"
+					/>
+				) : (
+					<div className="w-full h-full flex items-center justify-center text-gray-500">
+						No Image
+					</div>
+				)}
+				<div className="absolute top-0 left-0 m-2">
+					<CategoryBadge category={event.category} />
+				</div>
+			</div>
+			<h3 className="font-bold text-lg m-1">{event.name}</h3>
+			<div className="flex gap-2 m-2">
+				<Popover>
+					<PopoverTrigger asChild>
+						<Button>
+							スケジュール
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent className="bg-gray-800">
+						<div className="text-white">
+							スケジュール
+							<div>
+								{event.schedules.map((schedule) => (
+									<ScheduleInfo
+										key={schedule.id}
+										schedule={schedule}
+										year={year}
+										month={month}
+									/>
+								))}
+							</div>
 						</div>
-					)}
-					<div className="absolute top-0 left-0 m-2">
-						<CategoryBadge category={event.category} />
-					</div>
-				</div>
-				<div className="p-3">
-					<h3 className="font-bold text-lg mb-2">{event.name}</h3>
-					<div className="mb-2">
-						{event.schedules.map((schedule) => (
-							<ScheduleInfo
-								key={schedule.id}
-								schedule={schedule}
-								year={year}
-								month={month}
-							/>
-						))}
-					</div>
-				</div>
-			</Link>
+					</PopoverContent>
+				</Popover>
+				<Popover>
+					<PopoverTrigger asChild>
+						<Button>
+							関連
+						</Button>
+					</PopoverTrigger>
+					<PopoverContent className="bg-gray-800">
+						<div className="text-white">
+							関連
+							<div className="flex flex-row flex-wrap gap-1">
+								{event.talents.map((t) => {
+									return (
+										<div key={t.id}>
+											<Badge>{t.name}</Badge>
+										</div>
+									);
+								})}
+							</div>
+						</div>
+					</PopoverContent>
+				</Popover>
+			</div>
 		</div>
 	);
 };
@@ -134,8 +165,8 @@ export const Events: React.FC<EventsProps> = ({
 
 	const filteredEvents = selectedTalent
 		? scheduleEvent.filter((event) =>
-				event.talents.some((talent) => talent.id === selectedTalent.id),
-			)
+			event.talents.some((talent) => talent.id === selectedTalent.id),
+		)
 		: scheduleEvent;
 
 	return (
