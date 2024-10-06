@@ -95,7 +95,7 @@ importers:
         version: 1.8.3
       '@cloudflare/next-on-pages':
         specifier: '1'
-        version: 1.13.3(@cloudflare/workers-types@4.20240925.0)(vercel@34.4.0)(wrangler@3.78.12(@cloudflare/workers-types@4.20240925.0))
+        version: 1.13.3(@cloudflare/workers-types@4.20240925.0)(vercel@34.4.0)(wrangler@3.80.0(@cloudflare/workers-types@4.20240925.0))
       '@cloudflare/workers-types':
         specifier: ^4.20240925.0
         version: 4.20240925.0
@@ -127,8 +127,8 @@ importers:
         specifier: 1.5.0
         version: 1.5.0(@edge-runtime/vm@3.2.0)(@types/node@20.14.12)
       wrangler:
-        specifier: ^3.78.12
-        version: 3.78.12(@cloudflare/workers-types@4.20240925.0)
+        specifier: ^3.80.0
+        version: 3.80.0(@cloudflare/workers-types@4.20240925.0)
 
   schedule-next-api:
     dependencies:
@@ -164,8 +164,8 @@ importers:
         specifier: 1.5.0
         version: 1.5.0(@edge-runtime/vm@3.2.0)(@types/node@20.14.12)
       wrangler:
-        specifier: ^3.78.12
-        version: 3.78.12(@cloudflare/workers-types@4.20240925.0)
+        specifier: ^3.80.0
+        version: 3.80.0(@cloudflare/workers-types@4.20240925.0)
 
   schedule-next-worker:
     dependencies:
@@ -250,7 +250,7 @@ importers:
         version: 4.20240925.0
       '@opennextjs/cloudflare':
         specifier: 0.0.0-59a1d9e
-        version: 0.0.0-59a1d9e(wrangler@3.78.12(@cloudflare/workers-types@4.20240925.0))
+        version: 0.0.0-59a1d9e(wrangler@3.80.0(@cloudflare/workers-types@4.20240925.0))
       '@types/node':
         specifier: ^20
         version: 20.14.12
@@ -279,8 +279,8 @@ importers:
         specifier: ^5
         version: 5.5.4
       wrangler:
-        specifier: ^3.78.12
-        version: 3.78.12(@cloudflare/workers-types@4.20240925.0)
+        specifier: ^3.80.0
+        version: 3.80.0(@cloudflare/workers-types@4.20240925.0)
 
   schema:
     dependencies:
@@ -4647,8 +4647,8 @@ packages:
       '@cloudflare/workers-types':
         optional: true
 
-  wrangler@3.78.12:
-    resolution: {integrity: sha512-a/xk/N04IvOGk9J+BLkiFg42GDyPS+0BiJimbrHsbX+CDr8Iqq3HNMEyQld+6zbmq01u/gmc8S7GKVR9vDx4+g==}
+  wrangler@3.80.0:
+    resolution: {integrity: sha512-c9aN7Buf7XgTPpQkw1d0VjNRI4qg3m35PTg70Tg4mOeHwHGjsd74PAsP1G8BjpdqDjfWtsua7tj1g4M3/5dYNQ==}
     engines: {node: '>=16.17.0'}
     hasBin: true
     peerDependencies:
@@ -4774,7 +4774,7 @@ snapshots:
     dependencies:
       mime: 3.0.0
 
-  '@cloudflare/next-on-pages@1.13.3(@cloudflare/workers-types@4.20240925.0)(vercel@34.4.0)(wrangler@3.78.12(@cloudflare/workers-types@4.20240925.0))':
+  '@cloudflare/next-on-pages@1.13.3(@cloudflare/workers-types@4.20240925.0)(vercel@34.4.0)(wrangler@3.80.0(@cloudflare/workers-types@4.20240925.0))':
     dependencies:
       acorn: 8.12.1
       ast-types: 0.14.2
@@ -4789,7 +4789,7 @@ snapshots:
       pcre-to-regexp: 1.1.0
       semver: 7.6.3
       vercel: 34.4.0
-      wrangler: 3.78.12(@cloudflare/workers-types@4.20240925.0)
+      wrangler: 3.80.0(@cloudflare/workers-types@4.20240925.0)
     optionalDependencies:
       '@cloudflare/workers-types': 4.20240925.0
     transitivePeerDependencies:
@@ -5362,10 +5362,10 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@opennextjs/cloudflare@0.0.0-59a1d9e(wrangler@3.78.12(@cloudflare/workers-types@4.20240925.0))':
+  '@opennextjs/cloudflare@0.0.0-59a1d9e(wrangler@3.80.0(@cloudflare/workers-types@4.20240925.0))':
     dependencies:
       ts-morph: 23.0.0
-      wrangler: 3.78.12(@cloudflare/workers-types@4.20240925.0)
+      wrangler: 3.80.0(@cloudflare/workers-types@4.20240925.0)
 
   '@pkgjs/parseargs@0.11.0':
     optional: true
@@ -9056,7 +9056,7 @@ snapshots:
       - supports-color
       - utf-8-validate
 
-  wrangler@3.78.12(@cloudflare/workers-types@4.20240925.0):
+  wrangler@3.80.0(@cloudflare/workers-types@4.20240925.0):
     dependencies:
       '@cloudflare/kv-asset-handler': 0.3.4
       '@cloudflare/workers-shared': 0.5.4
