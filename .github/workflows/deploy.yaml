@@ -33,7 +33,7 @@ jobs:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
       - name: deploy
         run: |
-          pnpm turbo build check-types pages:build deploy
+          pnpm turbo deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CF_API_TOKEN }}
           ENDPOINT: ${{ secrets.ENDPOINT }}
