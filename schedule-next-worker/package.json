@@ -4,7 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "next dev",
-		"build:worker": "cloudflare",
+		"tmpbuild:worker": "cloudflare",
 		"start": "next start",
 		"lint": "next lint",
 		"tmpdeploy:worker": "wrangler deploy",
