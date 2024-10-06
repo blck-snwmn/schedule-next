@@ -127,7 +127,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 				selectedTalent={selectedTalent}
 				onSelect={setSelectedTalent}
 			/> */}
-			<div className="space-y-8 mt-6">
+			<div className="space-y-4 mt-6">
 				{Object.entries(groupedEvents).map(([dateKey, events]) => {
 					const date = new Date(dateKey);
 					return (
@@ -138,7 +138,7 @@ export const Schedules: React.FC<SchedulesProps> = ({
 								</div>
 								<div className="text-lg font-bold">{format(date, "d")}</div>
 							</div>
-							<div className="flex-grow space-y-4">
+							<div className="flex flex-col gap-1">
 								{events.map((event) => (
 									<ScheduleCard
 										key={event.id}
