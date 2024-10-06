@@ -6,6 +6,18 @@ on:
       - main
 
 jobs:
+  build-test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          run_install: true
+      - name: build
+        run: |
+          cd schedule-next-worker
+          pnpm cloudflare
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
