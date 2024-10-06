@@ -14,6 +14,9 @@ jobs:
       - uses: pnpm/action-setup@v4
         with:
           run_install: true
+      - name: create .dev.vars
+        run: |
+          echo "ENDPOINT=${{ secrets.ENDPOINT }}" > ./schedule-next-worker/.dev.vars
       - name: build
         run: |
           cd schedule-next-worker
