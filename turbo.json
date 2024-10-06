@@ -8,7 +8,7 @@
 		},
 		"build:worker": {
 			"dependsOn": ["^build"],
-			"outputs": [".worker-next/**"]
+			"outputs": [".worker-next/**", ".next/**"]
 		},
 		"pages:build": {
 			"dependsOn": ["^build"],
