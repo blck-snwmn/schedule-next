@@ -4,13 +4,14 @@ main = "src/index.ts"
 compatibility_date = "2024-07-25"
 compatibility_flags = ["nodejs_compat"]
 
+workers_dev = false
+
 [[d1_databases]]
 binding = "DB" # i.e. available in your Worker on env.DB
 database_name = "schedule-next-db"
 database_id = "6ad15f9a-3577-4469-b69a-70206db00325"
 migrations_dir = "drizzle"
 
-workers_dev = false
 
 [observability]
 enabled = true
