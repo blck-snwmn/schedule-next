@@ -64,7 +64,7 @@ const EventInfo: React.FC<{
 	return (
 		<div
 			className={
-				"mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"
+				"flex flex-col mb-4 border border-gray-700 rounded overflow-hidden bg-gray-800 text-white"
 			}
 		>
 			<div className="h-48 relative bg-gray-700">
@@ -83,7 +83,7 @@ const EventInfo: React.FC<{
 					<CategoryBadge category={event.category} />
 				</div>
 			</div>
-			<h3 className="font-bold text-lg m-1">{event.name}</h3>
+			<h3 className="font-bold text-lg m-1 flex-1 ">{event.name}</h3>
 			<div className="flex gap-2 m-2">
 				<Popover>
 					<PopoverTrigger asChild>
