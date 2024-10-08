@@ -16,11 +16,12 @@ jobs:
           run_install: true
       - name: create .dev.vars
         run: |
-          echo "ENDPOINT=${{ secrets.ENDPOINT }}" > ./schedule-next-worker/.dev.vars
+          echo "ENDPOINT=${{ secrets.ENDPOINT }}" > ./.dev.vars
+        working-directory: schedule-next-worker
       - name: build
         run: |
-          cd schedule-next-worker
           pnpm cloudflare
+        working-directory: schedule-next-worker
   deploy:
     runs-on: ubuntu-latest
     timeout-minutes: 10
