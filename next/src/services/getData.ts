@@ -26,12 +26,14 @@ export async function getEvents(year: number, month: number) {
 		},
 	);
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to fetch events: ${error}`);
 		throw new Error("Failed to fetch events");
 	}
 	const result = eventsSchema.safeParse(await response.json());
 	if (!result.success) {
-		console.error(result.error.errors);
-		throw new Error("Failed to fetch events");
+		console.error("Failed to parse events: %o", result.error);
+		throw new Error("Failed to parse events");
 	}
 	return result.data;
 }
@@ -48,10 +50,13 @@ export async function getEventById(id: string) {
 		if (response.status === 404) {
 			return null; // イベントが見つからない場合
 		}
+		const error = await response.text();
+		console.error(`Failed to fetch event: ${error}`);
 		throw new Error("Failed to fetch event");
 	}
 	const result = eventSchema.safeParse(await response.json());
 	if (!result.success) {
+		console.error("Failed to parse event: %o", result.error);
 		throw new Error("Failed to fetch event");
 	}
 	return result.data;
@@ -64,6 +69,8 @@ export async function createEvent(event: CreateScheduleEvent) {
 		body: JSON.stringify(event),
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error("Failed to create event", error);
 		throw new Error("Failed to create event");
 	}
 }
@@ -76,7 +83,7 @@ export async function updateEvent(event: EditScheduleEvent) {
 	});
 	if (!response.ok) {
 		const error = await response.text();
-		console.error("Failed to update event", error);
+		console.error(`Failed to update event: ${error}`);
 		throw new Error("Failed to update event");
 	}
 }
@@ -87,7 +94,8 @@ export async function deleteEvent(id: string) {
 		method: "DELETE",
 	});
 	if (!response.ok) {
-		console.error("Failed to delete event");
+		const error = await response.text();
+		console.error(`Failed to delete event: ${error}`);
 		throw new Error("Failed to delete event");
 	}
 }
@@ -101,13 +109,15 @@ export async function getSchedules(year: number, month: number) {
 		},
 	);
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to fetch schedules: ${error}`);
 		throw new Error("Failed to fetch schedules");
 	}
 	const result = scheduleEventsSchema.safeParse(await response.json());
 	if (!result.success) {
+		console.error("Failed to parse schedules: %o", result.error);
 		throw new Error("Failed to fetch schedules");
 	}
-	console.info(result.data);
 	return result.data;
 }
 
@@ -117,10 +127,13 @@ export async function getTaletns() {
 		next: { tags: ["talents"] },
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to fetch talents: ${error}`);
 		throw new Error("Failed to fetch talents");
 	}
 	const result = talentsSchema.safeParse(await response.json());
 	if (!result.success) {
+		console.error("Failed to parse talents: %o", result.error);
 		throw new Error("Failed to fetch talents");
 	}
 	return result.data;
@@ -133,6 +146,8 @@ export async function createTalent(name: string, sortKey: string) {
 		body: JSON.stringify({ name: name, sortKey: sortKey }),
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to create talents: ${error}`);
 		throw new Error("Failed to create talents");
 	}
 }
@@ -144,6 +159,8 @@ export async function updateTalent(id: string, name: string, sortKey: string) {
 		body: JSON.stringify({ name: name, sortKey: sortKey }),
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to update talents: ${error}`);
 		throw new Error("Failed to update talents");
 	}
 }
@@ -154,7 +171,8 @@ export async function deleteTalent(id: string) {
 		method: "DELETE",
 	});
 	if (!response.ok) {
-		console.error("Failed to delete talent");
+		const error = await response.text();
+		console.error(`Failed to delete talent: ${error}`);
 		throw new Error("Failed to delete talent");
 	}
 }
@@ -165,10 +183,13 @@ export async function getGroups() {
 		next: { tags: ["groups"] },
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to fetch groups: ${error}`);
 		throw new Error("Failed to fetch groups");
 	}
 	const result = groupsSchema.safeParse(await response.json());
 	if (!result.success) {
+		console.error("Failed to parse groups: %o", result.error);
 		throw new Error("Failed to parse groups");
 	}
 	return result.data;
@@ -186,10 +207,13 @@ export async function getGroupById(id: string) {
 		if (response.status === 404) {
 			return null; // グループが見つからない場合
 		}
+		const error = await response.text();
+		console.error(`Failed to fetch group: ${error}`);
 		throw new Error("Failed to fetch group");
 	}
 	const result = groupSchema.safeParse(await response.json());
 	if (!result.success) {
+		console.error("Failed to parse group: %o", result.error);
 		throw new Error("Failed to fetch group");
 	}
 	return result.data;
@@ -202,6 +226,8 @@ export async function createGroup(group: CreateGroup) {
 		body: JSON.stringify(group),
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error("Failed to create group", error);
 		throw new Error("Failed to create group");
 	}
 }
@@ -213,6 +239,8 @@ export async function updateGroup(group: EditGroup) {
 		body: JSON.stringify(group),
 	});
 	if (!response.ok) {
+		const error = await response.text();
+		console.error(`Failed to update group: ${error}`);
 		throw new Error("Failed to update group");
 	}
 }
@@ -223,7 +251,8 @@ export async function deleteGroup(id: string) {
 		method: "DELETE",
 	});
 	if (!response.ok) {
-		console.error("Failed to delete group");
+		const error = await response.text();
+		console.error(`Failed to delete group: ${error}`);
 		throw new Error("Failed to delete group");
 	}
 }
