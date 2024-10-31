@@ -6,6 +6,7 @@
 			"node_modules/*",
 			"*/build/*",
 			"*/.wrangler/*",
+			"*/.worker-next/*",
 			"*/.next/*",
 			"*/.vercel/*",
 			"*/drizzle/*"
@@ -16,6 +17,7 @@
 			"node_modules/*",
 			"*/build/*",
 			"*/.wrangler/*",
+			"*/.worker-next/*",
 			"*/.next/*",
 			"*/.vercel/*",
 			"*/drizzle/*"
@@ -26,6 +28,7 @@
 			"node_modules/*",
 			"*/build/*",
 			"*/.wrangler/*",
+			"*/.worker-next/*",
 			"*/.next/*",
 			"*/.vercel/*",
 			"*/drizzle/*"

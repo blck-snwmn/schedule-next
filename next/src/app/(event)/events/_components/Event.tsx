@@ -1,7 +1,13 @@
 "use client";
 
 import { CategoryBadge } from "@/components/CategoryBadge";
+import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import {
+	Popover,
+	PopoverContent,
+	PopoverTrigger,
+} from "@/components/ui/popover";
 import type { Schedule, ScheduleEvent, Talent } from "@/services/type";
 import { formatDate } from "@/utils/formatDate";
 import {
@@ -15,8 +21,6 @@ import { useState } from "react";
 import Calendar from "./Calendar";
 import { Header } from "./EventHeader";
 import { TalentSelector } from "./TalentSelector";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Badge } from "@/components/ui/badge";
 
 const isScheduleInMonth = (schedule: Schedule, year: number, month: number) => {
 	const scheduleStart = schedule.startAt;
@@ -40,10 +44,11 @@ const ScheduleInfo: React.FC<{
 	const isInMonth = isScheduleInMonth(schedule, year, month);
 	return (
 		<div
-			className={`mb-2 p-2 rounded text-sm ${isInMonth
-				? "bg-gray-700 text-white border-l-4 border-blue-500"
-				: "bg-gray-800 text-gray-400"
-				}`}
+			className={`mb-2 p-2 rounded text-sm ${
+				isInMonth
+					? "bg-gray-700 text-white border-l-4 border-blue-500"
+					: "bg-gray-800 text-gray-400"
+			}`}
 		>
 			<div className="flex justify-between items-start">
 				<div className="font-semibold">{schedule.name}</div>
@@ -87,9 +92,7 @@ const EventInfo: React.FC<{
 			<div className="flex gap-2 m-2">
 				<Popover>
 					<PopoverTrigger asChild>
-						<Button>
-							スケジュール
-						</Button>
+						<Button>スケジュール</Button>
 					</PopoverTrigger>
 					<PopoverContent className="bg-gray-800">
 						<div className="text-white">
@@ -109,9 +112,7 @@ const EventInfo: React.FC<{
 				</Popover>
 				<Popover>
 					<PopoverTrigger asChild>
-						<Button>
-							関連
-						</Button>
+						<Button>関連</Button>
 					</PopoverTrigger>
 					<PopoverContent className="bg-gray-800">
 						<div className="text-white">
@@ -165,8 +166,8 @@ export const Events: React.FC<EventsProps> = ({
 
 	const filteredEvents = selectedTalent
 		? scheduleEvent.filter((event) =>
-			event.talents.some((talent) => talent.id === selectedTalent.id),
-		)
+				event.talents.some((talent) => talent.id === selectedTalent.id),
+			)
 		: scheduleEvent;
 
 	return (
