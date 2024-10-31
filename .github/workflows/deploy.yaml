@@ -12,8 +12,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: pnpm/action-setup@v4
+      - name: Install Node.js
+        uses: actions/setup-node@v4
         with:
-          run_install: true
+          node-version: 20.18.0
+          cache: "pnpm"
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.18.0
+          cache: "pnpm"
+          registry-url: "https://registry.npmjs.org"
+    
+      - name: Install NPM Dependencies
+        shell: bash
+        run: pnpm install --frozen-lockfile
+        working-directory: schedule-next-worker
       - name: create .dev.vars
         run: |
           echo "ENDPOINT=${{ secrets.ENDPOINT }}" > ./.dev.vars
